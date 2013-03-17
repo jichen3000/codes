@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html> 
+ 
+<head> 
+  <meta charset="utf-8" > 
+  <title>HTML5</title>   
+</head>
+<style>
+canvas {
+        border: solid; 
+        border-color: black; 
+        
+}
+</style>
+<body>
+  <div id='canvas'>
+    <canvas id='test' width="400" height="400"> 
+      Update your browser to enjoy canvas! 
+    </canvas> 
+  </div>
+</body>
+<script>
+  
+  function drawDiagonal(){
+    var canvas = document.getElementById('test');
+    var context = canvas.getContext('2d');
+    context.save();
+    
+    context.translate(10,-10);
+    
+    context.beginPath();
+    context.moveTo(10, 390);
+    context.lineTo(390, 390);
+    context.moveTo(10, 390);
+    context.lineTo(10, 10);
+    context.stroke();
+    
+    context.restore();
+  }
+  drawDiagonal();
+</script>
+</html>

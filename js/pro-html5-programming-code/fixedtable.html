@@ -1,0 +1,146 @@
+<!DOCTYPE html> 
+<html> 
+ 
+<html>
+<head>
+<title>Some Title</title>
+<style type="text/css" media="screen"> 
+
+#table_container { 
+width : 200px; 
+overflow-x:scroll; 
+overflow-y:visible; 
+padding-bottom:1px; 
+margin-left: 60px; /* to make room for position/removed column */ 
+} 
+
+table { 
+border-collapse : collapse; 
+} 
+
+td, th { 
+background-color: #aaaaaa; 
+border-right : 1px solid #ffffff; 
+color : #ffffff; 
+text-align : center; 
+width: 60px; 
+} 
+
+.locked_left { 
+background-color: #88ff88; 
+font-weight : bold; 
+border-right : 1px solid #f00; 
+
+/* the code below removes the table cells (column) and puts them out to the left of the table */ 
+position:absolute; 
+left: 0; 
+top: auto; 
+margin-left: 2px; 
+padding-right:4px; 
+width: 60px; /* needs width here if not given anywhere else */ 
+} 
+</style> 
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
+<script type="text/javascript">
+	function tabScroll() {
+    var mass = $('.locked_left');
+		var el = 0;
+		for (el = 0; el < mass.length; el++) {
+			mass[el].style.left = $('#table_container').scrollLeft;
+		}
+	}
+</script>
+</head>
+<body>
+<div id='table_container' onscroll="tabScroll()" height="150">
+<table>
+<thead>
+<tr>
+<th id="locked_left" class='locked_left'>Number</th>
+<th >English</th>
+<th >French </th>
+<th >German </th>
+<th>English</th>
+<th >French </th>
+<th >German </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="locked_left" class='locked_left'>1</td>
+<td >one</td>
+<td >un</td>
+<td >eins</td>
+<td>one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>2</td>
+<td >two</td>
+<td >deux</td>
+<td >zwei</td>
+<td>one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>3</td>
+<td >three</td>
+<td >trois</td>
+<td >drei</td>
+<td>one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>4</td>
+<td >four</td>
+<td >quattre</td>
+<td >vier</td>
+<td>one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>4</td>
+<td >four</td>
+<td >quattre</td>
+<td >vier</td>
+<td>one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>4</td>
+<td >four</td>
+<td >quattre</td>
+<td >vier</td>
+<td >one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>4</td>
+<td >four</td>
+<td >quattre</td>
+<td >vier</td>
+<td >one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+<tr>
+<td id="locked_left" class='locked_left'>4</td>
+<td >four</td>
+<td >quattre</td>
+<td >vier</td>
+<td >one</td>
+<td >un</td>
+<td >eins</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+error:
+    ImportError: No module named bz2:
+      File "/usr/local/src/node-v0.5.3/deps/v8/SConstruct", line 37:
+        import js2c, utils
+      File "/usr/local/src/node-v0.5.3/deps/v8/tools/js2c.py", line 36:
+        import bz2
+    Waf: Leaving directory `/usr/local/src/node-v0.5.3/build'
+    Build failed:  -> task failed (err #2): 
+            {task: libv8.a SConstruct -> libv8.a}
+    make: *** [program] Error 1
+    
+first: yum install bzip2-devel
+then: reinstall your python. 
+
+open port:
+/sbin/iptables -I INPUT -p tcp --dport 1337 -j ACCEPT
+/etc/rc.d/init.d/iptables save
+/etc/init.d/iptables status
+and it will add one line to the file (/etc/sysconfig/iptables).

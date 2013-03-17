@@ -1,0 +1,3 @@
+html5 Server-Sent event
+If you just use event.target.close(), then the server will continue send response, just you didn't receive it.
+If you didn't use event.target.close(), then start the event in the client, and stop the server. when you restart your server, your client will receive the response again, even in this time in your client you still don't start the event. This test happen in the Chrome and use nodejs to implement the server.

@@ -1,0 +1,16 @@
+<script>
+    // func is an instance of the function.
+    // and this function would be run at first.
+    var func = new function(){
+        console.log("in func!");
+        this.a="func";
+    }
+    var myfunc=function(x){
+        var a="myfunc";
+        console.log(this.a);
+        console.log(x);
+    }
+    // myfunc.call('123',"var");
+    myfunc.call(func,"var");
+
+</script>

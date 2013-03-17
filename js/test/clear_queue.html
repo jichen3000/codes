@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  div { margin:3px; width:40px; height:40px;
+    position:absolute; left:0px; top:30px;
+    background:green; display:none; }
+    div.newcolor { background:blue; }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <title>Count Down</title>
+</head>
+<body>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <div></div>
+  <script>
+  $("#start").click(function () {
+
+      var myDiv = $("div");
+      myDiv.show("slow");
+      myDiv.animate({left:'+=200'},5000);
+      myDiv.queue(function () {
+        var _this = $(this);
+        _this.addClass("newcolor");
+        _this.dequeue();
+      });
+
+      myDiv.animate({left:'-=200'},1500);
+      myDiv.queue(function () {
+        var _this = $(this);
+        _this.removeClass("newcolor");
+        _this.dequeue();
+      });
+      myDiv.slideUp();
+
+  });
+
+  $("#stop").click(function () {
+      var myDiv = $("div");
+      myDiv.clearQueue();
+      myDiv.stop();
+  });</script>
+
+</body>
+</html>

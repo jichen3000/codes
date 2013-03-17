@@ -1,0 +1,44 @@
+<html>
+<header></header>
+<body>
+    <script type="text/javascript">
+var digit=0;
+var min=0;
+var time;
+var timer_is_on=0;
+
+function timer(){
+        if (!timer_is_on){
+            return false;
+        }
+        document.getElementById("secs").innerHTML=digit;
+        digit=digit+1;
+        time=setTimeout("timer()",100);
+        if(digit>"59"){
+                min=min+1;
+                document.getElementById("mins").innerHTML=min;
+                digit=0;
+        }
+}
+
+function activate(){
+        if(!timer_is_on){
+                timer_is_on=1;
+                timer();
+        }
+}
+function stop(){
+        if(timer_is_on){
+                timer_is_on=0;
+        }
+}
+</script>
+
+<a href="#" onclick="stop()">Click here to stop the timer</a>
+<a href="#" onclick="activate()">Click here to start the timer</a>
+<div>
+<span id="mins" >0</span>:<span id="secs">0</span>
+</div
+</body>    
+</html>
+

@@ -1,0 +1,37 @@
+body{
+  background-color:#000000;
+}
+div,p{
+  font:15px arial,sans-serif;
+}
+p.cmdresult{
+  color:#FFFFFF;
+}
+.top{
+  margin-bottom: 10px;
+  position: absolute;
+  z-index: 100;  
+}
+.top-height{
+  height:30px;
+}
+.color-white{
+  color: white;
+}
+div#out,div#in {
+  width:100%;
+  border:0px;
+}
+div#pmt,textarea{
+  float:left;
+}
+div#pmt{
+  padding-right:3px;
+}
+input#cmd{
+  background-color:#000000;
+  width:90%;
+  border:0px;
+  font:15px arial,sans-serif;
+  color:#FCFC00;
+}

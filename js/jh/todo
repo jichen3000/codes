@@ -1,0 +1,7 @@
+1. remove the color signal in every line.
+2. remove the present of the cmd in the client.
+3. show the specail color of the first line.
+4. show the dir info in the input area.
+5. let the flag connected correctly.
+6. show help info before the connected.
+7. add info bar in the top. 

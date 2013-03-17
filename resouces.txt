@@ -1,0 +1,13 @@
+MathJax, js api for math equation.
+g\frac{d^2u}{dx^2} + L\sin u = 0
+
+knockout
+Microsoft Ajax CDN (about)
+Knockout version 2.2.1
+http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js
+CDNJS (about)
+Knockout version 2.2.0
+http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.0/knockout-min.js
+notic: in China, you cannot access cdnjs.
+
+using slim to replace haml

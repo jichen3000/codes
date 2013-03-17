@@ -1,0 +1,36 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <div id="result">result:</div>
+        <div id="session-result">result:</div>
+    </body>
+    <script>
+        function handleStorage (event) {
+            console.log(event);
+        }
+        window.addEventListener("storage", handleStorage, false);
+        localStorage.myName = "Colin";
+        document.getElementById("result").innerHTML="My name is: " + localStorage.myName;
+        if (localStorage.clickCount) {
+            localStorage.clickCount = Number(localStorage.clickCount) + 1;
+        }else{
+            localStorage.clickCount = 1;
+        };
+        document.getElementById("result").innerHTML="clickCount: " + localStorage.getItem("clickCount");
+        // localStorage["clickCount"]
+        // localStorage.removeItem("clickCount");
+
+        // localStorage.clear();
+        // localStorage.length;
+
+        if (sessionStorage.clickcount){
+            sessionStorage.clickcount=Number(sessionStorage.clickcount)+1;
+        }else{
+            sessionStorage.clickcount=1;
+        }
+        document.getElementById("session-result").innerHTML="You have clicked the button " + 
+            sessionStorage.clickcount + " time(s) in this session.";
+    </script>
+</html>

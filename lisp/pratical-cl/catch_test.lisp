@@ -1,0 +1,17 @@
+(defparameter *obj* (cons nil nil)) ; i.e. some arbitrary object
+(defun foo ()
+  (format t "Entering foo~%")
+  (catch *obj*
+    (format t " Entering CATCH~%")
+    (bar)
+    (format t " Leaving CATCH~%"))
+  (format t "Leaving foo~%"))
+(defun bar ()
+  (format t "  Entering bar~%")
+  (baz)
+  (format t "  Leaving bar~%"))
+(defun baz ()
+  (format t "   Entering baz~%")
+  (throw *obj* nil)
+  (format t "   Leaving baz~%"))
+(foo)

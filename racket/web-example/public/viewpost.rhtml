@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>Review a post</title>
+</head>
+<body>
+  <p>this is a @"@"s post! about</p>
+  <p>@post-title
+  </p>
+  <p>method: @(show-some "ssss")
+  </p>
+
+  
+  <table>
+   @for/list[([c clients])]{
+    @list{
+     <tr><td>@(car c), @(cdr c)</td></tr>
+    }
+   }
+  </table>
+  <table>
+   @in[c clients]{
+    <tr><td>@(car c), @(cdr c)</td></tr>
+   }
+  </table>
+</body>
+</html>

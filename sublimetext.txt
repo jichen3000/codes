@@ -1,0 +1,154 @@
+0. sublime setting path in mac:
+find / -name *sublime-setting
+/Users/Colin/Library/Application Support/...
+1. change tab to spaces
+{sublime dir}\Data\Packages\User\Preferences.sublime-settings
+{
+    "tab_size": 4,
+    "translate_tabs_to_spaces": true
+}
+2. install package
+    按Ctrl+`调出console
+    粘贴以下代码到底部命令行并回车：
+    import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+    重启Sublime Text 2。
+    如果在Perferences->package settings中看到package control这一项，则安装成功。
+
+    按下Ctrl+Shift+P调出命令面板
+    输入install 调出 Install Package 选项并回车，然后在列表中选中要安装的插件。
+    不爽的是，有的网络环境可能会不允许访问陌生的网络环境从而设置一道防火墙，而Sublime Text 2貌似无法设置代理，可能就获取不到安装包列表了。
+    
+3. browse file in the browser
+    "Tools"->"Build System"->"New Build System"
+    windows:
+    {
+    "cmd": ["C:/Program Files (x86)/Google/Chrome/Application/chrome.exe", "$file"]
+    }
+    mac:
+    {
+    "cmd": ["open", "-a", "Google Chrome", "$file"]
+    }
+    save it to Chrome.sublime-build.
+    
+4. zen code:
+    Ctrl + shift + p, Package Control: Install,
+    choose emmet
+    Ctrl
+    css:
+        w10 -> width: 10px;
+        m50 -> margin: 50px;
+        m10-20 -> margin: 10px 20px;
+        Ctrl+x, but on windows, it dosen't work
+        -transition + Tab ->
+            -webkit-transition: ;
+            -moz-transition: ;
+            -ms-transition: ;
+            -o-transition: ;
+            transition: ;
+    you can delete the redundance prefix by prefixr plugin with ctrl+command+x
+    notice, it will impact one block in which your cursor is   
+    
+    
+    
+5. hot keys
+If I not give special notice, that mean you just replace the ctrl to commond on the mac. 
+	{ "keys": ["ctrl+="], "command": "increase_font_size" },
+	{ "keys": ["ctrl+-"], "command": "decrease_font_size" },
+    
+    { "keys": ["ctrl+d"], "command": "find_under_expand" },
+    Mac
+    // Alt + Mouse 1 Column select
+    {
+        "button": "button1", "modifiers": ["alt"],
+        "press_command": "drag_select",
+        "press_args": {"by": "columns"}
+    },
+    Win
+    // Shift + Mouse 2 Column select
+    {
+        "button": "button2", "modifiers": ["shift"],
+        "press_command": "drag_select",
+        "press_args": {"by": "columns"}
+    },
+    // split_selection_into_lines
+    { "keys": ["super+shift+l"], "command": "split_selection_into_lines" },
+    { "keys": ["ctrl+shift+l"], "command": "split_selection_into_lines" },
+    // find and go to, incremental_find + enter
+    { "keys": ["super+i"], "command": "show_panel", "args": {"panel": "incremental_find", "reverse":false} },
+    { "keys": ["ctrl+i"], "command": "show_panel", "args": {"panel": "incremental_find", "reverse":false} },
+    // command panel, notice you can just imput some characters.
+    { "keys": ["super+shift+p"], "command": "show_overlay", "args": {"overlay": "command_palette"} },
+    { "keys": ["ctrl+shift+p"], "command": "show_overlay", "args": {"overlay": "command_palette"} },
+    // goto everything, especially for file
+    { "keys": ["super+p"], "command": "show_overlay", "args": {"overlay": "goto", "show_files": true} },
+    { "keys": ["ctrl+p"], "command": "show_overlay", "args": {"overlay": "goto", "show_files": true} },
+    // goto method name, symbol. goto everything + @
+    { "keys": ["super+r"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
+    { "keys": ["ctrl+r"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
+    // you can add find file and find method together.
+    // 简写提示，在输入方法名或属性句时，只输入几个字母就可以找到
+
+    // install some package which don't support Package Add, then just git clone it to 
+    //cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/
+
+    // sublime xild
+
+    // snippet 程序片段，可以直接生成function等程序块， command panel and input snippet
+    // or just "if,tab"
+    // when the spippet generated, you can use tab to jump in the different block.
+    // you can create your snippet, create Javascript fold in the user dir, then create hello.sublime-snippet
+    // notice the file name suffix.  43.08
+    
+
+    //plugin:
+    // emmet, prefixr
+    // advancednewfile, super+alt+n, 
+
+    // SideBarEnhancements
+
+    // sublimelint, validate your code
+
+    // gist, create private, update, browse gist
+
+    //plaintask, tasks, super+i create a task. tag @
+    // split line, --+Tab
+    // set done, super+d
+    // archieve the ites done, super+shift+a
+
+    // http request
+    // it can use comment url to test your route function
+
+    //liveloaded
+    // it will reload your html on the browser immediately   
+    
+    // find, you can use regular express. 
+
+    // command, copy name or path
+    // I just cannot use this command.
+
+    // super+j, it will join multiple lines to one line
+    one two three
+    // it will also, automatically join the next line
+    // select some word, click [,',will automatically add [], like [one] [123]
+
+    // super + enter, immediatelly start new line, and don't impact current line.
+
+    //lorem+Tab, long words.
+
+    // mac tools, marked, which can be used to generate doc.
+
+    // project, save as project,
+    // you can just change the path of project, then the side bar will adjust your path correspondingly.
+    // or even, you can use two path.
+    // file_exclude_patterns : ["*.css"]
+    // folder_exclude_patterns : ["css"]
+
+    // windows: split, 
+
+    // reindent
+    { "keys": ["super+shift+r"], "command": "reindent" , "args": {"single_line": false}}
+    { "keys": ["ctrl+shift+r"], "command": "reindent" , "args": {"single_line": false}}
+
+
+
+    Jeffrey Way twitter

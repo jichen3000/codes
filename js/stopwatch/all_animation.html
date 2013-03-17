@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    function p(msg){
+      $("p#messages").text(msg);
+    }    
+    function genIntStr (startInt, maxInt) {
+        var intArr = [];
+        var index = 0;
+        for(var value=startInt; value>=0; value--,index++){
+            intArr[index] = value;
+        }
+        for (value=maxInt; value > startInt; value--,index++) {
+            intArr[index] = value;
+        }
+        return intArr.join(" ");
+    }
+    function getMaxIntFromStrLength (str) {
+        return (str.length-1)/2;
+    }
+    $(function(){
+        var stopTime="0010";
+        function playVid()
+        { 
+            var myAudio=new Audio("exclamation.mp3");
+            myAudio.loop=true;
+            myAudio.play(); 
+            setTimeout(function () {
+                myAudio.pause();
+            }, 2000);
+        } 
+        function endClock (e) {
+            p("end!");
+            setAnimationPlayState("paused");
+            playVid();
+            setStopTime(stopTime);
+        }
+        function getInitArgs () {
+            p(document.URL)
+        }
+        function setStopTime (minStr) {
+            var minSum = minStr;
+            if (minSum.length<4) {
+                minSum=minSum+"00";
+            };
+            minSum = minSum.split("");
+            // var numberElements = $("div.numbers");
+            // $.each(minSum, function (index, value) {
+            //     curJqueryElement = $(numberElements[index]);
+            //     var maxInt = getMaxIntFromStrLength(curJqueryElement.text());
+            //     curJqueryElement.text(genIntStr(value, maxInt));
+            // });
+            $("div.numbers").filter(":lt(4)").each(function (index, value) {
+                curJqueryElement = $(value);
+                var maxInt = getMaxIntFromStrLength(curJqueryElement.text());
+                curJqueryElement.text(genIntStr(minSum[index], maxInt));
+            });
+            p("time:"+minSum);
+            // $('div.ten-minute').text(genIntStr(minSum[0],5));
+            // $('div.minute').text(genIntStr(minSum[1],9));
+        }
+        function setAnimationPlayState (state) {
+            $("div.numbers").each(function (index,element) {
+                $(element)[0].style.webkitAnimationPlayState=state;
+            });
+        }
+        function getMaxOneText (jqueryElement) {
+                var maxInt = getMaxIntFromStrLength(jqueryElement.text());
+                jqueryElement.text(genIntStr(maxInt, maxInt));
+        }
+        function getNextOneText (jqueryElement) {
+                var maxInt = getMaxIntFromStrLength(jqueryElement.text());
+                var curInt = parseInt(jqueryElement.text()[0]);
+                jqueryElement.text(genIntStr(curInt-1, maxInt));
+        }
+        function minusOneExceptMostSignificant () {
+            $($("div.numbers").get().reverse()).filter(":gt(0)").each(function (index, element) {
+                curJqueryElement = $(element);
+                if (curJqueryElement.text()[0]=="0") {
+                    curJqueryElement.text(getMaxOneText(curJqueryElement));
+                }else{
+                    curJqueryElement.text(getNextOneText(curJqueryElement));
+                    return false;
+                }
+            });
+        }
+        function setIerationCount () {
+            var count = stopTime;
+            if (count.length<4) {
+                count=count+"00";
+            };
+            p(count);
+            // document.getElementById("mili").style.animationIterationCount=count;
+            // document.getElementById("mili").style.WebkitAnimationIterationCount=count;
+
+            $('div.mili-second')[0].style.webkitAnimation = "moveten 1s steps(10, end)"+count;
+            $('div.mili-second')[0].style.webkitAnimationPlayState = "paused";
+            // $('div.mili-second')[0].style.WebkitAnimationIterationCount = count;
+            // $('div.mili-second')[0].style.animationIterationCount = count;
+            // p($('div.mili-second')[0].style.webkitAnimationIterationCount);
+        }
+        $("div.mili-second").on('webkitAnimationEnd', function(e) {
+            endClock(e);
+        });
+        var iterCount = 0;
+        $("div.mili-second").on('webkitAnimationIteration', function(e) {
+            p(iterCount++);
+        });
+        $("button#start").click(function(){
+            setIerationCount();
+            minusOneExceptMostSignificant();
+            setAnimationPlayState("running");
+        });
+        $("button#pause").click(function(){
+            setAnimationPlayState("paused");
+
+        });
+        $("button#clear").click(function(){
+            // $("div.numbers")[1].style.webkitAnimation="none";
+            setIerationCount();
+            // minusOneExceptMostSignificant();
+        });
+        $('button#set').click(function(){
+            stopTime=$('input#stop-minutes').val();
+            setStopTime(stopTime);
+        });
+
+        getInitArgs();
+        setStopTime(stopTime);
+        //$("div.numbers")[0].style.webkitAnimationPlayState="paused";
+        //$("div.numbers")[0].style.webkitAnimationPlayState="running";
+    });
+    
+    </script>
+    <style type="text/css">
+    .numbers{
+        font-family: digital, arial, verdana;
+        line-height: 50px;
+        position: absolute;
+        top:  0;
+        left: 0;
+    }
+    .divider{
+        font-family: digital, arial, verdana;
+        line-height: 50px;
+        font-size: 40px;
+    }
+    .cell{
+        text-align: center;
+        width: 25px;
+        height: 50px;
+        font-size: 50px;
+        overflow: hidden;
+        position: relative;
+        float: left;
+    }
+    @-webkit-keyframes moveten {
+        0% {top: 0;}
+        100% {top: -500px;} 
+    }
+    @-webkit-keyframes movesix {
+        0% {top: 0;}
+        100% {top: -300px;} 
+    }
+    .moveten {
+        -webkit-animation: moveten 1s steps(10, end) infinite;
+        -webkit-animation-play-state: paused;
+    }
+    .movesix {
+        -webkit-animation: movesix 1s steps(6, end) infinite;
+        -webkit-animation-play-state: paused;
+    }
+
+    .mili-second {-webkit-animation-duration: 1s;} /*1s*/
+
+    .second {-webkit-animation-duration: 10s;}
+    .ten-second {-webkit-animation-duration: 60s;} /*60s*/
+
+
+    .minute {-webkit-animation-duration: 600s;} /*600s*/
+    .ten-minute {-webkit-animation-duration: 3600s;} /*3600s*/
+    @font-face {
+        font-family: 'digital';
+        src: url('DS-DIGI.TTF');
+
+    }
+    </style>
+</header>
+<body>
+    <p id="messages">msg</p>
+    <div id="set-time-group">
+        <input type="text" id="stop-minutes" value="48">
+        <button id="set">set</button>
+    </div>
+    <div id="control-group">
+        <button id="start">start</button>
+        <button id="pause">pause</button>
+        <button id="clear">clear</button>
+    </div>
+    <div id="clock">
+        <div class="cell">
+            <div class="numbers ten-minute movesix">0 5 4 3 2 1</div>
+        </div>
+        <div class="cell">
+            <div class="numbers minute moveten">0 9 8 7 6 5 4 3 2 1</div>
+        </div>
+        <div class="cell"><div class="divider">:</div></div>
+        <div class="cell">
+            <div class="numbers ten-second movesix">0 5 4 3 2 1</div>
+        </div>
+        <div class="cell">
+            <div class="numbers second moveten">0 9 8 7 6 5 4 3 2 1</div>
+        </div>
+        <div class="cell"><div class="divider">:</div></div>
+        <div class="cell">
+            <div id="mili" class="numbers mili-second">0 9 8 7 6 5 4 3 2 1</div>
+        </div>
+    </div>
+</body>
+</html>

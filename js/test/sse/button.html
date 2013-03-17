@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <script language="JavaScript" src="http://code.jquery.com/jquery-latest.js"></script>
+  <script language="JavaScript">
+$().ready(function(){
+  $("button#start").click(click_start);
+  $("button#stop").click(click_stop);
+});
+
+function addnote(msg){
+
+  $("#out").append($('<p class="cmd cmdresult">'+msg+'</p>'));
+  scroll2bottom();
+}
+
+function clear_div(){
+  $("#out").empty();
+}
+function scroll2bottom(){
+  $("html body").animate({ scrollTop: $("html body").prop("scrollHeight") }, 30);
+}
+var source = null;
+function click_start(){
+  $("#out").append($('<p>start...</p>'));
+  source = new EventSource('/events/start');
+  source.onmessage = function(e){
+    $("#out").append($('<p class="message">'+e.data+'</p>'));
+    scroll2bottom();
+    
+  };
+//  $.post("./events/start", function(data,textStatus){
+//    addnote(data.result);
+//  });
+}
+function click_stop(){
+  $("#out").append($('<p>stop!</p>'));
+  //var source = new EventSource('/events');
+  source.onmessage = function(event){
+    addnote("stop event");
+    event.target.close();
+    
+  };
+  //source.onmessage = addnote;
+  $.post("./events/stop", function(data,textStatus){
+    addnote(data.result);
+  });
+}
+
+  </script>
+</head>
+<body>
+  <button id="start">Start</button>
+  <button id="stop">Stop!</button>
+  <div id="out">
+  </div>
+</body>
+</html>

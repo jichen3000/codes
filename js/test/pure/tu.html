@@ -1,0 +1,45 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div class="template">
+        Hello <a></a>
+    </div>
+    <span><ul><li></li></ul></span>
+  </body>
+  <script src="http://code.jquery.com/jquery-latest.pack.js"></script>
+  <script src="pure.js"></script>
+  <script>
+    var jsonData = {
+      who: 'BeeBole!',
+      site: 'http://beebole.com'
+    };
+    $('div.template')
+        //tell PURE what to do
+        
+        .directives({ 'a':'who', 'a@href':'site' })
+        //generate the HTML
+        .render(jsonData)
+
+    var data = {
+      animals:[
+        {name:'bird'},
+        {name:'cat'},
+        {name:'dog'},
+        {name:'mouse'}
+      ]
+    };
+
+    //declaration of the actions PURE has to do
+    var directive = {
+      'li':{
+        'animal<-animals':{
+          '.':'animal.name'
+        }
+      }
+    };
+
+    // note the use of render instead of autoRender
+    $('ul').render(data, directive);
+  </script>
+</html>

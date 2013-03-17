@@ -1,0 +1,48 @@
+<html>
+<head>
+</head>
+<body>
+  <form id='mainForm' action="form_action.asp" method="post">
+    <label>Name:</label>
+    <input type='text' id='yourNameId' name='yourName'></input>
+    <button onclick="doSomething(event);"> doSomething</button>
+    <button > goto</button>
+  </form>
+  <form id='childForm'>
+    <label>Name:</label>
+    <input type='text' id='childNameId' name='childName'></input>
+    <select id='childCarId' name='childCar'>
+      <option value ="volvo">Volvo</option>
+      <option value ="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option value="audi">Audi</option>
+    </select>
+    <input type="checkbox" name="fruit1" id="fruit1Id" value ="apple" >apple<br>
+    <input type="checkbox" name="fruit2" id="fruit2Id" value ="orange">orange<br>
+    <input type="checkbox" name="fruit3" id="fruit3Id" value ="mango">mango<br>
+    <input type="checkbox" name="hobby" id="hobbyId" value ="swimming" >swimming<br>
+    <input type="checkbox" name="hobby" id="hobbyId" value ="joging" >joging<br>
+    <input type="checkbox" name="hobby" id="hobbyId" value ="reading" >reading<br>
+  </form>
+  <script src="http://code.jquery.com/jquery-latest.pack.js"></script>
+  <script>
+    function doSomething(event){
+      event.preventDefault();
+      $.each($('#childForm').serialize().split("&"),function(index,value){
+        var nameValue = value.split("=");
+        $('<input type="text"></input>').attr(
+            'id',this.id).attr('name',nameValue[0]).val(nameValue[1]).addClass(
+            'copied').appendTo('#mainForm')      
+      });
+    $('#childForm :input').each(function() {
+      //$('<input type="text" id="'+this.id+'" value="'+$(this).val()+'"></input>').appendTo('#mainForm');
+      if(this.checked){
+      $('<input type="text"></input>').attr('id',this.id).attr('name',this.name).val($(this).val()).addClass('copied').appendTo('#mainForm');
+      }
+    });
+      //alert($('#mainForm').serialize());
+      
+    }
+  </script>
+</body>
+</html>
