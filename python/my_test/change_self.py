@@ -4,8 +4,8 @@ from datetime import datetime
 
 __MAJOR = 1
 __MINOR = 1
-__BUILD = 1
-__BUILT_TIME_STR = "2013-03-21 17:27:33"
+__BUILD = 2
+__BUILT_TIME_STR = "2013-03-25 13:59:24"
 __BUILT_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 __BUILD_NAME = "__BUILD"
 __BUILT_TIME_STR_NAME = "__BUILT_TIME_STR"
@@ -32,7 +32,8 @@ def __get_need_change(line):
 def __change_values(line):
     name, value = __get_need_change(line).groups()
     function_name_suffix = name.lower().replace('__','_')
-    fun = eval("__change" + function_name_suffix)
+    # fun = eval("__change" + function_name_suffix)
+    fun = globals()["__change" + function_name_suffix]
     return fun(line, value)
 
 def __change_built_time_str(line, value):
