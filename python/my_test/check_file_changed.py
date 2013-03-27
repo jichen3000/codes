@@ -116,11 +116,12 @@ def backup_file(current_file_path,backup_file_path):
     return shutil.copy2(current_file_path,backup_file_path)
 
 def save_info(check_path):
-    backup_file(result_file_path,backup_result_file_path)
+    if os.path.exists(result_file_path):
+        backup_file(result_file_path,backup_result_file_path)
     file_paths = get_all_file_paths(check_path)
     current_file_infos = gen_current_infos(file_paths)
     write_to_json(result_file_path, current_file_infos)
-    return current_infos
+    return current_file_infos
 
 
 if __name__ == '__main__':
@@ -129,8 +130,8 @@ if __name__ == '__main__':
         diff_info = show_diff(sys.argv[2])
         print "This are the difference with previouse files:"
         print get_pretty_json_str(diff_info)
-    elif (len(sys.argv) == 2) and (sys.argv[1]=="save_info"):
-        save_info()
+    elif (len(sys.argv) == 3) and (sys.argv[1]=="save_info"):
+        save_info(sys.argv[2])
         print "This diff info has been saved, and the last info file has been backuped."
     else:
         cur_file_name = os.path.basename(__file__)
