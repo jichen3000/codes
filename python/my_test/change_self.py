@@ -89,6 +89,7 @@ if __name__ == '__main__':
     elif (len(sys.argv) == 2) and (sys.argv[1]=="get_info"):
         print get_info()
     else:
+        cur_file_name = os.path.basename(__file__)
         print "Please use the below commands to generate a new version."
-        print "  python gen_version.py new_version"
-        print "  python gen_version.py get_info"
+        print "  python %s new_version" %(cur_file_name)
+        print "  python %s get_info" %(cur_file_name)
