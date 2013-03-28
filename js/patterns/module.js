@@ -25,7 +25,7 @@ MYAPP.utilities.array = (function () {
             return ops.call(a) === array_string; 
         }
     // ... more methods and properties 
-};
+    };
 }());
 
 // revealing
