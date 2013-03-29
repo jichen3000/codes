@@ -1,0 +1,22 @@
+<html>
+<head>
+<base href="file://User/Colin/work/ietls/"/>
+<script>
+// it cannot work in chrome
+window.onload = function(){
+    var iframe = document.createElement('iframe');
+    iframe.id = 'iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    iframe.src = 'reading_note.txt';
+    setTimeout(function(){
+        var text = document.getElementById('iframe').contentDocument.body.firstChild.innerHTML;
+        alert(text);
+    }, 1000);
+}
+</script>
+</head>
+<body>
+<h1>Hello World!</h1>
+</body>
+</html>
