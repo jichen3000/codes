@@ -7,6 +7,7 @@
     <table id="records">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Meal</th>
                 <th>Price</th>
@@ -38,10 +39,19 @@ colinM.test.sd = (function () {
     var p = function (str) {
         console.log(str);
     };
+    var startTimeInt = 1367337600000;
     var generateOne = function (i) {
-        return {name: 'name'+i,
-                meal: 'meal'+i,
-                price: i*10};
+        var mealIndex = _.random(0,_.keys(meals).length-1);
+        var meal = _.keys(meals)[mealIndex];
+        return {
+                dateId: (new date().getTime)- startTimeInt,
+                name: names[_.random(0, names.length-1)],
+                meal: meal,
+                price: meals[meal]
+            };
+        // return {name: 'name'+i,
+        //         meal: 'meal'+i,
+        //         price: i*10};
     };
     var initOrderLocal = function () {
         localStorage[orderTableName] = localStorage[orderTableName] || {}
@@ -58,8 +68,8 @@ colinM.test.sd = (function () {
     };
     $("button#add-one").on("click", function (event) {
         var newOne = generateOne(i++);
-        // var rowTmplate = _.template("<tr><td><%= name %></td><td><%= meal %></td><td><%= price %></td></tr>");
-        var rowTmplate = _.template("<tr><td>#{name}</td><td>#{meal}</td><td>#{price}</td></tr>");
+        // var rowTmplate = _.template("<tr><td><%= dateId %></td><td><%= name %></td><td><%= meal %></td><td><%= price %></td></tr>");
+        var rowTmplate = _.template("<tr><td>#{name}</td><td>#{dateId}</td><td>#{meal}</td><td>#{price}</td></tr>");
         var rowStr = rowTmplate(newOne);
         $('table#records > tbody:last').append(rowStr);
     });
