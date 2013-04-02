@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+    <body>
+        <div id="content"></div>
+        <div id="milli-content"></div>
+<script>
+var colinM = colinM || {};
+colinM.test = colinM.test || {};
+colinM.test.si = (function () {
+  var start = new Date().getTime(),
+      passedSeconds = 0,
+      passedMilliSeconds = 0;
+  var getIntervalMilliSeconds = function (preTime) {
+      return (new Date().getTime() - preTime);
+  };
+  var getIntervalSeconds = function (preTime) {
+      return Math.ceil(getIntervalMilliSeconds(preTime)/1000);
+  };
+  var intervalSecondFun = function () {
+      passedSeconds += 1;
+      document.getElementById('content').innerHTML = 
+          "passedSeconds:"+passedSeconds+" true:"+(getIntervalSeconds(start)-1);
+  };
+  var intervalMilliSecondFun = function () {
+      passedMilliSeconds += 1;
+      document.getElementById('milli-content').innerHTML = 
+          "passedMilliSeconds:"+passedMilliSeconds+" true:"+(getIntervalMilliSeconds(start)/100);
+  };
+  setInterval(intervalSecondFun,1000);
+  setInterval(intervalMilliSecondFun,100);
+}());
+</script>
+    </body>
+</html>
