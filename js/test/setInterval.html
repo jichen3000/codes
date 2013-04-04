@@ -6,6 +6,9 @@
     <body>
         <div id="content"></div>
         <div id="milli-content"></div>
+        <div id="timeout"></div>
+
+        <button id="stop">stop</button>
 <script>
 var colinM = colinM || {};
 colinM.test = colinM.test || {};
@@ -29,8 +32,16 @@ colinM.test.si = (function () {
       document.getElementById('milli-content').innerHTML = 
           "passedMilliSeconds:"+passedMilliSeconds+" true:"+(getIntervalMilliSeconds(start)/100);
   };
-  setInterval(intervalSecondFun,1000);
-  setInterval(intervalMilliSecondFun,100);
+  var endTimeout = setTimeout(function () {
+      document.getElementById('timeout').innerHTML = 
+          "passedSeconds:"+passedSeconds+" true:"+(getIntervalSeconds(start)-1);
+  },3000);
+  var secondInterval = setInterval(intervalSecondFun,1000);
+  var milliSecondInterval = setInterval(intervalMilliSecondFun,100);
+  document.getElementById('stop').onclick = function (e) {
+      clearInterval(secondInterval);
+      clearInterval(milliSecondInterval);
+  };
 }());
 </script>
     </body>
