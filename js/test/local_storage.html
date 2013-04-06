@@ -1,36 +1,96 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        
-    </head>
-    <body>
-        <div id="result">result:</div>
-        <div id="session-result">result:</div>
-    </body>
-    <script>
-        function handleStorage (event) {
-            console.log(event);
-        }
-        window.addEventListener("storage", handleStorage, false);
-        localStorage.myName = "Colin";
-        document.getElementById("result").innerHTML="My name is: " + localStorage.myName;
-        if (localStorage.clickCount) {
-            localStorage.clickCount = Number(localStorage.clickCount) + 1;
-        }else{
-            localStorage.clickCount = 1;
-        };
-        document.getElementById("result").innerHTML="clickCount: " + localStorage.getItem("clickCount");
-        // localStorage["clickCount"]
-        // localStorage.removeItem("clickCount");
+<head>
+</head>
+<body>
+    <button id="add-one">add one</button>
+    <table id="records">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Meal</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+<!--             <tr>
+                <td>Colin</td>
+                <td>Noodle</td>
+                <td>13</td>
+            </tr>  -->
+        </tbody>
+    </table>       
+    <div id="result">result:</div>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="../underscore.js"></script>
+<script>
+var colinM = colinM || {};
+colinM.test = colinM.test || {};
+colinM.test.sd = (function () {
+    // It should be placed before _.tempalte()
+    _.templateSettings = {
+        interpolate : /\#\{(.+?)\}/g
+    };
+    var self={},
+        i = 0;
+    // constant
+    var ROW_TEMPLATE = _.template(
+            "<tr><td>#{dateId}</td><td>#{name}</td><td>#{meal}</td><td>#{price}</td></tr>"),
+        ORDER_TABLE_NAME = "Order",
+        ORDER_NAMES = ["Colin", "Sai", "John", "Albert"],
+        ORDER_MEALS = {"Mushroom": 50, "Steam Rice": 30, "Tandori Chicken": 130},
+        START_TIME_INT = 1364745600000;
+    var p = function (str) {
+        console.log(str);
+    };
+    // Mon Apr 01 2013 00:00:00 GMT+0800 (CST)
+    var generateOne = function (i) {
+        var mealIndex = _.random(0,_.keys(ORDER_MEALS).length-1);
+        var meal = _.keys(ORDER_MEALS)[mealIndex];
+        return {
+                dateId: (new Date().getTime()),
+                name: ORDER_NAMES[_.random(0, ORDER_NAMES.length-1)],
+                meal: meal,
+                price: ORDER_MEALS[meal]
+            };
+    };
+    var saveOneOrderLocal = function (obj) {
+        localStorage[ORDER_TABLE_NAME+"_"+obj.dateId] = JSON.stringify(obj);
+        return obj;
+    };
+    var loadAllOrderLocal = function () {
+        // _.each({m:'b', d:'s'}, function (key,value) {
+        //     console.log(key+value);
+        // });
+        var orders = {};
+        _.each(Object.keys(localStorage), function (key,value) {
+            if (key.slice(0,5) === ORDER_TABLE_NAME){
+                orders[key] = JSON.parse(localStorage[key]);
+                console.log(orders[key]);
+            }
 
-        // localStorage.clear();
-        // localStorage.length;
+        });
+        return orders;
+    };
+    var renderOneOrder = function (obj) {
+        var rowStr = ROW_TEMPLATE(obj);
+        $('table#records > tbody:last').append(rowStr);
+    };
+    self.main = function () {
+        _.each(loadAllOrderLocal(), renderOneOrder);
+    };
+    $("button#add-one").on("click", function (event) {
+        var newOne = generateOne(i++);
+        renderOneOrder(newOne);
+        saveOneOrderLocal(newOne);
+    });
+    return self;
+}());
+colinM.test.sd.main();
+    // localStorage.clear();
+    // localStorage.length;
 
-        if (sessionStorage.clickcount){
-            sessionStorage.clickcount=Number(sessionStorage.clickcount)+1;
-        }else{
-            sessionStorage.clickcount=1;
-        }
-        document.getElementById("session-result").innerHTML="You have clicked the button " + 
-            sessionStorage.clickcount + " time(s) in this session.";
-    </script>
+</script>
+</body>
 </html>
