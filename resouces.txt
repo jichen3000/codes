@@ -11,3 +11,6 @@ http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.0/knockout-min.js
 notic: in China, you cannot access cdnjs.
 
 using slim to replace haml
+
+
+http://blog.nahurst.com/visual-guide-to-nosql-systems
