@@ -1,29 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html  manifest="sd.appcache">
 <head>
 </head>
 <body>
     <button id="add-one">add one</button>
+    <button id="send">send</button>
     <table id="records">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Meal</th>
-                <th>Price</th>
+                <th>Span</th>
+                <th>Finished</th>
+                <th>Types</th>
             </tr>
         </thead>
         <tbody>
-<!--             <tr>
-                <td>Colin</td>
-                <td>Noodle</td>
-                <td>13</td>
-            </tr>  -->
         </tbody>
     </table>       
     <div id="result">result:</div>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="../underscore.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 <script>
 var colinM = colinM || {};
 colinM.test = colinM.test || {};
@@ -36,42 +32,42 @@ colinM.test.sd = (function () {
         i = 0;
     // constant
     var ROW_TEMPLATE = _.template(
-            "<tr><td>#{dateId}</td><td>#{name}</td><td>#{meal}</td><td>#{price}</td></tr>"),
-        ORDER_TABLE_NAME = "Order",
-        ORDER_NAMES = ["Colin", "Sai", "John", "Albert"],
-        ORDER_MEALS = {"Mushroom": 50, "Steam Rice": 30, "Tandori Chicken": 130},
+            "<tr><td>#{id}</td><td>#{span}</td><td>#{finished}</td><td>#{type}</td></tr>"),
+        CLOCK_TABLE_NAME = "Clock",
+        SPANS = [48, 48, 48, 48, 48, 48, 48, 25, 25, 25, 30, 30, 15],
+        FINISHEDS = [true, true, true, true, true, true, true, true, true, false],
+        TYPES = ['studying','studying','studying','studying','studying','studying','work','work','work','other'],
         START_TIME_INT = 1364745600000;
     var p = function (str) {
         console.log(str);
     };
+    var getNowInt = function () {
+        return new Date().getTime();
+    }
+    var randomPick = function (list) {
+        var index = _.random(0,_.keys(list).length-1);
+        return list[index];
+    };
     // Mon Apr 01 2013 00:00:00 GMT+0800 (CST)
     var generateOne = function (i) {
-        var mealIndex = _.random(0,_.keys(ORDER_MEALS).length-1);
-        var meal = _.keys(ORDER_MEALS)[mealIndex];
         return {
-                dateId: (new Date().getTime()),
-                name: ORDER_NAMES[_.random(0, ORDER_NAMES.length-1)],
-                meal: meal,
-                price: ORDER_MEALS[meal]
+                id: getNowInt(),
+                span: randomPick(SPANS),
+                finished: randomPick(FINISHEDS),
+                type: randomPick(TYPES),
+                serverDate: null,
+                clientDate: null
             };
     };
     var saveOneOrderLocal = function (obj) {
-        localStorage[ORDER_TABLE_NAME+"_"+obj.dateId] = JSON.stringify(obj);
+        obj.clientDate = getNowInt();
+        localStorage[CLOCK_TABLE_NAME+"_"+obj.id] = JSON.stringify(obj);
         return obj;
     };
     var loadAllOrderLocal = function () {
-        // _.each({m:'b', d:'s'}, function (key,value) {
-        //     console.log(key+value);
-        // });
-        var orders = {};
-        _.each(Object.keys(localStorage), function (key,value) {
-            if (key.slice(0,5) === ORDER_TABLE_NAME){
-                orders[key] = JSON.parse(localStorage[key]);
-                console.log(orders[key]);
-            }
-
+        return _.map(Object.keys(localStorage), function (key) {
+            return JSON.parse(localStorage[key]);
         });
-        return orders;
     };
     var renderOneOrder = function (obj) {
         var rowStr = ROW_TEMPLATE(obj);
@@ -84,6 +80,14 @@ colinM.test.sd = (function () {
         var newOne = generateOne(i++);
         renderOneOrder(newOne);
         saveOneOrderLocal(newOne);
+    });
+    $("button#send").on("click", function (event) {
+        var records = loadAllOrderLocal();
+        $("#result").html("123");
+        console.log("123:"+records.length);
+        $.post('http://localhost:4567/clock', {'records' : records}, function(data) {
+            console.log(data);
+        });
     });
     return self;
 }());

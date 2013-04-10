@@ -152,3 +152,9 @@ If I not give special notice, that mean you just replace the ctrl to commond on 
 
 
     Jeffrey Way twitter
+
+for rvm
+~/Library/Application Support/Sublime Text 2/Packages/Ruby/Ruby.sublime-build
+{   "cmd": ["~/.rvm/bin/rvm-auto-ruby", "$file"],   "file_regex": "^(...*?):([0-9]*):?([0-9]*)",    "selector": "source.ruby"}
+I must use 
+{   "cmd": ["/Users/Colin/.rvm/bin/rvm-auto-ruby", "$file"],   "file_regex": "^(...*?):([0-9]*):?([0-9]*)",    "selector": "source.ruby"}
