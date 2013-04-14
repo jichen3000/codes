@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <button id="add-one">add one</button>
+    <button id="send">send</button>
+    <div id="result">result:</div>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+var colinM = colinM || {};
+colinM.test = colinM.test || {};
+colinM.test.checkOffline = (function () {
+    var self = colinM.test.checkOffline || {};
+    var p = function (msg) {
+        $("#result").html("result: "+msg);  
+    };
+    $("button#send").on("click", function () {
+        if (navigator.onLine) {
+            p('online')
+        } else {
+            p('offline');
+        }        
+    });
+    window.addEventListener("offline", function(e) {
+      console.log("offline");
+    }, false);
+
+    window.addEventListener("online", function(e) {
+      console.log("online");
+    }, false);    
+    return self;
+}());
+</script>
+</body>

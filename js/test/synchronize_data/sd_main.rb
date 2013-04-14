@@ -7,6 +7,10 @@ get '/' do
   send_file File.join(settings.public_folder, 'index.html')
 end
 
+get '/check-offline' do
+  send_file File.join(settings.public_folder, 'check-offline.html')
+end
+
 post "/clock" do
   # result = NineSquare.new(params[:fix_values]).perform().get_multi_result()[0]
   # points = {}
