@@ -16,29 +16,67 @@ colinM.testFuncs = (function () {
     self.f1 = function (msg) {
         self.p("f1");
         self.p("f1 msg:"+ msg);
+        return "result f1:" + msg;
     };
     self.f2 = self.f1;
     return self;
 }());
-colinM.littleAOP = (function () {
-    var self = {};
+colinM.partialAop = (function () {
+    var self = {},
+        allAopFuns = {},
+        aopFunNames = ['after', 'before', 'round'];
+    var isSelfFuntion = function (obj, funName) {
+        return obj.hasOwnProperty(funName) && (typeof obj[funName]) === 'function';
+    };
+    var isNotAopFunction = function (funName) {
+        return aopFunNames.indexOf(funName) < 0;
+    };
     self.after = function (funName, func) {
-        if (this.hasOwnProperty(funName) && _.isFunction(this[funName])){
+        if ( isSelfFuntion(this, funName) && isNotAopFunction(funName) ){
             var original = this[funName];
+            var funKey = 'after-'+funName;
+            allAopFuns[funKey] = allAopFuns[funKey] || [];
+            allAopFuns[funKey].push(original);
             this[funName] = function () {
-                original.apply(this, arguments);
+                result = original.apply(this, arguments);
                 func.apply(this, arguments);
+                return result;
             };
+            return this[funName];
         };
+        return null;
     };
     return self;
 }());
-_.extend(colinM.testFuncs, colinM.littleAOP);
-colinM.testFuncs.after("f1", function (msg) {
+colinM.littleAop = (function () {
+    var self = {},
+        aopFunNames = ['after', 'before', 'round'];
+    var isSelfFuntion = function (obj, funName) {
+        return obj.hasOwnProperty(funName) && (typeof obj[funName]) === 'function';
+    };
+    var isNotAopFunction = function (funName) {
+        return aopFunNames.indexOf(funName) < 0;
+    };
+    self.after = function (funName, func) {
+        if ( isSelfFuntion(this, funName) && isNotAopFunction(funName) ){
+            var original = this[funName];
+            this[funName] = function () {
+                result = original.apply(this, arguments);
+                func.apply(this, arguments);
+                return result;
+            };
+            return this[funName];
+        };
+        return false;
+    };
+    return self;
+}());
+var tf = _.extend(colinM.testFuncs, colinM.littleAop);
+tf.after("f1", function (msg) {
     console.log("after f1");
     console.log("after f1 msg:" + msg);
 });
-colinM.testFuncs.f1(123);
+console.log(tf.f1(123));
 
 // InvalidAspect = new Error("Missing a valid aspect. Aspect is not a function.");
 // InvalidObject = new Error("Missing valid object or an array of valid objects.");

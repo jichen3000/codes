@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../../tomato-clock/bootstrap.css"> 
+    <style>
+table#tomato-clock-records tr td:first-child { 
+  display: none; 
+}
+table#tomato-clock-records tr th:first-child { 
+  display: none; 
+}
+    </style>   
+</head>
+  <body>
+    <div id="content">
+      <div id="buttons">
+        
+        <button id='add-before'>add-before</button>
+        <button id='add-after'>add-after</button>
+      </div>
+      <div id="mytable" class="span4">
+        <table id="tomato-clock-records" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Span</th>
+                    <th>End Time</th>
+                    <th>Finished</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>       
+      </div>
+    </div>
+  </body>
+      <script src="../underscore.js"></script>
+      <script src="../../../tomato-clock/jquery-1.7.2.min.js"></script>
+      <script src="../../../tomato-clock/bootstrap.min.js"></script>
+      <script>
+_.templateSettings = {
+    interpolate : /\#\{(.+?)\}/g
+};
+var ROW_TEMPLATE = _.template(
+        "<tr class=#{messageStyle}  style='display: none;'><td>#{ID}</td><td>#{passedSeconds}</td>"+
+        "<td>#{updateTimeInt}</td><td>#{finishedStr}</td></tr>");
+var renderOneTc = function (obj, insertFunName) {
+    var tmpObj = _.extend({},obj);
+    tmpObj['finishedStr'] = obj['finished'] ? 'yes' : 'no';
+    tmpObj['messageStyle'] = obj['finished'] ? 'success' : 'error';
+    var newRow = $(ROW_TEMPLATE(tmpObj));
+    var insertFunName = insertFunName || 'append';
+    $('table#tomato-clock-records > tbody')[insertFunName](newRow);
+    newRow.show('slow');
+    return tmpObj;
+};
+var generateOne = function (index) {
+  var yesNo = [true,false];
+  return {ID : index, 
+    passedSeconds: 48,
+    updateTimeInt: Date.now(),
+    finished: yesNo[_.random(1)]
+  };
+};
+var tcIndex = 0;
+$("#add-before").click(function () {
+  var curTc = generateOne(tcIndex++);
+  renderOneTc(curTc, 'prepend');
+});
+$("#add-after").click(function () {
+  var curTc = generateOne(tcIndex++);
+  renderOneTc(curTc);
+});
+      </script>
+</html>
