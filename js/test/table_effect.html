@@ -43,33 +43,76 @@ _.templateSettings = {
 };
 var ROW_TEMPLATE = _.template(
         "<tr class=#{messageStyle}  style='display: none;'><td>#{ID}</td><td>#{passedSeconds}</td>"+
-        "<td>#{updateTimeInt}</td><td>#{finishedStr}</td></tr>");
+        "<td><time>#{updateTimeStr}</time></td><td>#{finishedStr}</td></tr>");
+var getDateStr = function (aDate) {
+  // not change now
+  var now = new Date(Date.now());
+  var dateEndIndex = 10;
+  if(aDate.toJSON().slice(0,dateEndIndex) === now.toJSON().slice(0,dateEndIndex)){
+    return "Today";
+  };
+  now.setDate(now.getDate() - 1);
+  if(aDate.toJSON().slice(0,dateEndIndex) === now.toJSON().slice(0,dateEndIndex)){
+    return "Yesterday";
+  };
+  return aDate.toString().slice(4,15);
+}
+var toTimeStr = function (timeInt) {
+  var aDate = new Date(timeInt);
+  return getDateStr(aDate) +" "+ aDate.toTimeString().slice(0,8);
+};
 var renderOneTc = function (obj, insertFunName) {
-    var tmpObj = _.extend({},obj);
-    tmpObj['finishedStr'] = obj['finished'] ? 'yes' : 'no';
-    tmpObj['messageStyle'] = obj['finished'] ? 'success' : 'error';
-    var newRow = $(ROW_TEMPLATE(tmpObj));
+    var renderTc = generateRenderTc(obj)
+    var newRow = $(ROW_TEMPLATE(renderTc));
     var insertFunName = insertFunName || 'append';
     $('table#tomato-clock-records > tbody')[insertFunName](newRow);
     newRow.show('slow');
-    return tmpObj;
+    return renderTc;
 };
+var generateRenderTc = function (obj){
+    var renderTc = _.extend({},obj);
+    renderTc['finishedStr'] = obj['finished'] ? 'yes' : 'no';
+    renderTc['messageStyle'] = obj['finished'] ? 'success' : 'error';
+    renderTc['updateTimeStr'] = toTimeStr(obj['updateTimeInt']);
+    return renderTc;
+};
+var keepFixTcCount = function (tcCount, insertFunName) {
+    var allTc = $('table#tomato-clock-records > tbody > tr');
+    var insertFunName = insertFunName || 'append';
+    var lastOrFirst = {'prepend':':last',
+                      'append':':first'}[insertFunName];
+    if(allTc.size() > tcCount){
+      var removeTc = allTc.filter(lastOrFirst);
+      removeTc.remove();
+      return removeTc;
+    };
+    return 0;
+};
+var getRandomOne = function (lst) {
+  return lst[_.random(lst.length-1)];
+}
 var generateOne = function (index) {
   var yesNo = [true,false];
+  var spans = [2880,1500];
+  var now = new Date(Date.now());
+  now.setDate(now.getDate()-_.random(5));
+  var timeInt = now.getTime();
   return {ID : index, 
-    passedSeconds: 48,
-    updateTimeInt: Date.now(),
-    finished: yesNo[_.random(1)]
+    passedSeconds: getRandomOne(spans),
+    updateTimeInt: timeInt,
+    finished: getRandomOne(yesNo)
   };
 };
 var tcIndex = 0;
 $("#add-before").click(function () {
   var curTc = generateOne(tcIndex++);
   renderOneTc(curTc, 'prepend');
+  keepFixTcCount(5, 'prepend');
 });
 $("#add-after").click(function () {
   var curTc = generateOne(tcIndex++);
   renderOneTc(curTc);
+  keepFixTcCount(5);
 });
       </script>
 </html>
