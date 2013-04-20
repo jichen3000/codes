@@ -17,6 +17,7 @@ table#tomato-clock-records tr th:first-child {
         
         <button id='add-before'>add-before</button>
         <button id='add-after'>add-after</button>
+        <button id='refresh-time'>refresh-time</button>
       </div>
       <div id="mytable" class="span4">
         <table id="tomato-clock-records" class="table">
@@ -38,12 +39,22 @@ table#tomato-clock-records tr th:first-child {
       <script src="../../../tomato-clock/jquery-1.7.2.min.js"></script>
       <script src="../../../tomato-clock/bootstrap.min.js"></script>
       <script>
+      
 _.templateSettings = {
     interpolate : /\#\{(.+?)\}/g
 };
 var ROW_TEMPLATE = _.template(
-        "<tr class=#{messageStyle}  style='display: none;'><td>#{ID}</td><td>#{passedSeconds}</td>"+
-        "<td><time>#{updateTimeStr}</time></td><td>#{finishedStr}</td></tr>");
+        "<tr class=#{styleHuman}  style='display: none;'><td>#{ID}</td><td>#{passedTimeHuman}</td>"+
+        "<td><time class='human-read' timeInt='#{endTimeInt}'>#{endTimeHuman}</time></td><td>#{finishedHuman}</td></tr>");
+var secondsToHuman = function (seconds) {
+    var parseSeconds = seconds % 60;
+    var parseMinutes = (seconds - parseSeconds) / 60;
+    var result = parseMinutes.toString() + "m"
+    if(parseSeconds > 0){
+      result += parseSeconds+"s";
+    };
+    return result;
+};
 var getDateStr = function (aDate) {
   // not change now
   var now = new Date(Date.now());
@@ -59,7 +70,7 @@ var getDateStr = function (aDate) {
 }
 var toTimeStr = function (timeInt) {
   var aDate = new Date(timeInt);
-  return getDateStr(aDate) +" "+ aDate.toTimeString().slice(0,8);
+  return getDateStr(aDate) +" "+ aDate.toTimeString().slice(0,5);
 };
 var renderOneTc = function (obj, insertFunName) {
     var renderTc = generateRenderTc(obj)
@@ -71,9 +82,10 @@ var renderOneTc = function (obj, insertFunName) {
 };
 var generateRenderTc = function (obj){
     var renderTc = _.extend({},obj);
-    renderTc['finishedStr'] = obj['finished'] ? 'yes' : 'no';
-    renderTc['messageStyle'] = obj['finished'] ? 'success' : 'error';
-    renderTc['updateTimeStr'] = toTimeStr(obj['updateTimeInt']);
+    renderTc['finishedHuman'] = obj['finished'] ? 'yes' : 'no';
+    renderTc['styleHuman'] = obj['finished'] ? 'success' : 'error';
+    renderTc['endTimeHuman'] = toTimeStr(obj['endTimeInt']);
+    renderTc['passedTimeHuman'] = secondsToHuman(obj['passedSeconds']);
     return renderTc;
 };
 var keepFixTcCount = function (tcCount, insertFunName) {
@@ -99,9 +111,14 @@ var generateOne = function (index) {
   var timeInt = now.getTime();
   return {ID : index, 
     passedSeconds: getRandomOne(spans),
-    updateTimeInt: timeInt,
+    endTimeInt: timeInt,
     finished: getRandomOne(yesNo)
   };
+};
+var refreshHumanReadTime = function () {
+  $("time.human-read").each(function (index) {
+    this.innerText = toTimeStr(parseInt($(this).attr("timeInt")));
+  });
 };
 var tcIndex = 0;
 $("#add-before").click(function () {
@@ -113,6 +130,9 @@ $("#add-after").click(function () {
   var curTc = generateOne(tcIndex++);
   renderOneTc(curTc);
   keepFixTcCount(5);
+});
+$("#refresh-time").click(function () {
+  refreshHumanReadTime();
 });
       </script>
 </html>
