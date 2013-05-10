@@ -1,0 +1,11 @@
+[ATOM_Config]
+
+WS_URL = https://pcm-stg.cisco.com/Services/AtomTandbergCentralWebServices/AtomTandbergCentralServices.asmx
+# WS_URL = https://pcm-dev.cisco.com/Services/AtomTandberg/AtomTandbergCentralServices.asmx
+# WS_URL = http://localhost:8023/cgi/AtomTandbergCentralServices.cgi
+# WS_URL = http://localhost:8023/cgi/AtomTandbergCentralServices_cgi.py
+# WS_URL = http://cryptodev6-lnx.cisco.com/scep/python/AtomTandbergCentralServices.cgi
+
+DownloadFileDestination="/usr/ini/"
+CesiumServer = 10.140.29.48
+
