@@ -1,0 +1,11 @@
+Start a server on localhost:9999
+Traceback (most recent call last):
+  File "socketserver_simple.py", line 24, in <module>
+    server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
+  File "c:\p\python\lib\SocketServer.py", line 408, in __init__
+    self.server_bind()
+  File "c:\p\python\lib\SocketServer.py", line 419, in server_bind
+    self.socket.bind(self.server_address)
+  File "c:\p\python\lib\socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted
