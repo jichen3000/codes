@@ -6,7 +6,7 @@
         <MaxRetry>30</MaxRetry>
     </FileDownload>
     <Logging>
-        <LogFilePath>/usr/colin/</LogFilePath>
+        <LogFilePath>c:\\</LogFilePath>
         <LogFileRotationSize>8</LogFileRotationSize>
         <LogFileMaxSize>10485760</LogFileMaxSize>
         <LogSystemVerbosityLimit>DEBUG</LogSystemVerbosityLimit>

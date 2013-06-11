@@ -21,8 +21,10 @@ def replace_one_file_with_type(file_path, fun_type, source_key, replace_value, s
 def replace_one_file_with_re(file_path, re_pattern, replace_str, suffix_write_file_path=""):
     lines = __read_lines(file_path)
     lines = [re.sub(re_pattern, replace_str, line) for line in lines]
-    print lines
     return __write_lines(file_path+suffix_write_file_path, lines)
+
+def to_raw_string(str):
+    return str.replace('\\', '\\\\\\\\')
 
 # source_key="LogFilePath"
 # return value="(\<LogFilePath.*\>).+(\<\/LogFilePath\>)"
@@ -32,7 +34,7 @@ def __generate_re_pattern_4xml(source_key):
 # replace_value="/usr/colin/"
 # return value=r"\1/usr/colin/\2"
 def __generate_replace_str_4xml(replace_value):
-    return r"\1"+replace_value+r"\2"
+    return r"\1"+to_raw_string(replace_value)+r"\2"
 
 # source_key="DownloadFileDestination"
 # return value="(\s*DownloadFileDestination\s*=\s*).+"
@@ -42,11 +44,15 @@ def __generate_re_pattern_4ini(source_key):
 # replace_value='"/usr/colin/"'
 # return value=r'\1"/usr/ini/"'
 def __generate_replace_str_4ini(replace_value):
-    return r"\1"+replace_value
+    return r"\1"+to_raw_string(replace_value)
+
+def __add_newline_if_need(lines):
+    return [ line+'\n' if not line.endswith('\n') else line for line in lines]
 
 def __write_lines(file_path, lines):
+    new_lines = __add_newline_if_need(lines)
     with open(file_path, 'w') as f:
-        f.writelines(lines)
+        f.writelines(new_lines)
     return True
 
 def __read_lines(file_path):
@@ -56,11 +62,15 @@ def __read_lines(file_path):
 
 
 def test():
+    lines = ['111','222']
+    print "lines:", __add_newline_if_need(lines)
+    lines = ['111\n','222\n']
+    print "lines:", __add_newline_if_need(lines)
     re_pattern = "(\<LogFilePath.*\>).+(\<\/LogFilePath\>)"
-    replace_str = r"\1/usr/colin/\2"
+    replace_str = r"\1"+to_raw_string("c:\\")+r"\2"
     file_path = "a.xml"
     replace_one_file_with_re(file_path, __generate_re_pattern_4xml("LogFilePath"),
-        __generate_replace_str_4xml("/usr/colin/"),'.bak')
+        replace_str,'.bak')
     replace_one_file_with_type(file_path, TYPE_XML, "LogFilePath",
         "/usr/colin/",'.bak1')
 
@@ -80,12 +90,13 @@ def test():
     needed_replace_files = [{'file_path':"a.xml",
                         'fun_type':TYPE_XML,
                         'source_key':"LogFilePath",
-                        'replace_value':"/usr/colin/",
+                        'replace_value':"c:\\",
                         'suffix_write_file_path':'.all'},
                     {'file_path':"a.ini",
                         'fun_type':TYPE_INI,
                         'source_key':"DownloadFileDestination",
-                        'replace_value':'"/usr/ini/"'}]
+                        'replace_value':'"/usr/ini/"',
+                        'suffix_write_file_path':'.all'}]
 
     replace_all_with_type(needed_replace_files)
 
