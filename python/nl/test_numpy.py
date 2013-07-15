@@ -1,5 +1,5 @@
 # 
-
+# https://github.com/pbharrin/machinelearninginaction
 from numpy import *
 
 rand_mat = mat(random.rand(4,4))
@@ -12,3 +12,7 @@ print rand_mat.I
 
 print eye(4)
 
+np.random.randint(5, size=(2, 4))
+
+# get data set
+# http://archive.ics.uci.edu/ml/

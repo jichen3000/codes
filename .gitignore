@@ -9,3 +9,5 @@
 .pydevproject
 *.fasl
 \#*\#
+*.log
+*.dataset
