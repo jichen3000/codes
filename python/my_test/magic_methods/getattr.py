@@ -12,8 +12,10 @@ class Person(object):
 
 
 colin = Person("colin")
-pp(colin.name)
-pp(colin.nnn())
+colin.name
+colin.nnn()
+colin.sls = "sls"
+print colin.sls
 
 # pp("other","234")
 
