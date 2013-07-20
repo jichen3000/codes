@@ -42,7 +42,6 @@ def must_true(self):
     return run_compare(self)
 
 def must_raise(self, raised_exception):
-    print self
     if hasattr(self, '__call__'):
         try:
             result = self()

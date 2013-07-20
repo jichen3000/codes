@@ -34,31 +34,23 @@ The output will be:
 
 Running tests:
 
-FFF<function <lambda> at 0x101662a28>
-.
+.FF.
 
-Finished tests in 0.015533s.
+Finished tests in 0.021858s.
 
 1) Failure:
-The line No is [/Users/Colin/work/codes/python/minitest/minitest/with_test.py:151]:
---- expected
-+++ actual
--['jc1']
-#['jc']
-
-2) Failure:
-The line No is [/Users/Colin/work/codes/python/minitest/minitest/with_test.py:155]:
+The line No is [/Users/Colin/work/codes/python/minitest/test.py:13]:
 --- expected
 +++ actual
 -[True]
 #[False]
 
-3) Failure:
-The line No is [/Users/Colin/work/codes/python/minitest/minitest/with_test.py:160]:
+2) Failure:
+The line No is [/Users/Colin/work/codes/python/minitest/test.py:18]:
 --- expected
 +++ actual
 -[2]
 #[1]
 
-4 tests, 6 assertions, 3 failures, 0 errors.
+4 tests, 6 assertions, 2 failures, 0 errors.
 [Finished in 0.1s]

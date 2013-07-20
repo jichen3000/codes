@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
 
         with test("test must_equal"):
-            'jc'.must_equal('jc1')
+            'jc'.must_equal('jc')
 
         with test("test must_true"):
             True.must_true()
