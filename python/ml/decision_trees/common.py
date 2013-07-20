@@ -1,3 +1,4 @@
+# from chapter 3 in Mahcine Learning in Action.
 
 from numpy import *
 from pprint import pprint as pp
@@ -102,6 +103,16 @@ def create_tree(dataset,labels):
         for value in set(feature_values)}
     return {labels[best_feature_index] : sub_tree}
 
+def classify(tree,labels,input_vector):
+    first_label = tree.keys()[0]
+    next_tree = tree[first_label]
+    feature_index = labels.index(first_label)
+    next_key = input_vector[feature_index]
+    match_item = next_tree[next_key]
+    if isinstance(next_tree[next_key] , dict):
+        match_item = classify(next_tree[next_key],labels,input_vector)
+    return match_item
+
 
 if __name__ == '__main__':
     from minitest import *
@@ -118,6 +129,12 @@ if __name__ == '__main__':
                 [0, 1, 'no'],
                 [0, 1, 'no']]
         tself.labels = ['no surfacing','flippers', 'fish']
+        tself.tree =  \
+            {'no surfacing': 
+                {0: 'no', 
+                 1: {'flippers': 
+                        {0: 'no', 
+                         1: 'yes'}}}}
         
         with test("gen_count_list"):
             gen_count_list(tself.lst).must_equal(tself.count_list)
@@ -158,5 +175,9 @@ if __name__ == '__main__':
 
         with test("create_tree"):
             create_tree(tself.dataset, tself.labels).must_equal(
-                {'no surfacing': {0: 'no', 1: {'flippers': {0: 'no', 1: 'yes'}}}})
+                tself.tree)
+
+        with test("calssify"):
+            classify(tself.tree,tself.labels,[1,0]).must_equal('no')
+            classify(tself.tree,tself.labels,[1,1]).must_equal('yes')
 

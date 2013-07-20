@@ -5,24 +5,60 @@ Mini Test
 Using like the below:
 
 if __name__ == '__main__':
+    from minitest import *
+    
     import operator
     with test_case("new test case"):
 
 
-        with test("test some"):
-            'jc'.must_equal('jc1')
+        with test("test must_equal"):
+            'jc'.must_equal('jc')
+
+        with test("test must_true"):
             True.must_true()
             False.must_true()
-            # div_zero().must_equal(0)
 
 
-        with test("test some"):
-            (1).must_equal(1)
+        with test("test must_equal_with_func"):
             (1).must_equal_with_func(1, operator.eq)
             (1).must_equal_with_func(2, operator.eq)
 
-        with test("test some"):
-            (1).must_equal(1)
-            (1).must_equal(1)
+        def div_zero():
+            1/0
+            
+        with test("test must_raise"):
+            (lambda : div_zero()).must_raise(ZeroDivisionError)
 
 
+The output will be:
+
+Running tests:
+
+FFF<function <lambda> at 0x101662a28>
+.
+
+Finished tests in 0.015533s.
+
+1) Failure:
+The line No is [/Users/Colin/work/codes/python/minitest/minitest/with_test.py:151]:
+--- expected
++++ actual
+-['jc1']
+#['jc']
+
+2) Failure:
+The line No is [/Users/Colin/work/codes/python/minitest/minitest/with_test.py:155]:
+--- expected
++++ actual
+-[True]
+#[False]
+
+3) Failure:
+The line No is [/Users/Colin/work/codes/python/minitest/minitest/with_test.py:160]:
+--- expected
++++ actual
+-[2]
+#[1]
+
+4 tests, 6 assertions, 3 failures, 0 errors.
+[Finished in 0.1s]
