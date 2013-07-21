@@ -1,3 +1,6 @@
+# http://guide.python-distribute.org/creation.html
+# https://github.com/jichen3000/codes/tree/master/python/minitest
+
 if __name__ == '__main__':
     from minitest import *
 

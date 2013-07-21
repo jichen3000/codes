@@ -5,7 +5,7 @@ import operator
 from variables import *
 
 
-VERSION = '0.0.1'
+VERSION = '0.1.1'
 __all__ = []
 
 def get_dict(object):

@@ -2,6 +2,9 @@
 Mini Test
 ===========
 
+This project is inspired by Ruby minispec, but now it just implement some methods including:
+  must_equal, must_true, must_equal_with_func, must_raise.
+
 Using like the below:
 
 if __name__ == '__main__':
