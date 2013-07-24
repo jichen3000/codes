@@ -158,3 +158,6 @@ for rvm
 {   "cmd": ["~/.rvm/bin/rvm-auto-ruby", "$file"],   "file_regex": "^(...*?):([0-9]*):?([0-9]*)",    "selector": "source.ruby"}
 I must use 
 {   "cmd": ["/Users/Colin/.rvm/bin/rvm-auto-ruby", "$file"],   "file_regex": "^(...*?):([0-9]*):?([0-9]*)",    "selector": "source.ruby"}
+
+change tab size
+To change indentation within the document, go to View > Indentation > Convert Tabs to Spaces. To make this change within the document for future edits, go to View > Indentation > Spaces Width: 2. Additionally, if you have the status bar visible, you can you can click where it says Tab Size: 4 and change the indentation here from the context menu.
