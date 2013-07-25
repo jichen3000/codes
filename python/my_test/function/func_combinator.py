@@ -1,17 +1,17 @@
-def conb(*funcs):
-    def conb_f(*args, **kvargs):
+def combinate(*funcs):
+    def comb_func(*args, **kvargs):
         first_func = funcs[-1]
         result = first_func(*args, **kvargs)
         others_reverse_funcs = reversed(funcs[:-1])
         for func in others_reverse_funcs:
             result = func(result)
         return result
-    return conb_f
+    return comb_func
 
-def conb_tow(func1, func2):
-    def conb(*args, **kvargs):
+def combinate_tow(func1, func2):
+    def combinate(*args, **kvargs):
         return func1(func2(*args, **kvargs))
-    return conb
+    return combinate
 
 
 def f1(str):
@@ -29,11 +29,11 @@ if __name__ == '__main__':
 
     with test_case("combinator"):
 
-        with test("conb_tow"):
-            f12 = conb_tow(f1, f2)
+        with test("combinate_tow"):
+            f12 = combinate_tow(f1, f2)
             f12("123").pp()
-        with test("conb"):
-            f12 = conb(f1, f2)
+        with test("combinate"):
+            f12 = combinate(f1, f2)
             f12("123").pp()        
-            f123 = conb(f1, f2, f3)
+            f123 = combinate(f1, f2, f3)
             f123("123","ddd").pp()                    
