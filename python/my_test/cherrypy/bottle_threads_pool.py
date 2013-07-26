@@ -6,7 +6,7 @@ import time
 @route('/hello/:name')
 def index(name='World'):
     print "start %s" % name
-    time.sleep(3)
+    # time.sleep(3)
     return template('Hello {{name}}', name=name)
 
 
@@ -16,7 +16,7 @@ def change_bottle_cherrypy_server():
 
 class AtomCherryPyServer(bottle.ServerAdapter):
     def run(self, handler): # pragma: no cover                                   
-        pool_size = 10
+        pool_size = 1
         from cherrypy import wsgiserver
         server = wsgiserver.CherryPyWSGIServer((self.host, self.port), handler)
         try:
