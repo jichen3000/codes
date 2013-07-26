@@ -21,6 +21,10 @@ def start_threads(count):
 
 if __name__ == '__main__':
     import sys
+    import requests
+    print "DEFAULT_RETRIES",requests.adapters.DEFAULT_RETRIES
+    requests.adapters.DEFAULT_RETRIES = 5
+    print "after DEFAULT_RETRIES",requests.adapters.DEFAULT_RETRIES
     count = 10
     if len(sys.argv) > 1:
         count = int(sys.argv[1])
