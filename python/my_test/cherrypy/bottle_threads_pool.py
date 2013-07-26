@@ -1,10 +1,13 @@
 from bottle import route, run, template
 # import BaseHTTPServer
 import bottle
+import time
 
 @route('/hello/:name')
 def index(name='World'):
-    return template('<b>Hello {{name}} </b>', name=name)
+    print "start %s" % name
+    time.sleep(3)
+    return template('Hello {{name}}', name=name)
 
 
 
@@ -13,7 +16,7 @@ def change_bottle_cherrypy_server():
 
 class AtomCherryPyServer(bottle.ServerAdapter):
     def run(self, handler): # pragma: no cover                                   
-        pool_size = 10000
+        pool_size = 10
         from cherrypy import wsgiserver
         server = wsgiserver.CherryPyWSGIServer((self.host, self.port), handler)
         try:

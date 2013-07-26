@@ -111,5 +111,7 @@ def get_last_one_fun(prefix="f"):
         last_func = globals()[func_names[-1]]
     return last_func
 
+
 if __name__ == '__main__':
-    get_last_one_fun()()
+    # get_last_one_fun()()
+    f7()

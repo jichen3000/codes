@@ -9,3 +9,15 @@ def firstn(n):
 print sum(firstn(5))
 
 print sum(firstn(5))
+
+a = firstn(2)
+print a.next()
+print a.next()
+# print a.next()
+# print a.next()
+
+
+a = firstn(5)
+import operator
+b = map(operator.itemgetter(), a)
+print b
