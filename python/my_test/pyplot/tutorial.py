@@ -114,4 +114,4 @@ def get_last_one_fun(prefix="f"):
 
 if __name__ == '__main__':
     # get_last_one_fun()()
-    f7()
+    f3()

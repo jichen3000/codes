@@ -17,11 +17,14 @@ def change_bottle_cherrypy_server():
 class AtomCherryPyServer(bottle.ServerAdapter):
     def run(self, handler): # pragma: no cover                                   
         pool_size = 1
+        request_queue_size = 2
         from cherrypy import wsgiserver
         server = wsgiserver.CherryPyWSGIServer((self.host, self.port), handler)
         try:
             server.numthreads = pool_size
+            server.request_queue_size = request_queue_size
             print "atom numthreads:",server._get_numthreads()
+            print "atom request_queue_size:",server.request_queue_size
             server.start()
         finally:
             server.stop()    
