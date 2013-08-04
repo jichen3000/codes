@@ -20,6 +20,8 @@ from operator import itemgetter, gt, lt
 from numpy import *
 import random
 
+import matplotlib.pyplot as plt
+
 def get_dataset_from_file(filename):
     with open(filename) as datafile:
         words = [line.strip().split('\t') for line in datafile]
@@ -42,8 +44,21 @@ def clipAlpha(aj,hight_value,low_value):
         aj = low_value
     return aj
 
+def kernelTrans(X, A, kTup):
+    m,n = shape(X)
+    K = mat(zeros((m,1)))
+    if kTup[0]=='lin': K = X * A.T
+    elif kTup[0]=='rbf':
+        for j in range(m):
+            deltaRow = X[j,:] - A
+            K[j] = deltaRow*deltaRow.T
+        K = exp(K /(-1*kTup[1]**2))
+    else: raise NameError('Houston We Have a Problem -- \
+    That Kernel is not recognized')
+    return K
+
 class optStruct:
-    def __init__(self,dataMatIn, classLabels, C, toler):
+    def __init__(self,dataMatIn, classLabels, C, toler, kTup):
         self.X = dataMatIn
         self.labelMat = classLabels
         self.C = C
@@ -52,10 +67,13 @@ class optStruct:
         self.alphas = mat(zeros((self.m,1)))
         self.b = 0 
         self.eCache = mat(zeros((self.m,2)))
+        self.K = mat(zeros((self.m,self.m)))
+        for i in range(self.m):
+            self.K[:,i] = kernelTrans(self.X, self.X[i,:], kTup)
 
 def calcEk(oS, k):
     fXk = float(multiply(oS.alphas,oS.labelMat).T*\
-          (oS.X*oS.X[k,:].T)) + oS.b
+          oS.K[:,k]) + oS.b
     Ek = fXk - float(oS.labelMat[k])
     return Ek
 
@@ -96,8 +114,9 @@ def innerL(i, oS):
             L = max(0, oS.alphas[j] + oS.alphas[i] - oS.C)
             H = min(oS.C, oS.alphas[j] + oS.alphas[i])
         if L==H: print "L==H"; return 0
-        eta = 2.0 * oS.X[i,:]*oS.X[j,:].T - oS.X[i,:]*oS.X[i,:].T - \
-                oS.X[j,:]*oS.X[j,:].T
+        # eta = 2.0 * oS.X[i,:]*oS.X[j,:].T - oS.X[i,:]*oS.X[i,:].T - \
+        #         oS.X[j,:]*oS.X[j,:].T
+        eta = 2.0 * oS.K[i,j] - oS.K[i,i] - oS.K[j,j]
         if eta >= 0: print "eta>=0"; return 0
         oS.alphas[j] -= oS.labelMat[j]*(Ei - Ej)/eta
         oS.alphas[j] = clipAlpha(oS.alphas[j],H,L)
@@ -120,7 +139,7 @@ def innerL(i, oS):
     else: return 0
 
 def smoP(dataMatIn, classLabels, C, toler, max_iteration, kTup=('lin', 0)): 
-    oS = optStruct(mat(dataMatIn),mat(classLabels).transpose(),C,toler) 
+    oS = optStruct(mat(dataMatIn),mat(classLabels).transpose(),C,toler, kTup) 
     iter = 0
     entireSet = True
     alphaPairsChanged = 0
@@ -161,34 +180,61 @@ def calcWs(dataArr, classLabels, alphas):
         w += multiply(alphas[i]*labelMat[i],dataMat[i,:].T)
     return w
 
+def testRbf(k1=1.3):
+    dataArr,labelArr = get_dataset_from_file('test_set_RBF.dataset')
+    b,alphas = smoP(dataArr, labelArr, 200, 0.0001, 10000, ('rbf', k1)) 
+    datMat=mat(dataArr); 
+    labelMat = mat(labelArr).transpose() 
+    svInd=nonzero(alphas.A>0)[0]
+    sVs=datMat[svInd]
+    labelSV = labelMat[svInd];
+    print "there are %d Support Vectors" % shape(sVs)[0]
+    m,n = shape(datMat)
+    errorCount = 0
+    for i in range(m):
+        kernelEval = kernelTrans(sVs,datMat[i,:],('rbf', k1))
+        predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b
+        if sign(predict)!=sign(labelArr[i]): errorCount += 1
+    print "the training error rate is: %f" % (float(errorCount)/m) 
+    dataArr,labelArr = get_dataset_from_file('test_set_RBF2.dataset')
+    errorCount = 0
+    datMat=mat(dataArr); labelMat = mat(labelArr).transpose()
+    m,n = shape(datMat)
+    for i in range(m):
+        kernelEval = kernelTrans(sVs,datMat[i,:],('rbf', k1))
+        predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b
+        if sign(predict)!=sign(labelArr[i]): errorCount += 1
+    print "the test error rate is: %f" % (float(errorCount)/m)
+
+def draw_points(filename):
+    def get_group_list(point_one_list, label_value):
+        return [x for x,label in zip(point_one_list, labels) if label ==label_value]
+    dataset,labels = get_dataset_from_file(filename)
+    x_list, y_list = zip(*dataset)
+    x_1_list = get_group_list(x_list, 1)
+    x_0_list = get_group_list(x_list, -1)
+    y_1_list = get_group_list(y_list, 1)
+    y_0_list = get_group_list(y_list, -1)
+    plt.plot(x_1_list, y_1_list, 'ro', x_0_list, y_0_list, 'bs')
+
+def draw_all_points():
+    draw_points("test_set_RBF.dataset")
+    draw_points("test_set_RBF2.dataset")
+    plt.show()
+
+
 if __name__ == '__main__':
     from minitest import *
 
-    with test_case("simple smo"):
+    with test_case("testRbf"):
         tself = get_test_self()
-        tself.dataset, tself.labels = get_dataset_from_file(
-            "test_set.dataset")
-        tself.small_dataset = tself.dataset[:]
-        tself.small_labels = tself.labels[:]
-        tself.b_value = matrix([[-3.81666061]])[0,0]
-        tself.alphas_list = matrix([[ 0.10356041,  0.25615675,  
-            0.01420587,  0.34551129]]).tolist()[0]
-        with test("get_support_vectors"):
-            get_support_vectors(tself.dataset, tself.labels, 
-                tself.alphas_list).must_equal(
-                [(0.10356041, [3.542485, 1.977398], -1.0),
-                 (0.25615675, [3.018896, 2.556416], -1.0),
-                 (0.01420587, [7.55151, -1.58003], 1.0),
-                 (0.34551129, [2.114999, -0.004466], -1.0)])
 
-        with test("smo"):
-            # smoP(tself.dataset, tself.labels, 0.6, 0.001, 1)
-            b, tself.alphas = smoP(tself.small_dataset, tself.small_labels, 
-                0.6, 0.001, 40)
-            b.p()
-            tself.alphas[tself.alphas>0].p()
+        with test("testRbf"):
+            testRbf()
             pass
 
-        with test("calcWs"):
-            calcWs(tself.dataset, tself.labels, tself.alphas).p()
+        with test("draw_all_points"):
+            # draw_all_points()
+            pass
+
 

@@ -1,0 +1,18 @@
+Improving classification with the AdaBoost meta-algorithm
+
+Meta-algorithms are a way of combining other algorithms.
+
+AdaBoost
+Pros: Low generalization error, easy to code, works with most classifiers, no parameters to adjust
+Cons: Sensitive to outliers
+Works with: Numeric values, nominal values
+
+One idea that naturally arises is combining multiple classifiers. Methods that do this are known as ensemble methods or meta-algorithms.
+Methods:
+    bagging
+    boosting
+        AdaBoost
+
+AdaBoost is short for adaptive boosting.
+
+A decision stump is a simple decision tree.

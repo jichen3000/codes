@@ -70,6 +70,7 @@ def draw_dataset_points(subplot, dataset,labels):
     def get_point_group(point_label):
         return filter(lambda item: int(item[1]) == point_label, zip(dataset, labels))
     def get_x_y(point_group):
+        # return point_group
         return map(comb(itemgetter(0), itemgetter(1) ), point_group),\
             map(comb(itemgetter(0), itemgetter(2) ), point_group)
     x1, y1 = get_x_y(get_point_group(1))
