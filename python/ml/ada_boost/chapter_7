@@ -16,3 +16,17 @@ Methods:
 AdaBoost is short for adaptive boosting.
 
 A decision stump is a simple decision tree.
+
+The classifying result is better and faster than logistic regression.
+
+But when you using too much times boosting, it will be overfitting.
+
+AdaBoost and support vector machines are considered by many to be the most power- ful algorithms in supervised learning.
+
+Classification imbalance:
+Precision = TP/(TP+FP).
+Precision tells us the fraction of records that were positive from the group that the classifier predicted to be positive.
+Recall = TP/(TP+FN). Recall measures the fraction of positive examples the classifier got right.
+ROC curve. ROC stands for receiver operating characteristic
+
+cost function
