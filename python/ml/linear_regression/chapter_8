@@ -1,0 +1,28 @@
+Predicting numeric values: regression
+
+Linear regression
+Pros: Easy to interpret results, computationally inexpensive 
+Cons: Poorly models nonlinear data
+Works with: Numeric values, nominal values
+
+HorsePower = 0.0015*annualSalary - 0.99*hoursListeningToPublicRadio
+This is known as a regression equation.
+The values 0.0015 and -0.99 are known as regres- sion weights. 
+The process of finding these regression weights is called regression.
+
+One way to reduce the mean-squared error is a technique known as locally weighted linear regression (LWLR).
+
+If we have more features than data points (n>m), we say that our data matrix X isn’t full rank.
+Cannot computer the inverse of a matrix.
+
+Shrinking coefficients 
+    decrease unimportant parameters
+    methods: ridge, lasso, LAR, PCA
+Ridge regression
+    Ridge regression uses the identity matrix multiplied by some constant.
+lasso
+    The lasso imposes a different constraint on the weights:
+Forward stagewise regression
+
+bias/variance tradeoff
+
