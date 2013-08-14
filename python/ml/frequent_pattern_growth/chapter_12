@@ -1,0 +1,16 @@
+Efficiently finding frequent itemset with FP-growth
+
+That task is finding frequent itemsets or pairs, sets of things that commonly occur together, by storing the dataset in a special structure called an FP-tree.  The FP stands for “frequent pattern.”
+faster execution times than Apriori
+
+The FP-growth algorithm scans the dataset only twice.
+1. Build the FP-tree.
+2. Mine frequent itemsets from the FP-tree.
+
+FP-growth
+Pros: Usually faster than Apriori.
+Cons: Difficult to implement; certain datasets degrade the performance. Works with: Nominal values.
+
+The FP-tree is used to store the frequency of occurrence for sets of items.
+
+The header table will allow you to quickly access all of the elements of a given type in the FP-tree.

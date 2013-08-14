@@ -1,0 +1,26 @@
+Association analysis with the Apriori algorithm
+
+book: The Numerati by Stephen Baker.
+
+Looking for hidden relationships in large datasets is known as association analysis or association rule learning.
+
+Apriori
+Pros: Easy to code up
+Cons: May be slow on large datasets
+Works with: Numeric values, nominal values
+
+These interesting relationships can take two forms: frequent item sets or association rules. Frequent item sets are a collection of items that frequently occur together. 
+Association rules suggest that a strong relationship exists between two items. 
+
+The 'support' of an itemset is defined as the percentage of the dataset that contains this itemset.
+The 'confidence' is defined for an association rule like {diapers} ➞ {wine}. The confi- dence for this rule is defined as support({diapers, wine})/support({diapers}). From figure 11.1, the support of {diapers, wine} is 3/5. The support for diapers is 4/5, so the confidence for diapers ➞ wine is 3/4 = 0.75.
+
+Apriori
+A priori means “from before” in Latin. When defining a problem, it’s common to state prior knowledge, or assumptions.
+
+The Apriori principle says that if an itemset is fre- quent, then all of its subsets are frequent.
+The rule turned around says that if an itemset is infrequent, then its supersets are also infrequent.
+
+We have a similar measurement for association rules. This measurement is called the confidence.
+The confidence for a rule P ➞ H is defined as support(P | H)/ support(P).
+

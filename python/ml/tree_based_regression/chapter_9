@@ -1,0 +1,14 @@
+Tree-based regression
+
+Tree-based regression
+Pros: Fits complex, nonlinear data
+Cons: Difficult to interpret results
+Works with: Numeric values, nominal values
+
+CART is a well-known and well-documented tree-building algorithm that makes binary splits and handles continuous variables.
+
+Tree pruning, prevent from overfitting
+    Postpruning
+
+Piecewise linear means that you have a model that consists of multiple linear segments.
+    The interpretability of model trees is one reason why you’d choose them over regression trees. The second reason is higher accuracy.

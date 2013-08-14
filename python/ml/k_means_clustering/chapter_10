@@ -1,0 +1,22 @@
+Part 3  Unsupervised learning
+don’t have a target variable
+Instead of telling the machine “Predict Y for our data X,” we’re ask- ing “What can you tell me about X?”
+In supervised classifiction, we have the training data in which they have been classified already. But in the unsupervised one, these record have not been classified yet, because we want to know how to classify them.
+
+clustering, grouping
+
+
+title: Grouping unlabeled items using k-means clustering
+It’s called k- means because it finds k unique clusters, and the center of each cluster is the mean of the values in that cluster. 
+
+k-means clustering
+Pros: Easy to implement
+Cons: Can converge at local minima; slow on very large datasets Works with: Numeric values
+Each cluster is described by a single point known as the centroid.
+
+bisecting k-means.
+
+SSE, or sum of squared error.
+
+the highest SSE and split it into two clusters.
+Two quantifiable ideas are merging the closest centroids or merging the two cen- troids that increase the total SSE the least.
