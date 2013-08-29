@@ -14,3 +14,21 @@ Cons: Difficult to implement; certain datasets degrade the performance. Works wi
 The FP-tree is used to store the frequency of occurrence for sets of items.
 
 The header table will allow you to quickly access all of the elements of a given type in the FP-tree.
+
+1 Get conditional pattern bases from the FP-tree.
+2 From the conditional pattern base, construct a conditional FP-tree.
+3 Recursively repeat steps 1 and 2 on until the tree contains a single item.
+
+
+Part 4. Additional tools
+dimensionality-reduction techniques,
+
+chapter 13. Using principal component analysis to simplify data
+dimensionality reduction. 
+principal component analysis (PCA). In PCA, the dataset is transformed from its original coordinate system to a new coordinate system.
+Factor analysis is another method for dimensionality reduction. In factor analysis, we assume that some unobservable latent variables are generating the data we observe.
+Another common method for dimensionality reduction is independent component analysis (ICA).
+
+Principal component analysis
+Pros: Reduces complexity of data, indentifies most important features Cons: May not be needed, could throw away useful information
+Works with: Numerical values
