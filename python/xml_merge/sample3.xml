@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sample response="configManager">
+    <CesiumServer>mservice.colin.com</CesiumServer>
+    <Tandberg>
+        <WS_URL>https://colin/sampleServices.asmx</WS_URL>
+    </Tandberg>
+    <MService>
+        <GetLicense_URL>https://colin/licensing/LicensingResponse</GetLicense_URL>
+        <GetLicenseInfo_URL>https://colin/licensing/GetLicenseInfo</GetLicenseInfo_URL>
+        <DeleteMServiceLicense_URL>https://colin/licensing/SoftDelete</DeleteMServiceLicense_URL>
+    </MService>
+    <FileDownload>
+      <DownloadFolder>c:\DOWNLOAD_FILE_DIR</DownloadFolder>
+      <MaxRetry>30</MaxRetry>
+    </FileDownload>
+    <Logging>
+      <LogFilePath>c:\sample_LOGS_DIR</LogFilePath>
+      <LogFileRotationSize>8</LogFileRotationSize>
+      <LogFileMaxSize>10485760</LogFileMaxSize>
+      <LogSystemVerbosityLimit>DEBUG</LogSystemVerbosityLimit>
+      <LogFormat>%(asctime)s %(module)-17s line:%(lineno)-4d %(levelname)-8s %(message)s</LogFormat>
+      <EmailOnError>Yes</EmailOnError>
+    </Logging>
+    <ServicePolicy>
+        <AdminAuthInterval>7</AdminAuthInterval>
+        <ServiceQuota>12</ServiceQuota>
+    </ServicePolicy>
+    <ServicePolicy2>
+        <AdminAuthInterval>7</AdminAuthInterval>
+        <ServiceQuota>12</ServiceQuota>
+    </ServicePolicy2>
+</sample>

@@ -1,0 +1,55 @@
+chapter 15. Big data and MapReduce
+Hadoop,
+MapReduce
+Pros: Processes a massive job in a short period of time.
+Cons: Algorithms must be rewritten; requires understanding of systems engineering. Works with: Numeric values, nominal values.
+
+One implementation of the MapReduce framework is the Apache Hadoop project.
+
+hadoop installation
+http://hadoop.apache.org/docs/stable/single_node_setup.html
+Required Software:
+java, ssh
+yum install java
+vi /etc/profile
+export JAVA_HOME=/usr
+
+export HADOOP_COMMON_HOME=/opt/hadoop-2.1.0-beta
+export HADOOP_HDFS_HOME=$HADOOP_COMMON_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_COMMON_HOME
+export HADOOP_YARN_HOME=$HADOOP_COMMON_HOME
+
+export PATH=$PATH:$HADOOP_COMMON_HOME/bin
+
+Mahout in Action.
+Another great source for properly writing MapRe- duce jobs is a book called Data Intensive Text Processing with Map/Reduce by Jimmy Lin and Chris Dyer.
+
+
+mrjob
+/etc/mrjob.conf
+http://pythonhosted.org/mrjob/guides/emr-quickstart.html
+
+key pair name: colin_test
+Exception: Job on job flow j-L3B8RTDK0EIJ failed with status FAILED: 
+solution: I just use the wrong name, it should be colin_test
+
+ln: creating symbolic link `src-tree.tar.gz/config/config.py': No such file or directory
+just comment these options.
+
+if in your code, you are using the local file(svmDat27), you need set mrjob.conf upload_files to upload them.
+
+p318
+
+chapter 4
+p65 naive bayes
+bayes:
+p(ci|x,y) = p(x,y|ci) * p(ci) / p(x,y)
+p(ci|W) = p(W|ci) * p(ci) / p(W)
+naive:
+assump:
+p(W|ci) = p(w1|ci) * p(w2|ci) ... * p(wn|ci)
+纯真，是指假设每个事件都是独立发生的，所以所有事件一齐发生的概率可以转换为每个事件的概率的乘积
+
+chapter 6 p101
+
+Pegasos is an acronym for Primal Estimated sub-GrAdient Solver. This algorithm uses a form of stochastic gradient descent to solve the optimization problem defined by support vector machines.

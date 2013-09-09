@@ -1,0 +1,13 @@
+chapter 14. Simplifying data with the singular value decomposition
+singular value decomposition (SVD). It’s a powerful tool used to distill information in a number of applications, from bioinformatics to finance.
+
+The singular value decomposition (SVD)
+Pros: Simplifies data, removes noise, may improve algorithm results. Cons: Transformed data may be difficult to understand.
+Works with: Numeric values.
+
+The method that uses SVD is called latent semantic indexing (LSI) or latent semantic analysis.
+
+Collaborative filtering–based recommendation engines
+
+Item-based or user-based similarity? row or column
+
