@@ -26,14 +26,16 @@ def read_xml(file_name):
 	tree = ET.parse(file_name)
 
 	# the tree root is the toplevel html element
-	print tree.findtext("head/title")
+	print "findtext",tree.findtext("head/title")
+	print "findtext",tree.findtext("head/sss")
 
 	# if you need the root element, use getroot
 	root = tree.getroot()	
-	print root
+	print "root:",root
 
 	for child in root.getchildren():
- 		print child
+ 		print "child:",child
+ 		print child.text
 
 # write_xml("page.xhtml")
 read_xml("page.xhtml")

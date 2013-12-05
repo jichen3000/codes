@@ -161,3 +161,22 @@ I must use
 
 change tab size
 To change indentation within the document, go to View > Indentation > Convert Tabs to Spaces. To make this change within the document for future edits, go to View > Indentation > Spaces Width: 2. Additionally, if you have the status bar visible, you can you can click where it says Tab Size: 4 and change the indentation here from the context menu.
+
+
+for c
+For Windows:
+
+{
+"cmd" : ["gcc", "$file_name", "-o", "${file_base_name}.exe", "-lm", "-Wall"],
+"selector" : "source.c",
+"shell":true,
+"working_dir" : "$file_path"
+}
+For Linux:
+
+{
+"cmd" : ["gcc", "$file_name", "-o", "${file_base_name}", "-lm", "-Wall"],
+"selector" : "source.c",
+"shell":false,
+"working_dir" : "$file_path"
+}

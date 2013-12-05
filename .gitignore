@@ -4,6 +4,8 @@
 *.dep
 *.zo
 *.pyc
+*.exe
+*.out
 .DS_Store
 .project
 .pydevproject
