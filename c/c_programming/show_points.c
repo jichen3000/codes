@@ -4,11 +4,15 @@ int p_int_pointer(int *address){
     printf("point address: %p \t value: %d\n", address, *address);
     return 1;
 }
-int p_char_pointer(char *address){
+int p_int(int value){
+    printf("int value: %d \n", value);
+    return 1;
+}
+int p_char_pointer(char const *address){
     printf("point address: %p \t value: %d\n", address, *address);
     return 1;
 }
-int p_pointer(void *address){
+int p_pointer(void const *address){
     printf("point address: %p\n", address);
     return 1;
 }
@@ -86,6 +90,23 @@ void strcpy(char *s, char *t)
         ;
 }
 
+int *get_int(int *int_arr[], int index){
+    return int_arr[index];
+}
+
+int test_array_pointer_in_argument(void){
+    //int_arr:  array[100] of pointer to int
+    int *int_arr[100];
+    int a=3,b=4;
+    // *int_arr = {1,2};
+    // int_arr[0] = &a;
+    int_arr[1] = &b;
+    // *int_arr[2] = 4;
+    // *int_arr[3] = 4;
+    // *int_arr = {1,2,3,4,5,6,7,8};
+    p_int(*get_int(int_arr, 4));
+}
+
 int test_array_point(void){
     int arr[] = {1,2,3,4,5,6,7,8};
     p_msg("show array point:");
@@ -105,14 +126,14 @@ int test_array_point(void){
 }
 
 int test_string_point(void){
-    char *point_msg;
+    char const *point_msg;
     point_msg = "now is the time";
-    p_char_pointer(point_msg);
+    p_char_pointer("now is the time");
 
     // amessage cannot be chagned!
     char amessage[] = "now is the time"; /* an array */
     // pmessage can be changed!
-    char *pmessage = "now is the time"; /* a pointer */
+    char const *pmessage = "now is the time"; /* a pointer */
     return 1;
 }
 
@@ -150,5 +171,6 @@ int main(int argc, char const *argv[]){
     // test_show_int();
     // test_array_point();
     test_string_point();
+    test_array_pointer_in_argument();
     return 0;
 }

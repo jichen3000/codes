@@ -22,3 +22,10 @@ double pop(void)
         return 0.0; 
     }
 }
+
+// static could avoid the same name existed in many files.
+static int main(int argc, char const *argv[])
+{
+    /* code */
+    return 0;
+}

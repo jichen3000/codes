@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 main()
 {
@@ -7,4 +8,7 @@ main()
 
     char msg[] = "hello";
     printf("%s\n", msg);
+
+
+    assert(msg == "cc");
 }

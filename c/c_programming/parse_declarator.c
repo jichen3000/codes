@@ -20,10 +20,11 @@ enum { NAME, PARENS, BRACKETS };
 // char datatype[MAXTOKEN];
 // char out[1000];
 
+void dirdcl(char *out, char const *declaration, char *token, int token_type, int *index_pointer);
+void dcl(char *out, char const *declaration, char *token, int token_type, int *index_pointer);
 
 int get_token(char const *, char *, int *);
 
-int get_tokens()
 
 int test_parse(void){
     char declaration[] = "  int *tmp";
@@ -48,46 +49,47 @@ main(){
 }
 
 
-// /* dcl:  parse a declarator */
-// void dcl(char const *declaration, char *out)
-// {
-//     int ns;
-//     /* count *'s */
-//     for (ns = 0; gettoken() == '*'; ){        
-//         ns++;
-//     }
-//     dirdcl();
-//     while (ns-- > 0){
-//         strcat(out, " pointer to");
-//     }
-// }
 
-// /* dirdcl:  parse a direct declarator */
-// void dirdcl(void){
-//     int type;
-//     if (tokentype == '(') {
-//         /* ( dcl ) */
-//         dcl();
+/* dcl:  parse a declarator */
+void dcl(char *out, char const *declaration, char *token, int token_type, int *index_pointer)
+{
+    int ns;
+    /* count *'s */
+    for (ns = 0; get_token(declaration, token, index_pointer) == '*'; ){        
+        ns++;
+    }
+    dirdcl(out, declaration, token, token_type, index_pointer);
+    while (ns-- > 0){
+        strcat(out, " pointer to");
+    }
+}
 
-//         if (tokentype != ')')
-//             printf("error: missing )\n");
-//     } else if (tokentype == NAME){
+/* dirdcl:  parse a direct declarator */
+void dirdcl(char *out, char const *declaration, char *token, int token_type, int *index_pointer){
+    int type;
+    if (token_type == '(') {
+        /* ( dcl ) */
+        dcl(out, declaration, token, token_type, index_pointer);
 
-//         strcpy(name, token);
-//     } else{        
-//         printf("error: expected name or (dcl)\n");
-//     }
-//     while ((type=gettoken()) == PARENS || type == BRACKETS){
-//         if (type == PARENS){
-//          strcat(out, " function returning");
-//      } else {
-//          strcat(out, " array");
-//          strcat(out, token);
-//          strcat(out, " of");
-//      } 
+        if (token_type != ')')
+            printf("error: missing )\n");
+    } else if (token_type == NAME){
 
-//  } 
-// }  
+        strcpy(name, token);
+    } else{        
+        printf("error: expected name or (dcl)\n");
+    }
+    while ((type=get_token(declaration, token, index_pointer)) == PARENS || type == BRACKETS){
+        if (type == PARENS){
+            strcat(out, " function returning");
+        } else {
+            strcat(out, " array");
+            strcat(out, token);
+            strcat(out, " of");
+        } 
+
+    } 
+}  
 
 
 int get_token(char const *declaration, char *token, int *index_pointer)
@@ -134,7 +136,7 @@ int get_token(char const *declaration, char *token, int *index_pointer)
 }
 
 // /* return next token */
-// int gettoken(void){
+// int get_token(void){
 //     int c;
 //     char *p = token;
 //     while ((c = getch()) == ' ' || c == '\t') 
@@ -143,7 +145,7 @@ int get_token(char const *declaration, char *token, int *index_pointer)
 //         if ((c = getch()) == ')') {
 //             strcpy(token, "()");
 //             printf("token: %s\n", token);
-//             return tokentype = PARENS;
+//             return token_type = PARENS;
 //         } else {
 //             ungetch(c);
 //             printf("token: %s\n", token);
