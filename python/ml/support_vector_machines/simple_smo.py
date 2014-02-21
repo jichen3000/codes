@@ -1,7 +1,7 @@
-# sequential minimal optimization (SMO)
-# John C. Platt, "Using Analytic QP and Sparseness 
-# to Speed Training of Support Vector Machines"
-
+''' sequential minimal optimization (SMO)
+John C. Platt, "Using Analytic QP and Sparseness 
+to Speed Training of Support Vector Machines"
+'''
 
 from functional_style import *
 from operator import itemgetter
@@ -15,15 +15,17 @@ def get_dataset_from_file(filename):
     labels = map(comb(itemgetter(-1), float), words)
     return dataset, labels
 
-# select a value from 0 to m, but not equal the value of i
 def selectJrand(i,m):
+    ''' select a value from 0 to m randomly, but not equal the value of i '''
+
     j=i
     while (j==i):
         j = int(random.uniform(0,m))
     return j
 
-# reset a value according to a range from low_value to hight_value
 def clipAlpha(aj,hight_value,low_value):
+    ''' reset a value according to a range from low_value to hight_value '''
+
     if aj > hight_value:
         aj = hight_value
     if aj < low_value:
@@ -112,17 +114,27 @@ def smoSimple(dataset, labels, constant, tolerance, max_count):
 if __name__ == '__main__':
     from minitest import *
 
-    with test_case("simple smo"):
-        tself = get_test_self()
-        tself.dataset, tself.labels = get_dataset_from_file(
-            "test_set.dataset")
-        # tself.dataset.pp()
-        tself.small_dataset = tself.dataset[:]
-        tself.small_labels = tself.labels[:]
-        with test("smo"):
-            # smoSimple(tself.dataset, tself.labels, 0.6, 0.001, 1)
-            b, alphas = smoSimple(tself.small_dataset, tself.small_labels, 
-                0.6, 0.001, 40)
-            b.p()
-            alphas[alphas>0].p()
-            pass
+    dataset, labels = get_dataset_from_file(
+        "test_set.dataset")
+    # dataset.pp()
+    small_dataset = dataset[:10]
+    small_labels = labels[:10]
+    small_dataset.pp()
+    small_labels.pp()
+
+    with test("smo"):
+        pass
+    # with test_case("simple smo"):
+    #     tself = get_test_self()
+    #     tself.dataset, tself.labels = get_dataset_from_file(
+    #         "test_set.dataset")
+    #     # tself.dataset.pp()
+    #     tself.small_dataset = tself.dataset[:]
+    #     tself.small_labels = tself.labels[:]
+    #     with test("smo"):
+    #         # smoSimple(tself.dataset, tself.labels, 0.6, 0.001, 1)
+    #         b, alphas = smoSimple(tself.small_dataset, tself.small_labels, 
+    #             0.6, 0.001, 40)
+    #         b.p()
+    #         alphas[alphas>0].p()
+    #         pass

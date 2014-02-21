@@ -4,4 +4,5 @@ def foo(x,contiuation):
 def pp(x):
     return x*x
 
-print foo(1,foo)
+print foo(1,pp)
+# print foo(1,foo)

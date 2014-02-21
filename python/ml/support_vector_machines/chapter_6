@@ -1,0 +1,24 @@
+Support vector machines
+Pros: Low generalization error, computationally inexpensive, easy to interpret results
+Cons: Sensitive to tuning parameters and kernel choice; natively only handles binary classification
+Works with: Numeric values, nominal values
+
+linearly separable
+There are two groups of data, and the data points are separated enough that you could draw a straight line on the figure with all the points of one class on one side of the line and all the points of the other class on the other side of the line. If such a situation exists, we say the data is linearly separable.
+
+
+separating hyperplane
+The line used to separate the dataset is called a separating hyperplane. In our simple 2D plots, it’s just a line.
+
+But, if we have a dataset with three dimensions, we need a plane to separate the data; and if we have data with 1024 dimensions, we need something with 1023 dimensions to separate the data.
+
+so the hyperplane is always n-1 dimensions.
+
+margin
+We’d like to find the point closest to the separating hyperplane and make sure this is as far away from the separating line as possible. This is known as margin.
+
+support vectors
+The points closest to the separating hyperplane are known as support vectors.
+
+SMO
+Platt’s SMO stands for Sequential Minimal Optimization, and it takes the large optimization problem and breaks it into many small problems. The small problems can easily be solved, and solving them sequentially will give you the same answer as trying to solve everything together.

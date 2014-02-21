@@ -36,6 +36,4 @@ cursor.print_and_execute(query)
 cursor.close()
 con.close()
 
-上海市闵行区颛兴东路745号拉法叶园区C栋一楼 屈敏 18017472286
-
 print 'ok'
