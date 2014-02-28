@@ -113,16 +113,21 @@ def innerL(i, oS):
         else:
             L = max(0, oS.alphas[j] + oS.alphas[i] - oS.C)
             H = min(oS.C, oS.alphas[j] + oS.alphas[i])
-        if L==H: print "L==H"; return 0
+        if L==H: 
+            # print "L==H"; 
+            return 0
         # eta = 2.0 * oS.X[i,:]*oS.X[j,:].T - oS.X[i,:]*oS.X[i,:].T - \
         #         oS.X[j,:]*oS.X[j,:].T
         eta = 2.0 * oS.K[i,j] - oS.K[i,i] - oS.K[j,j]
-        if eta >= 0: print "eta>=0"; return 0
+        if eta >= 0: 
+            # print "eta>=0"; 
+            return 0
         oS.alphas[j] -= oS.labelMat[j]*(Ei - Ej)/eta
         oS.alphas[j] = clipAlpha(oS.alphas[j],H,L)
         updateEk(oS, j)
         if (abs(oS.alphas[j] - alphaJold) < 0.00001):
-             print "j not moving enough"; return 0
+             # print "j not moving enough"; 
+             return 0
         oS.alphas[i] += oS.labelMat[j]*oS.labelMat[i]*\
         (alphaJold - oS.alphas[j])
         updateEk(oS, i)
@@ -149,19 +154,19 @@ def smoP(dataMatIn, classLabels, C, toler, max_iteration, kTup=('lin', 0)):
         if entireSet:
             for i in range(oS.m):
                 alphaPairsChanged += innerL(i,oS)
-            print "fullSet, iter: %d i:%d, pairs changed %d" %\
-                    (iter,i,alphaPairsChanged)
+            # print "fullSet, iter: %d i:%d, pairs changed %d" %\
+            #         (iter,i,alphaPairsChanged)
             iter += 1
         else:
             nonBoundIs = nonzero((oS.alphas.A > 0) * (oS.alphas.A < C))[0]
             for i in nonBoundIs:
                 alphaPairsChanged += innerL(i,oS)
-                print "non-bound, iter: %d i:%d, pairs changed %d" % \
-                        (iter,i,alphaPairsChanged)
+                # print "non-bound, iter: %d i:%d, pairs changed %d" % \
+                #         (iter,i,alphaPairsChanged)
             iter += 1
         if entireSet: entireSet = False
         elif (alphaPairsChanged == 0): entireSet = True
-        print "iteration number: %d" % iter
+        # print "iteration number: %d" % iter
     return oS.b,oS.alphas
 
 
