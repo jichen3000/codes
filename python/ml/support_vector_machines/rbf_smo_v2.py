@@ -13,7 +13,6 @@
 # kernel trick or kernel substation.
 # A popular kernel is the radial bias function, which we'll introduce next.
 
-from functional_style import *
 
 from functools import partial
 from operator import itemgetter, gt, lt
@@ -24,7 +23,7 @@ def get_dataset_from_file(filename):
     with open(filename) as datafile:
         words = [line.strip().split('\t') for line in datafile]
     dataset = [ [float(cell) for cell in row[:-1]] for row in words]
-    labels = map(comb(itemgetter(-1), float), words)
+    labels = [float(row[-1]) for row in words]
     return dataset, labels
 
 def matrix_dataset_labels(data_tuple):
@@ -343,11 +342,6 @@ class Smo(SmoBasic):
 
 if __name__ == '__main__':
     from minitest import *
-
-    def allclose_atol(atol):
-        def in_all(a,b):
-            return allclose(a,b, atol=atol)
-        return in_all
 
     with test("gen statics"):
         arg_exp=1.3
