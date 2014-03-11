@@ -51,6 +51,10 @@ if __name__ == '__main__':
         arr = array([[1,0],[2,3]])
         arr.nonzero().must_equal(
             (array([0, 1, 1]), array([0, 0, 1])), allclose)
+        dstack(arr.nonzero()).must_equal(
+            array([[[0, 0],
+                    [1, 0],
+                    [1, 1]]]), allclose)
 
         # this will show why nonzero result is so weird.
         arr[arr.nonzero()].must_equal(array([1, 2, 3]), allclose)
@@ -61,5 +65,66 @@ if __name__ == '__main__':
             (array([0, 1, 4, 5]),), allclose)
         nonzero((arr > 0) * (arr < 16))[0].must_equal(
             (array([0, 4]),), allclose)
-    with test("matirc.transport"):
-        pass
+
+    with test("vectorize"):
+        '''
+            It is the fastest/most efficient way to apply to every of each cells the same function -f-,
+            for a numpy array.
+        '''
+        arr = array([[10], [20], [3], [4], [15], [16], [0]])
+        def binarize(cell, threshold=6):
+            if cell > threshold:
+                return 1
+            else:
+                return 0
+        binarize_arr = vectorize(binarize)
+        binarize_arr(arr).must_equal(
+            array([[1], [1], [0], [0], [1], [1], [0]]), allclose)
+        binarize_arr(arr, 14).must_equal(
+            array([[0], [1], [0], [0], [1], [1], [0]]), allclose)
+
+
+    with test("set sub area"):
+        full_arr = zeros((5,5))
+        arr = arange(9).reshape((3,3))+1
+        full_arr[1:4,1:4] = arr
+        full_arr.must_equal(
+            array([[ 0.,  0.,  0.,  0.,  0.],
+                   [ 0.,  1.,  2.,  3.,  0.],
+                   [ 0.,  4.,  5.,  6.,  0.],
+                   [ 0.,  7.,  8.,  9.,  0.],
+                   [ 0.,  0.,  0.,  0.,  0.]]), allclose)
+
+    with test("iterate with index"):
+        arr =array([[1,2],[3,4],[5,6]])
+        value_arr = [ (i, j, value) for (i, j), value in ndenumerate(arr)]
+        value_arr.must_equal(
+            [(0, 0, 1), (0, 1, 2), (1, 0, 3), (1, 1, 4), (2, 0, 5), (2, 1, 6)])
+
+    with test("loadtxt"):
+        # StringIO behaves like a file object
+        from StringIO import StringIO   
+
+        fake_file = StringIO("01\n10")
+        arr = loadtxt(fake_file, dtype=int, ndmin=2)
+        # arr.pp()
+        
+    with test("add tow"):
+        arr1 = zeros((3,3))+1
+        arr2 = zeros((3,3))+2
+        arr3 = zeros((3,3))+3
+        arr4 = zeros((3,3))+4
+        arr12 = concatenate((arr1, arr2), axis=1)
+        arr12.must_equal(
+            array([[ 1.,  1.,  1.,  2.,  2.,  2.],
+                   [ 1.,  1.,  1.,  2.,  2.,  2.],
+                   [ 1.,  1.,  1.,  2.,  2.,  2.]]), allclose)
+        arr34 = concatenate((arr3, arr4), axis=1)
+        arr1234 = concatenate((arr12, arr34), axis=0)
+        arr1234.must_equal(
+            array([[ 1.,  1.,  1.,  2.,  2.,  2.],
+                   [ 1.,  1.,  1.,  2.,  2.,  2.],
+                   [ 1.,  1.,  1.,  2.,  2.,  2.],
+                   [ 3.,  3.,  3.,  4.,  4.,  4.],
+                   [ 3.,  3.,  3.,  4.,  4.,  4.],
+                   [ 3.,  3.,  3.,  4.,  4.,  4.]]), allclose)

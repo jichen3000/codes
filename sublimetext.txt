@@ -180,3 +180,6 @@ For Linux:
 "shell":false,
 "working_dir" : "$file_path"
 }
+
+fix mac path
+install package called fix mac path

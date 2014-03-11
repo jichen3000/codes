@@ -12,7 +12,6 @@
 
 # kernel trick or kernel substation.
 # A popular kernel is the radial bias function, which we'll introduce next.
-
 from functional_style import *
 
 from functools import partial

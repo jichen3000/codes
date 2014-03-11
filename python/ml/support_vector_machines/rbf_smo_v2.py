@@ -348,6 +348,8 @@ if __name__ == '__main__':
         edge_threshold, tolerance = 200, 0.0001
         max_count = 10000
         training_data_matrix, training_label_matrix = get_data_matrix_from_file('test_set_RBF.dataset')
+        training_data_matrix.shape.must_equal((100, 2))
+        training_label_matrix.shape.must_equal((100, 1))
 
         smo = Smo(training_data_matrix, training_label_matrix, edge_threshold, tolerance)
         smo.train(max_count, arg_exp)
@@ -357,5 +359,5 @@ if __name__ == '__main__':
         smo.gen_training_statics().pp()
         smo.gen_testing_statics(testing_data_matrix, testing_label_matrix).pp()
 
-    with test("classify"):
-        smo.classify(testing_data_matrix[0,:]).must_equal(-1.0)
+    # with test("classify"):
+    #     smo.classify(testing_data_matrix[0,:]).must_equal(-1.0)
