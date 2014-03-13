@@ -5,7 +5,7 @@
 
 import os
 from numpy import *
-from rbf_smo_o import *
+from rbf_smo_original import *
 
 IMG_SIZE = 32
 
@@ -44,7 +44,7 @@ def loadImages(dirName):
     hwLabels = []
     # trainingFileList = os.listdir(dirName)
     # this place has been changed.
-    trainingFileList = filter_filenames_with_nums(dirName, (0,9))
+    trainingFileList = filter_filenames_with_nums(dirName, (9, 1))
     trainingFileList.size().pp()
 
     m = len(trainingFileList)

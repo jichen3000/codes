@@ -45,6 +45,12 @@ def filter_filenames_with_num(pathname,start_with_number):
 def filter_filenames_with_numbers(pathname,numbers):
     all_filenames = [filter_filenames_with_num(pathname,num) for num in numbers]
     return flat(all_filenames)
+    
+def filter_filenames_with_nums(pathname,start_with_numbers):
+    num_strs = map(str, start_with_numbers)
+    # num_str = str(start_with_number)
+    return [filename for filename in os.listdir(pathname) 
+        for num_str in num_strs if filename.startswith(num_str)]
 
 def transfer_values(arr, rule_hash, is_reverse=False):
     '''
@@ -66,102 +72,124 @@ if __name__ == '__main__':
     test_pic_path = os.path.join(pic_path,'test_digits')
     file00_path = os.path.join(training_pic_path,'0_0.dataset')
 
-    with test("binary_number_to_lists"):
-        dataset = binary_number_to_lists(file00_path)
-        # dataset.p()
-        dataset.size().must_equal(1024)
-        dataset.count(1).must_equal(303)
+    # with test("binary_number_to_lists"):
+    #     dataset = binary_number_to_lists(file00_path)
+    #     # dataset.p()
+    #     dataset.size().must_equal(1024)
+    #     dataset.count(1).must_equal(303)
 
-        # cur_pic_path = '../../projects/font_number_binary/number_images'
-        # file01_path = os.path.join(cur_pic_path, '0_italic_bold_antiqua.txt')
-        # dataset = binary_number_to_lists(file01_path)
-        # dataset.size().pp()
-        # dataset.count(1).pp()
-
-
-    with test("binary_number_to_intn_lists"):
-        dataset = binary_number_to_intn_lists(file00_path)
-        # dataset.p()
-        dataset.size().must_equal(64)
-        dataset[1].must_equal(32768)
-
-    with test("filter_filenames_with_num"):
-        filename_list = os.listdir(training_pic_path)
-        len(filename_list).must_equal(1934)
-        # filename_list.p()
-        all_filenames = [filter_filenames_with_num(training_pic_path, i) for i in range(10)]
-        all_filenames[0][0].must_equal('0_0.dataset')
-        all_filenames[-1][-1].must_equal('9_99.dataset')
-        # file0_names = filter_filenames_with_num(training_pic_path, 0)
-        len(all_filenames[0]).must_equal(189)
-        len(all_filenames[5]).must_equal(187)
-        len(all_filenames[9]).must_equal(204)
-
-    with test("filter_filenames_with_numbers"):
-        filenames_059 = filter_filenames_with_numbers(training_pic_path,[0,5,9])
-        filenames_059.size().must_equal(580)
-        filenames_059[0].must_equal('0_0.dataset')
-        filenames_059[-1].must_equal('9_99.dataset')
-
-    with test("get_dataset_from_filenames"):
-        dataset_matrix05 = mat(get_dataset_from_filenames(training_pic_path, 
-                all_filenames[0]+all_filenames[5]))
-        dataset_matrix05.shape.must_equal((376, 1024))
-
-        # cur_pic_path = '../../projects/font_number_binary/number_images'
-        # cur_all_filenames = [filter_filenames_with_num(cur_pic_path, i) for i in range(10)]
-        # dataset_matrix05 = mat(get_dataset_from_filenames(cur_pic_path, 
-        #         cur_all_filenames[0]+cur_all_filenames[5]))
-        # dataset_matrix05.shape.must_equal((216, 1024))
+    #     # cur_pic_path = '../../projects/font_number_binary/number_images'
+    #     # file01_path = os.path.join(cur_pic_path, '0_italic_bold_antiqua.txt')
+    #     # dataset = binary_number_to_lists(file01_path)
+    #     # dataset.size().pp()
+    #     # dataset.count(1).pp()
 
 
-    with test("get_labels_from_filenames"):
-        labels05 = get_labels_from_filenames(all_filenames[0]+all_filenames[5])
-        labels05.size().must_equal(376)
-        labels05.count(0).must_equal(189)
-        labels05.count(5).must_equal(187)
-        # labels05.p()
+    # with test("binary_number_to_intn_lists"):
+    #     dataset = binary_number_to_intn_lists(file00_path)
+    #     # dataset.p()
+    #     dataset.size().must_equal(64)
+    #     dataset[1].must_equal(32768)
 
+    # with test("filter_filenames_with_num"):
+    #     filename_list = os.listdir(training_pic_path)
+    #     len(filename_list).must_equal(1934)
+    #     # filename_list.p()
+    #     all_filenames = [filter_filenames_with_num(training_pic_path, i) for i in range(10)]
+    #     all_filenames[0][0].must_equal('0_0.dataset')
+    #     all_filenames[-1][-1].must_equal('9_99.dataset')
+    #     # file0_names = filter_filenames_with_num(training_pic_path, 0)
+    #     len(all_filenames[0]).must_equal(189)
+    #     len(all_filenames[5]).must_equal(187)
+    #     len(all_filenames[9]).must_equal(204)
+
+    # with test("filter_filenames_with_numbers"):
+    #     filenames_059 = filter_filenames_with_numbers(training_pic_path,[0,5,9])
+    #     filenames_059.size().must_equal(580)
+    #     filenames_059[0].must_equal('0_0.dataset')
+    #     filenames_059[-1].must_equal('9_99.dataset')
+
+    # with test("get_dataset_from_filenames"):
+    #     dataset_matrix05 = mat(get_dataset_from_filenames(training_pic_path, 
+    #             all_filenames[0]+all_filenames[5]))
+    #     dataset_matrix05.shape.must_equal((376, 1024))
+
+    #     # cur_pic_path = '../../projects/font_number_binary/number_images'
+    #     # cur_all_filenames = [filter_filenames_with_num(cur_pic_path, i) for i in range(10)]
+    #     # dataset_matrix05 = mat(get_dataset_from_filenames(cur_pic_path, 
+    #     #         cur_all_filenames[0]+cur_all_filenames[5]))
+    #     # dataset_matrix05.shape.must_equal((216, 1024))
+
+
+    # with test("get_labels_from_filenames"):
+    #     labels05 = get_labels_from_filenames(all_filenames[0]+all_filenames[5])
+    #     labels05.size().must_equal(376)
+    #     labels05.count(0).must_equal(189)
+    #     labels05.count(5).must_equal(187)
+    #     # labels05.p()
+    def load_data_and_label_matrix():
+        delimiter = ' '
+        data_matrix = mat(loadtxt('data_array.dataset', delimiter=delimiter))
+        label_matrix = mat(loadtxt('label_array.dataset', delimiter=delimiter)).T
+        return data_matrix, label_matrix
+
+    def load_list(file_path):
+        return [line.strip() for line in open(file_path, 'r')]
 
     with test("gen statics"):
-        cur_pic_path = '../../projects/font_number_binary/number_images'
-        training_pic_path = cur_pic_path
+        # # cur_pic_path = '../../projects/font_number_binary/number_images'
+        # cur_pic_path = '../k_nearest_neighbours/training_digits'
+        # training_pic_path = cur_pic_path
         arg_exp=20
         edge_threshold, tolerance = 200, 0.0001
-        max_count = 1000
-        numbers = [9,1,5,4, 2,3,6,7,8,0]
-        # numbers = [9,1]
-        filenames = filter_filenames_with_numbers(training_pic_path,numbers)
+        max_count = 10000
+        # numbers = [9,1,5,4, 2,3,6,7,8,0]
+        numbers = [9,1]
+        filenames = filter_filenames_with_nums(training_pic_path,numbers)
+        # o_filenames = load_list('filenames.dataset')
+        # filenames.must_equal(o_filenames)
+        # filenames.pp()
         # filenames.pp()
         training_data_matrix = mat(get_dataset_from_filenames(training_pic_path, 
                 filenames))
         training_label_matrix = mat(get_labels_from_filenames( 
                 filenames)).transpose()
         # transfer_hash = {number1:1}
-        transfer_hash = {numbers[0]:-1, 
-            numbers[1]:1,
-            numbers[2]:1,
-            numbers[3]:1, 
-            numbers[4]:1,
-            numbers[5]:1, 
-            numbers[6]:1,
-            numbers[7]:1, 
-            numbers[8]:1, 
-            numbers[9]:1}
+        # transfer_hash = {numbers[0]:-1, 
+        #     # numbers[1]:1,
+        #     # numbers[2]:1,
+        #     # numbers[3]:1, 
+        #     # numbers[4]:1,
+        #     # numbers[5]:1, 
+        #     # numbers[6]:1,
+        #     # numbers[7]:1, 
+        #     # numbers[8]:1, 
+        #     numbers[-1]:1}
+        transfer_hash = {9:-1, 1:1}
         training_label_matrix = transfer_values(training_label_matrix, transfer_hash)
-        training_label_matrix.shape.pp()
-        training_data_matrix.shape.pp()
+
+
+        # o_data_matrix, o_label_matrix = load_data_and_label_matrix()
+        # o_label_matrix.shape.pp()
+        # o_data_matrix.shape.pp()
+
+        # training_label_matrix.must_equal(o_label_matrix, allclose)
+        # training_data_matrix.must_equal(o_data_matrix, allclose)
+
         # training_data_matrix.pp()
         # training_data_matrix.pp()
         # training_label_matrix.p()
-
         # training_data_matrix, training_label_matrix = matrix_dataset_labels(
         #     get_handwriting_dataset('../k_nearest_neighbours/training_digits'))
         # training_data_matrix, training_label_matrix = get_data_matrix_from_file('test_set_RBF.dataset')
 
         smo = Smo(training_data_matrix, training_label_matrix, edge_threshold, tolerance)
-        smo.train(max_count, arg_exp)
-        smo.gen_training_statics().pp()
+        # smo.init_for_recal_alphas_and_b(arg_exp)
+        # smo.load_alphas_and_b('alphas_array.dataset','b_array.dataset')
+        smo.train_light(max_count, arg_exp)
+        smo.test_with_data(training_data_matrix, training_label_matrix).pp()
+        # smo.train(max_count, arg_exp)
+        # smo.gen_training_statics().pp()
 
         # testing_data_matrix, testing_label_matrix = get_data_matrix_from_file('test_set_RBF2.dataset')
 

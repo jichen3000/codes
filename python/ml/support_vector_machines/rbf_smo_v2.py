@@ -61,6 +61,19 @@ def rbf_kernel(data_matrix, row_count, arg_exp, row_matrix):
     transfered_row_matrix = exp( transfered_row_matrix / (-1*arg_exp**2))
     return transfered_row_matrix
 
+def kernelTrans(X, A, kTup):
+    m,n = shape(X)
+    K = mat(zeros((m,1)))
+    # if kTup[0]=='lin': K = X * A.T
+    # elif kTup[0]=='rbf':
+    for j in range(m):
+        deltaRow = X[j,:] - A
+        K[j] = deltaRow*deltaRow.T
+    K = exp(K /(-1*kTup**2))
+    # else: raise NameError('Houston We Have a Problem -- \
+    #         That Kernel is not recognized')
+    return K
+
 
 class SmoBasic(object):
     def __init__(self, data_matrix, label_matrix, edge_threshold, tolerance):
@@ -74,23 +87,28 @@ class SmoBasic(object):
         # The first column is a flag bit stating whether the error_cache is valid, 
         # and the second column is the actual E value.
         # self.error_cache = mat(zeros((self.row_count,2)))
-        # self.transfered_data_matrix = self.rbf_kernel_transfer(arg_exp)
+        # self.k_data_matrix = self.rbf_kernel_transfer(arg_exp)
 
     def init_for_recal_alphas_and_b(self,arg_exp):
+        self.b = 0 
         self.alphas = mat(zeros((self.row_count,1)))
         self.error_cache = mat(zeros((self.row_count,2)))
-        self.transfered_data_matrix = self.rbf_kernel_transfer(arg_exp)
+        self.k_data_matrix = self.rbf_kernel_transfer(arg_exp)
+        # o_k_data_matrix = loadtxt('k_array.dataset', delimiter=' ')
+        # self.k_data_matrix.shape.must_equal(o_k_data_matrix.shape)
+        # self.k_data_matrix.must_equal(o_k_data_matrix,)
+
 
     def rbf_kernel_transfer(self, arg_exp):
-        transfered_data_matrix = mat(zeros((self.row_count,self.row_count)))
+        k_data_matrix = mat(zeros((self.row_count,self.row_count)))
         rbf_func = partial(rbf_kernel, self.data_matrix, self.row_count, arg_exp)
         for col_index in range(self.row_count):
-            transfered_data_matrix[:,col_index] = rbf_func(self.data_matrix[col_index,:])
-        return transfered_data_matrix
+            k_data_matrix[:,col_index] = rbf_func(self.data_matrix[col_index,:])
+        return k_data_matrix
 
 
     def calculate_error(self, row_index):
-        fx = float(multiply(self.alphas,self.label_matrix).T * self.transfered_data_matrix[:,row_index]) + self.b
+        fx = float(multiply(self.alphas,self.label_matrix).T * self.k_data_matrix[:,row_index]) + self.b
         return fx - float(self.label_matrix[row_index])
 
     def get_valid_error_cache_index_list(self):
@@ -152,8 +170,8 @@ class SmoBasic(object):
         # return 2.0 * self.data_matrix[first_alpha_index,:]*self.data_matrix[second_alpha_index,:].T - \
         #     self.data_matrix[first_alpha_index,:]*self.data_matrix[first_alpha_index,:].T - \
         #     self.data_matrix[second_alpha_index,:]*self.data_matrix[second_alpha_index,:].T
-        return 2.0 * self.transfered_data_matrix[first_alpha_index,second_alpha_index] - \
-            self.transfered_data_matrix[first_alpha_index,first_alpha_index] - self.transfered_data_matrix[second_alpha_index,second_alpha_index]
+        return 2.0 * self.k_data_matrix[first_alpha_index,second_alpha_index] - \
+            self.k_data_matrix[first_alpha_index,first_alpha_index] - self.k_data_matrix[second_alpha_index,second_alpha_index]
 
 
     def cal_second_alpha(self, first_alpha_error, 
@@ -178,24 +196,23 @@ class SmoBasic(object):
     def cal_b(self, b, first_alpha_index, first_alpha_error, delta_first_alpha,
             second_alpha_index, second_alpha_error, delta_second_alpha):
 
-        first_things = self.label_matrix[first_alpha_index]*delta_first_alpha*\
-            self.data_matrix[first_alpha_index,:]
-        second_things = self.label_matrix[second_alpha_index] *\
-            delta_second_alpha * self.data_matrix[second_alpha_index,:]
+        delta_first_label = self.label_matrix[first_alpha_index]*(delta_first_alpha)
+        delta_second_label = self.label_matrix[second_alpha_index]*(delta_second_alpha)
 
         b1 = b - first_alpha_error - \
-             first_things*self.data_matrix[first_alpha_index,:].T -\
-             second_things*self.data_matrix[first_alpha_index,:].T
-        b2 = b - second_alpha_error- \
-             first_things*self.data_matrix[second_alpha_index,:].T - \
-             second_things*self.data_matrix[second_alpha_index,:].T
+                delta_first_label * self.k_data_matrix[first_alpha_index,first_alpha_index] - \
+                delta_second_label * self.k_data_matrix[first_alpha_index,second_alpha_index] 
         if (0 < self.alphas[first_alpha_index]) and (self.edge_threshold > self.alphas[first_alpha_index]): 
-            result = b1
-        elif (0 < self.alphas[second_alpha_index]) and (self.edge_threshold > self.alphas[second_alpha_index]): 
-            result = b2
-        else: 
-            result = (b1 + b2)/2.0
-        return result
+            b = b1
+
+        b2 = b - second_alpha_error - \
+                delta_first_label * self.k_data_matrix[first_alpha_index,second_alpha_index] - \
+                delta_second_label * self.k_data_matrix[second_alpha_index,second_alpha_index]
+        if (0 < self.alphas[second_alpha_index]) and (self.edge_threshold > self.alphas[second_alpha_index]): 
+            b = b2
+        
+        b = (b1 + b2)/2.0
+        return b
 
 
 
@@ -223,6 +240,9 @@ class Smo(SmoBasic):
         # first_alpha_index.pp()
         # self.error_cache.pp()
         # valid_error_cache_index_list.pp()
+        
+        self.update_error_cache(first_alpha_index, first_alpha_error)
+
         if (len(valid_error_cache_index_list)) > 0:
             second_alpha_index, second_alpha_error = self.get_index_and_max_delta_error(
                 valid_error_cache_index_list, first_alpha_error)
@@ -230,7 +250,6 @@ class Smo(SmoBasic):
             second_alpha_index = random_select(first_alpha_index, self.row_count)
             second_alpha_error = self.calculate_error(second_alpha_index)
 
-        self.update_error_cache(first_alpha_index, first_alpha_error)
         return second_alpha_index, second_alpha_error
 
     # higher
@@ -288,13 +307,27 @@ class Smo(SmoBasic):
             elif (alpha_pairs_changed_count == 0): 
                 is_entire_set = True
             iter_index += 1
-        return self.b,self.alphas
+        return self.alphas, self.b
+
+    def load_alphas_and_b(self, alphas_path_name, b_path_name, arg_exp=20):
+        delimiter = ' '
+        self.alphas = mat(loadtxt(alphas_path_name, delimiter=delimiter)).T
+        self.b = float(loadtxt(b_path_name, delimiter=delimiter))
+        self.arg_exp = arg_exp
+        self.alphas.shape.pp()
+        return self.alphas, self.b
+
+    def train_light(self, max_count, arg_exp):
+        self.cal_alphas_and_b(max_count, arg_exp)
+        self.arg_exp = arg_exp
 
     def train(self, max_count, arg_exp):
         self.cal_alphas_and_b(max_count, arg_exp)
+        self.arg_exp = arg_exp
 
         alpha_nonzero_index = nonzero(self.alphas.A>0)[0]
         self.svm_count = len(alpha_nonzero_index)
+
         alpha_alphas = self.alphas[alpha_nonzero_index]
         alpha_training_dataset_matrix = self.data_matrix[alpha_nonzero_index]
         alpha_training_labels_matrix = self.label_matrix[alpha_nonzero_index]
@@ -305,6 +338,45 @@ class Smo(SmoBasic):
             return rbf_func(row_matrix).T * alphas_multiply + self.b
         self.cal_predict_value_func = cal_predict_value
         return self.cal_predict_value_func
+
+    def test_with_data(self, testing_data_matrix, testing_label_matrix):
+        # svInd=nonzero(alphas.A>0)[0]
+        # sVs=datMat[svInd]
+        # labelSV = labelMat[svInd];
+        # print "there are %d Support Vectors" % shape(sVs)[0]
+        # m,n = shape(datMat)
+        # errorCount = 0
+        # for i in range(m):
+        #     kernelEval = kernelTrans(sVs,datMat[i,:],kTup)
+        #     predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b
+        #     if sign(predict)!=sign(labelMat[i,0]): errorCount += 1
+        # print "the training error rate is: %f, (%f/%f)" % (float(errorCount)/m, errorCount, m)
+
+        alpha_nonzero_index = nonzero(self.alphas.A>0)[0]
+        self.svm_count = len(alpha_nonzero_index)
+
+        alpha_alphas = self.alphas[alpha_nonzero_index]
+        alpha_testing_dataset_matrix = testing_data_matrix[alpha_nonzero_index]
+        alpha_testing_labels_matrix = testing_label_matrix[alpha_nonzero_index]
+        row_count = testing_data_matrix.shape[0]
+        # alpha_testing_labels_matrix.shape.pp()
+        # alpha_alphas.shape.pp()
+        alphas_multiply = multiply(alpha_testing_labels_matrix, alpha_alphas)
+        error_count = 0
+        for i in range(row_count):
+            kernel_value = rbf_kernel(alpha_testing_dataset_matrix, 
+                self.svm_count, self.arg_exp, testing_data_matrix[i, :])
+            # kernel_value = kernelTrans(alpha_testing_dataset_matrix, 
+            #     testing_data_matrix[i, :], self.arg_exp)
+            # kernel_value.shape.pp()
+            # alphas_multiply.shape.pp()
+            # self.b.pp()
+            predict = kernel_value.T * alphas_multiply + self.b
+            # predict.pp()
+            # testing_label_matrix[i,0].pp()
+            if sign(predict)!=sign(testing_label_matrix[i,0]): 
+                error_count += 1
+        return error_count, row_count, float(error_count)/row_count, self.svm_count
 
     def gen_training_statics(self):
         self.training_statics = {}
@@ -327,7 +399,10 @@ class Smo(SmoBasic):
         error_count = 0
         row_count = shape(data_matrix)[0]
         for i in range(row_count):
-            if sign(self.cal_predict_value_func(data_matrix[i,:])) != sign(label_matrix[i]):
+            # sign(self.classify(data_matrix[i])).pp()
+            # sign(label_matrix[i, 0]).pp()
+            if sign(self.classify(data_matrix[i])) != sign(label_matrix[i, 0]):
+            # if sign(self.cal_predict_value_func(data_matrix[i,:])) != sign(label_matrix[i, 0]):
                 error_count += 1
         return error_count, row_count, float(error_count)/row_count
 
@@ -356,8 +431,8 @@ if __name__ == '__main__':
 
         testing_data_matrix, testing_label_matrix = get_data_matrix_from_file('test_set_RBF2.dataset')
 
-        smo.gen_training_statics().pp()
-        smo.gen_testing_statics(testing_data_matrix, testing_label_matrix).pp()
+        # smo.gen_training_statics().pp()
+        # smo.gen_testing_statics(testing_data_matrix, testing_label_matrix).pp()
 
     # with test("classify"):
     #     smo.classify(testing_data_matrix[0,:]).must_equal(-1.0)
