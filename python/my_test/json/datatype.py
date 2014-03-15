@@ -14,8 +14,11 @@ tree =  \
 with open(filename,'w') as output:
     # output.write(json.dumps({'4': 5, '6': 7}, sort_keys=True,
     #              indent=4, separators=(',', ': ')))
-    output.write(json.dumps(tree, sort_keys=True,
-                 indent=4, separators=(',', ': ')))
+    json_str = json.dumps(tree, sort_keys=True,
+                 indent=4, separators=(',', ': '))
+    print 'json_str:', json_str
+    output.write(json_str)
 
 with open(filename, 'r') as output:
-    print json.loads(output.read())
+    the_dict = json.loads(output.read())
+    print 'the dict',the_dict['no surfacing']

@@ -4,8 +4,10 @@
 '''
 
 import os
-from numpy import *
+import numpy
 # from rbf_smo_v3 import *
+
+import json
 
 IMG_SIZE = 32
 
@@ -14,7 +16,7 @@ def random_select(except_value, range_max):
     ''' select a value from 0 to m randomly, but not equal the value of except_value '''
     result=except_value
     while (result==except_value):
-        result = int(random.uniform(0,range_max))
+        result = int(numpy.random.uniform(0,range_max))
     return result
 
 
@@ -29,12 +31,31 @@ def clip_value(value, high_threshold,low_threshold):
 
 def rbf_kernel(data_matrix, row_matrix, arg_exp):
     row_count = data_matrix.shape[0]
-    transfered_row_matrix = mat(zeros((row_count,1)))
+    transfered_row_matrix = numpy.mat(numpy.zeros((row_count,1)))
     for row_index in range(row_count):
         delta_row = data_matrix[row_index,:] - row_matrix
         transfered_row_matrix[row_index] = delta_row * delta_row.T
-    transfered_row_matrix = exp( transfered_row_matrix / (-1*arg_exp**2))
+    transfered_row_matrix = numpy.exp( transfered_row_matrix / (-1*arg_exp**2))
     return transfered_row_matrix
+
+
+def save_to_json_nicely(file_path, content):
+    with open(file_path,'w') as the_file:
+        json_content = json.dumps(content, sort_keys=True,
+                 indent=4, separators=(',', ': '))
+        the_file.write(json_content)
+    return True
+
+def load_from_json(file_path):
+    with open(file_path, 'r') as the_file:
+        return json.loads(the_file.read())
+
+def most_common(lst):
+    return max(set(lst), key=lst.count)
+
+def is_any_member_in_list(source_list, target_list):
+    is_in_list = tuple((label in target_list) for label in source_list)
+    return any(is_in_list)
 
 
 class SmoBasic(object):
@@ -43,22 +64,22 @@ class SmoBasic(object):
         self.label_matrix = label_matrix
         self.edge_threshold = edge_threshold
         self.tolerance = tolerance
-        self.row_count, self.col_count = shape(data_matrix)
-        self.alphas = mat(zeros((self.row_count,1)))
+        self.row_count, self.col_count = data_matrix.shape
+        self.alphas = numpy.mat(numpy.zeros((self.row_count,1)))
         self.b = 0
-        self.error_cache = mat(zeros((self.row_count,2)))
-        self.k_data_matrix = mat(zeros((self.row_count,self.row_count)))
+        self.error_cache = numpy.mat(numpy.zeros((self.row_count,2)))
+        self.k_data_matrix = numpy.mat(numpy.zeros((self.row_count,self.row_count)))
         for i in range(self.row_count):
             self.k_data_matrix[:,i] = rbf_kernel(self.data_matrix, self.data_matrix[i,:], arg_exp)
 
 
     def calculate_error(self, row_index):
-        fx = float(multiply(self.alphas,self.label_matrix).T * self.k_data_matrix[:,row_index]) + self.b
+        fx = float(numpy.multiply(self.alphas,self.label_matrix).T * self.k_data_matrix[:,row_index]) + self.b
         return fx - float(self.label_matrix[row_index])
 
     def get_valid_error_cache_index_list(self):
         ''' get the first col as array, and get the non zero index values list'''
-        return nonzero(self.error_cache[:,0].A)[0]
+        return numpy.nonzero(self.error_cache[:,0].A)[0]
 
 
     def get_index_and_max_delta_error(self, valid_error_cache_index_list, first_alpha_error):
@@ -135,32 +156,25 @@ class SmoBasic(object):
     def cal_b(self, b, first_alpha_index, first_alpha_error, delta_first_alpha,
             second_alpha_index, second_alpha_error, delta_second_alpha):
 
-        # delta_first_label = self.label_matrix[first_alpha_index]*(delta_first_alpha)
-        # delta_second_label = self.label_matrix[second_alpha_index]*(delta_second_alpha)
+        delta_first_label = self.label_matrix[first_alpha_index]*(delta_first_alpha)
+        delta_second_label = self.label_matrix[second_alpha_index]*(delta_second_alpha)
 
-        # b1 = b - first_alpha_error - \
-        #         delta_first_label * self.k_data_matrix[first_alpha_index,first_alpha_index] - \
-        #         delta_second_label * self.k_data_matrix[first_alpha_index,second_alpha_index] 
-        # if (0 < self.alphas[first_alpha_index]) and (self.edge_threshold > self.alphas[first_alpha_index]): 
-        #     return b1
+        b1 = b - first_alpha_error - \
+                delta_first_label * self.k_data_matrix[first_alpha_index,first_alpha_index] - \
+                delta_second_label * self.k_data_matrix[first_alpha_index,second_alpha_index] 
+        b1 = b1[0,0]
+        if (0 < self.alphas[first_alpha_index]) and (self.edge_threshold > self.alphas[first_alpha_index]): 
+            return b1
 
-        # b2 = b - second_alpha_error - \
-        #         delta_first_label * self.k_data_matrix[first_alpha_index,second_alpha_index] - \
-        #         delta_second_label * self.k_data_matrix[second_alpha_index,second_alpha_index]
-        # if (0 < self.alphas[second_alpha_index]) and (self.edge_threshold > self.alphas[second_alpha_index]): 
-        #     return b2
+        b2 = b - second_alpha_error - \
+                delta_first_label * self.k_data_matrix[first_alpha_index,second_alpha_index] - \
+                delta_second_label * self.k_data_matrix[second_alpha_index,second_alpha_index]
+        b2 = b2[0,0]
+        if (0 < self.alphas[second_alpha_index]) and (self.edge_threshold > self.alphas[second_alpha_index]): 
+            return b2
         
-        # return (b1 + b2)/2.0
+        return (b1 + b2)/2.0
 
-        i, j = first_alpha_index, second_alpha_index
-        b1 = self.b - first_alpha_error- self.label_matrix[i]*(delta_first_alpha)*self.k_data_matrix[i,i] -\
-                self.label_matrix[j]*(delta_second_alpha)*self.k_data_matrix[i,j] 
-        b2 = self.b - second_alpha_error- self.label_matrix[i]*(delta_first_alpha)*self.k_data_matrix[i,j]-\
-                self.label_matrix[j]*(delta_second_alpha)*self.k_data_matrix[j,j]
-        if (0 < self.alphas[i]) and (self.edge_threshold > self.alphas[i]): self.b = b1
-        elif (0 < self.alphas[j]) and (self.edge_threshold > self.alphas[j]): self.b = b2
-        else: self.b = (b1 + b2)/2.0
-        return self.b
 
     # main
     def select_second_alpha(self, first_alpha_index, first_alpha_error):
@@ -224,7 +238,7 @@ class SmoBasic(object):
         return 1
         
     def get_non_bound_index_list(self):
-        return nonzero((self.alphas.A > 0) * (self.alphas.A < self.edge_threshold))[0]
+        return numpy.nonzero((self.alphas.A > 0) * (self.alphas.A < self.edge_threshold))[0]
 
     # main
     def cal_alphas_and_b(self, max_iteration_count): 
@@ -248,63 +262,257 @@ class SmoBasic(object):
         return self.alphas, self.b
 
 class Smo(object):
-    def __init__(self, data_matrix, label_matrix, alphas, b, arg_exp):
-        nonzero_indexs = nonzero(alphas.A>0)[0]
-        # self.selected_alphas = alphas[nonzero_indexs]
-        self.selected_data_matrix = data_matrix[nonzero_indexs]
-        # self.selected_label_matrix = label_matrix[nonzero_indexs]
-        self.selected_alphas_label_matrix = multiply(label_matrix[nonzero_indexs], alphas[nonzero_indexs])
-        self.svm_count = len(nonzero_indexs)
-        # self.selected_data_matrix = selected_data_matrix
-        # self.selected_label_matrix = selected_label_matrix
-        # self.selected_alphas = selected_alphas
+    def __init__(self, selected_data_matrix, selected_alphas_label_matrix, b, arg_exp,transfer_hash):
+        self.selected_data_matrix = selected_data_matrix
+        self.selected_alphas_label_matrix = selected_alphas_label_matrix
+        self.svm_count = selected_alphas_label_matrix.shape[0]
         self.b = b
         self.arg_exp = arg_exp
-        pass
+        self.transfer_hash = transfer_hash
+        self.reversed_transfer_hash = {v:k for k, v in self.transfer_hash.items()}
+
+        self.last_test_info = {}
 
     @classmethod
-    def train(cls, data_matrix, label_matrix, edge_threshold, tolerance, max_iteration_count, arg_exp=20): 
+    def train(cls, data_matrix, label_matrix, edge_threshold, tolerance, max_iteration_count, arg_exp, transfer_hash): 
+        label_matrix = transfer_values(label_matrix, transfer_hash)
         smo_basic = SmoBasic(data_matrix, label_matrix,edge_threshold,tolerance,arg_exp) 
         alphas,b =  smo_basic.cal_alphas_and_b(max_iteration_count)
-        return cls(data_matrix, label_matrix, alphas, b, arg_exp)
 
-    def save_selected_values():
-        pass
+        nonzero_indexs = numpy.nonzero(alphas.A>0)[0]
+        selected_data_matrix = data_matrix[nonzero_indexs]
+        selected_alphas_label_matrix = numpy.multiply(label_matrix[nonzero_indexs], alphas[nonzero_indexs])
+
+        return cls(selected_data_matrix, selected_alphas_label_matrix, b, arg_exp, transfer_hash)
+
+    selected_data_matrix_name = 'selected_data_matrix.dataset'+'.npy'
+    selected_alphas_label_matrix_name = 'selected_alphas_label_matrix.dataset'+'.npy'
+    other_variables_name = 'other_variables.dataset'
+
+    @classmethod
+    def get_file_paths(cls, data_path, prefix):
+        def gen_path(name):
+            return os.path.join(data_path, prefix+name)
+        paths ={'selected_data_matrix': gen_path(cls.selected_data_matrix_name),
+                'selected_alphas_label_matrix': gen_path(cls.selected_alphas_label_matrix_name),
+                'other_variables': gen_path(cls.other_variables_name)
+                }
+        return paths
+
+
+    @classmethod
+    def load_variables(cls, data_path='dataset', prefix=''):
+        paths = cls.get_file_paths(data_path, prefix)
+
+        selected_data_matrix = numpy.load(paths['selected_data_matrix'])
+        selected_alphas_label_matrix = numpy.load(paths['selected_alphas_label_matrix'])
+
+        other_variables = load_from_json(paths['other_variables'])
+        # with open(paths['other_variables'], 'r') as the_file:
+        #     other_variables = json.loads(the_file.read())
+        other_variables['transfer_hash'] = dict(other_variables['transfer_hash'])
+
+        return cls(selected_data_matrix, selected_alphas_label_matrix, 
+                other_variables['b'], other_variables['arg_exp'], other_variables['transfer_hash'])
+
+    def save_variables(self, data_path='dataset', prefix=''):
+        paths = self.get_file_paths(data_path, prefix)
+
+        numpy.save(paths['selected_data_matrix'], self.selected_data_matrix)
+        numpy.save(paths['selected_alphas_label_matrix'], self.selected_alphas_label_matrix)
+
+        # notice, I save the dict.items(), since json will automatically convert the key to string.
+        other_variables = { 'b': self.b, 
+                            'arg_exp': self.arg_exp, 
+                            'transfer_hash': self.transfer_hash.items(),
+                            'svm_count': self.svm_count,
+                            'last_test_info': self.last_test_info}
+        # other_variables.pp()
+        save_to_json_nicely(paths['other_variables'], other_variables)
+        # with open(paths['other_variables'],'w') as the_file:
+        #     content = json.dumps(other_variables, sort_keys=True,
+        #                  indent=4, separators=(',', ': '))
+        #     the_file.write(content)
+        return True
 
     def __package_info(self, error_count, row_count):
         return {'error_ratio %':round(float(error_count)/row_count * 100, 2),
                 'error_count': error_count,
                 'row_count': row_count,
-                'svm_count': self.svm_count}
+                'svm_count': self.svm_count,
+                'transfer_hash': self.transfer_hash}
+
+    def test(self, testing_data_matrix, testing_label_matrix):
+        testing_label_matrix = transfer_values(testing_label_matrix, self.transfer_hash)
+        row_count = testing_data_matrix.shape[0]
+
+        errors = tuple(self.__classify(testing_data_matrix[i, :])!=numpy.sign(testing_label_matrix[i,0]) 
+            for i in range(row_count))
+        self.last_test_info = self.__package_info(errors.count(True), row_count)
+        return self.last_test_info
+
+    def __classify(self, row_matrix):
+        kernel_value = rbf_kernel(self.selected_data_matrix, 
+            row_matrix, self.arg_exp)
+        predict = kernel_value.T * self.selected_alphas_label_matrix + self.b
+        return numpy.sign(predict[0,0])
+
+    def classify(self, row_matrix):
+        return self.reversed_transfer_hash[
+                self.__classify(row_matrix)]
+        
+
+
+''' split line '''
+''' for multiple binary'''
+def get_all_posible_indexs(the_list):
+    return tuple((i,j) for i in the_list for j in the_list if i<j)
+
+class MultipleBinary(object):
+    def __init__(self, binary_class):
+        self.binary_class = binary_class
+        self.classifying_hash = {}
+        
+    variables_file_name = 'multiple_binary.dataset'
+    data_path = 'dataset'
+
+    def build_classifying_objects(self, data_matrix_hash, 
+                edge_threshold, tolerance, max_iteration_count, arg_exp):
+        def gen_label_matrix(label_value, count):
+            return numpy.mat(numpy.zeros((count, 1), numpy.int8)) + label_value
+
+        for label_i, label_j in get_all_posible_indexs(data_matrix_hash.keys()):
+            data_matrix = numpy.concatenate((data_matrix_hash[label_i], 
+                                       data_matrix_hash[label_j]), axis=0)
+            label_i_matrix = gen_label_matrix(label_i, data_matrix_hash[label_i].shape[0])
+            label_j_matrix = gen_label_matrix(label_j, data_matrix_hash[label_j].shape[0])
+            label_matrix = numpy.concatenate((label_i_matrix, label_j_matrix), axis=0)
+
+            classifying_key = (label_i, label_j)
+            file_prefix = '_'.join((str(label_i),  str(label_j), ''))
+            transfer_hash = {label_i:-1, label_j:1}
+
+            smo = self.binary_class.train(data_matrix,label_matrix, 
+                    edge_threshold, tolerance, max_iteration_count, arg_exp, transfer_hash)
+            smo.test(data_matrix,label_matrix).pp()
+            smo.save_variables(self.data_path, prefix = file_prefix)
+            self.classifying_hash[classifying_key]=smo
+
+        return self
+
+    def normal_classify(self, row_matrix):
+        occurence_hash = { classifying_key:classifying_object.classify(row_matrix)
+                for classifying_key, classifying_object in self.classifying_hash.items()}
+        return most_common(occurence_hash.values()), occurence_hash
+
+    def get_not_equal(self, predict_label, classifying_key):
+        result = classifying_key[0]
+        if predict_label == result:
+            result = classifying_key[1]
+        return result
+
+    def classify(self, row_matrix):
+        failed_labels = []
+        occurence_hash = {}
+        order_labels = []
+        for classifying_key in self.classifying_hash.keys():
+            if not is_any_member_in_list(classifying_key, failed_labels):
+                predict_label = self.classifying_hash[classifying_key].classify(row_matrix)
+                failed_labels.append(self.get_not_equal(predict_label, classifying_key))
+                occurence_hash[classifying_key] = predict_label
+                order_labels.append([(predict_label,)]+list(classifying_key))
+
+        ''' if the result was beated by the other number, then change the result'''
+        result = most_common(occurence_hash.values())
+        for classifying_key in occurence_hash.keys():
+            if result in classifying_key and occurence_hash[classifying_key] != result:
+                result = occurence_hash[classifying_key]
+
+        return result, order_labels
+
+    def __package_info(self, error_count, row_count):
+        return {'error_ratio %':round(float(error_count)/row_count * 100, 2),
+                'error_count': error_count,
+                'row_count': row_count}
 
     def test(self, testing_data_matrix, testing_label_matrix):
         row_count = testing_data_matrix.shape[0]
 
-        errors = tuple(self.classify(testing_data_matrix[i, :])!=sign(testing_label_matrix[i,0]) 
-            for i in range(row_count))
-        return self.__package_info(errors.count(True), row_count)
+        # errors = tuple(self.classify(testing_data_matrix[i, :])[0]!=testing_label_matrix[i,0] 
+        #     for i in range(row_count))
+        # self.last_test_info = self.__package_info(errors.count(True), row_count)
+        # return self.last_test_info
 
-    def classify(self, row_matrix):
-        kernel_value = rbf_kernel(self.selected_data_matrix, 
-            row_matrix, self.arg_exp)
-        predict = kernel_value.T * self.selected_alphas_label_matrix + self.b
-        return sign(predict)
+        error_count = 0
+        result_list = []
+        for i in range(row_count):
+            result = self.classify(testing_data_matrix[i, :])
+            if result[0]!=testing_label_matrix[i,0]:
+                error_count += 1
+                result_list.append([testing_label_matrix[i,0]]+list(result))
+
+            if error_count > 40:
+                break
+        result_list.pp()
+
+        self.last_test_info = self.__package_info(error_count, row_count)
+        return self.last_test_info
+
+    def save_variables(self):
+        file_path = os.path.join(self.data_path, self.variables_file_name)
+        save_to_json_nicely(file_path, self.classifying_hash.keys())
+        return True
+
+    def gen_prefix_from_list(self, the_list):
+        ''' 
+            the_list like: (0, 9)
+            result: '_0_9_'
+        '''
+        return '_'.join(map(str, the_list) + [''])
+
+    def gen_binary_transfer_hash(self, the_list):
+        ''' 
+            the_list like: (0, 9)
+            result: {0: -1, 9:1}
+        '''
+        return {the_list[0]:-1, the_list[1]:1}
+
+    @classmethod
+    def load_variables(cls, binary_class):
+        self = MultipleBinary(binary_class)
+        # dir(self).pp()
+        file_path = os.path.join(self.data_path, self.variables_file_name)
+        keys = load_from_json(file_path)
+        keys = map(tuple, keys)
+
+        for classifying_key in keys:
+            file_prefix = self.gen_prefix_from_list(classifying_key)
+            transfer_hash = self.gen_binary_transfer_hash(classifying_key)
+
+            smo = self.binary_class.load_variables(self.data_path, file_prefix)
+            self.classifying_hash[classifying_key]=smo
+
+        return self
+
+    @classmethod
+    def train_and_save_variables(cls, binary_class, data_matrix_hash,
+            edge_threshold, tolerance, max_iteration_count, arg_exp=20):
+
+        this = cls(binary_class)
+        this.build_classifying_objects(data_matrix_hash,
+            edge_threshold, tolerance, max_iteration_count, arg_exp)
+        this.save_variables()
+        return this
 
 
 ''' split line '''
+''' for digital recongnition'''
 
 
 
 
 
 def filter_filenames_with_nums(pathname,start_with_numbers):
-    '''
-        return list of list of the file names under the path.
-        Like:
-            [ ['0_0.dataset', ... '0_99.dataset'],
-                ...
-              ['9_0.dataset', ... '9_99.dataset'] ]
-    '''
     num_strs = map(str, start_with_numbers)
     # num_str = str(start_with_number)
     return [filename for filename in os.listdir(pathname) 
@@ -315,13 +523,12 @@ def save_list(file_path, the_list):
         for item in the_list:
             the_file.write("%s\n" % item)
 
-def load_data_from_images(the_path):
-    file_names = filter_filenames_with_nums(the_path, (9,1))
-    data_matrix = mat(get_dataset_from_filenames(the_path, 
+def load_data_from_images_with_nums(the_path, start_with_numbers):
+    file_names = filter_filenames_with_nums(the_path, start_with_numbers)
+    data_matrix = numpy.mat(get_dataset_from_filenames(the_path, 
             file_names))
-    label_matrix = mat(get_labels_from_filenames( 
+    label_matrix = numpy.mat(get_labels_from_filenames( 
             file_names)).transpose()
-    label_matrix = transfer_values(label_matrix, {9:-1, 1:1})
     return data_matrix, label_matrix
 
 
@@ -348,62 +555,87 @@ def get_label_from_filename(filename):
 def get_labels_from_filenames(file_names):
     return map(get_label_from_filename, file_names)
 
-def transfer_values(arr, rule_hash, is_reverse=False):
+def transfer_values(arr, rule_hash):
     '''
         rule_hash = {0:1, 255:0}
     '''
-    if not is_reverse:
-        for source, target in rule_hash.items():
-            arr[arr==source] = target
-    else:
-        for target, source in rule_hash.items():
-            arr[arr==source] = target
-    return arr
+    result = arr.copy()
+    for (i, j), value in numpy.ndenumerate(result):
+        # if value in rule_hash.keys():
+        result[i,j] = rule_hash[value]
+    return result
 
 
-
-def testDigits(arg_exp=20):
-    cur_pic_path = '../../projects/font_number_binary/number_images'
-    pic_path = '../k_nearest_neighbours'
-    training_pic_path = os.path.join(pic_path,'training_digits')
-    # training_pic_path = cur_pic_path
-    test_pic_path = os.path.join(pic_path,'test_digits')
-    # test_pic_path = cur_pic_path
-
-    # dataArr,labelArr = load_data_from_images(training_pic_path)
-    datMat,label_matrix = load_data_from_images(training_pic_path)
-    # dataArr.shape.pp()
-    datMat.shape.pp()
-    label_matrix.shape.pp()
-    
-    delimiter=' '
-    fmt = '%1d'
-    # savetxt('data_array.dataset', datMat, fmt=fmt, delimiter=delimiter)
-    # savetxt('label_array.dataset', label_matrix, fmt=fmt, delimiter=delimiter)
+def get_dataset_matrix_hash(the_path, start_with_numbers):
+    return {i:numpy.mat(get_dataset_from_filenames(the_path, 
+        filter_filenames_with_nums(the_path,(i,)))) for i in start_with_numbers}
 
 
-    smo = Smo.train(datMat,label_matrix, 200, 0.0001, 1000, arg_exp)
-
-    smo.test(datMat,label_matrix).pp()
-
-    datMat,label_matrix = load_data_from_images(test_pic_path)
-    smo.test(datMat,label_matrix).pp()
 
 
 if __name__ == '__main__':
     from minitest import *
-    testDigits()    
 
-    # with test("compare"):
-    #     pic_path = '../k_nearest_neighbours'
-    #     training_pic_path = os.path.join(pic_path,'training_digits')
-    #     dataArr,labelArr = load_data_from_images(training_pic_path)
-    #     dataArr2,labelArr2 = load_data_from_images2(training_pic_path)
-    #     # dataArr.shape.pp()
-    #     # array(dataArr2).shape.pp()
-    #     dataArr.shape.must_equal(dataArr2.shape)
-    #     # labelArr.shape.must_equal(labelArr2.shape)
-    #     dataArr.must_equal(dataArr2, allclose)
-    #     labelArr.must_equal(labelArr2)
+    def test_one_to_one(arg_exp=20):
+        cur_pic_path = '../../projects/font_number_binary/number_images'
+        pic_path = '../k_nearest_neighbours'
+        training_pic_path = os.path.join(pic_path,'training_digits')
+        # training_pic_path = cur_pic_path
+        test_pic_path = os.path.join(pic_path,'test_digits')
+        # test_pic_path = cur_pic_path
 
-    #     pass
+
+        data_matrix,label_matrix = load_data_from_images_with_nums(training_pic_path, (9,1))
+        data_matrix.shape.pp()
+        label_matrix.shape.pp()
+        
+        # delimiter=' '
+        # fmt = '%1d'
+        # savetxt('data_array.dataset', data_matrix, fmt=fmt, delimiter=delimiter)
+        # savetxt('label_array.dataset', label_matrix, fmt=fmt, delimiter=delimiter)
+
+
+        smo = Smo.train(data_matrix,label_matrix, 200, 0.0001, 1000, arg_exp,{9:-1, 1:1})
+        smo.test(data_matrix,label_matrix).pp()
+        smo.save_variables()
+
+        # smo = Smo.load_variables()
+        # smo.test(data_matrix,label_matrix).pp()
+
+        data_matrix,label_matrix = load_data_from_images_with_nums(test_pic_path, (9,1))
+        smo.test(data_matrix,label_matrix).pp()
+
+        smo.classify(data_matrix[0]).must_equal(label_matrix[0,0])
+
+
+    with test("test_one_to_one"):
+        # test_one_to_one()
+        pass
+
+    def test_multi():
+        arg_exp = 20
+        cur_pic_path = '../../projects/font_number_binary/number_images'
+        pic_path = '../k_nearest_neighbours'
+        # training_pic_path = os.path.join(pic_path,'training_digits')
+        training_pic_path = cur_pic_path
+        test_pic_path = os.path.join(pic_path,'test_digits')
+        test_pic_path = cur_pic_path
+
+        dataset_matrix_hash = get_dataset_matrix_hash(training_pic_path, range(10))
+        # dataset_matrix_hash = get_dataset_matrix_hash(training_pic_path, (9,))
+        # dataset_matrix_hash.pp()
+
+        mb = MultipleBinary.train_and_save_variables(Smo, dataset_matrix_hash, 200, 0.0001, 1000, arg_exp)
+        # mb = MultipleBinary.load_variables(Smo)
+        # mb.classify(dataset_matrix_hash[9][0]).pp()
+        # mb.normal_classify(dataset_matrix_hash[9][0]).pp()
+
+        # data_matrix,label_matrix = load_data_from_images_with_nums(test_pic_path, range(10))
+        # mb.test(data_matrix,label_matrix).pp()
+        # training_digits
+        # {'error_count': 38, 'error_ratio %': 4.02, 'row_count': 946}
+        pass
+
+    with test("test_multi"):
+        test_multi()
+        pass

@@ -71,16 +71,14 @@ def cal_nonzero_rect_as_pic_ratio(pic_array):
 
 
 
-def transfer_values(arr, rule_hash, is_reverse=False):
+def transfer_values(arr, rule_hash):
     '''
         rule_hash = {0:1, 255:0}
     '''
-    if not is_reverse:
-        for source, target in rule_hash.items():
-            arr[arr==source] = target
-    else:
-        for target, source in rule_hash.items():
-            arr[arr==source] = target
+    arr.shape.pp()
+    for (i, j), value in numpy.ndenumerate(arr):
+        # if value in rule_hash.keys():
+        arr[i,j] = rule_hash[value]
     return arr
 
 def cal_split_ragion_rects(contour, split_x_num, split_y_num):
@@ -238,11 +236,11 @@ if __name__ == '__main__':
                            [175, 216]]), numpy.allclose)
 
     with test("transfer_values"):
-        arr = numpy.array([[255, 255, 255, 0, 255, 255, 255],
-                     [255, 255, 255, 0, 255, 255, 255]])
-        transfer_values(arr, {0:1, 255:0}).must_equal(
-            numpy.array([[0, 0, 0, 1, 0, 0, 0],
-                         [0, 0, 0, 1, 0, 0, 0]]), numpy.allclose)
+        arr = numpy.array([[9, 9, 9, 1, 9, 9, 9],
+                     [9, 9, 9, 1, 9, 9, 9]])
+        transfer_values(arr, {9:1, 1:-1}).must_equal(
+            numpy.array([[1, 1, 1, -1, 1, 1, 1],
+                         [1, 1, 1, -1, 1, 1, 1]]), numpy.allclose)
 
     with test("clip_array_by_x_y_count"):
         arr = numpy.arange(81).reshape((9,9))
@@ -262,13 +260,13 @@ if __name__ == '__main__':
     with test("cal_nonzero_rect"):
         image_list = image_helper.image_txt_to_lists(small_number_path)
         image_array = list_to_image_array(image_list)
-        transfer_values(image_array, {1:255})
+        transfer_values(image_array, {1:255, 0:0})
         cur_rect = cal_nonzero_rect(image_array)
         cur_rect.must_equal((10, 9, 12, 18))
 
         ''' uncomment the below, you can see the consequence in a picture. '''
         # cur_contour = rect_to_contour(cur_rect)
-        # transfer_values(image_array, {1:255})
+        # transfer_values(image_array, {1:255, 0:0})
         # show_contours_in_pic(image_array, [cur_contour], 255)
 
         ''' uncomment the below, you can see the print consequence. '''
