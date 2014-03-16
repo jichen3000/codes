@@ -5,7 +5,6 @@
 
 import os
 import numpy
-# from rbf_smo_v3 import *
 
 import json
 
@@ -57,6 +56,8 @@ def is_any_member_in_list(source_list, target_list):
     is_in_list = tuple((label in target_list) for label in source_list)
     return any(is_in_list)
 
+def flatten_for_two_layers(the_list):
+    return [item for sub_list in the_list for item in sub_list]
 
 class SmoBasic(object):
     def __init__(self, data_matrix, label_matrix, edge_threshold, tolerance, arg_exp):
@@ -369,15 +370,18 @@ def get_all_posible_indexs(the_list):
     return tuple((i,j) for i in the_list for j in the_list if i<j)
 
 class MultipleBinary(object):
+    '''
+        one against one
+        Direct Acyclic Graph, DAG will let classify more efficient.
+    '''
     def __init__(self, binary_class):
         self.binary_class = binary_class
         self.classifying_hash = {}
         
     variables_file_name = 'multiple_binary.dataset'
-    data_path = 'dataset'
 
     def build_classifying_objects(self, data_matrix_hash, 
-                edge_threshold, tolerance, max_iteration_count, arg_exp):
+                edge_threshold, tolerance, max_iteration_count, arg_exp, data_path):
         def gen_label_matrix(label_value, count):
             return numpy.mat(numpy.zeros((count, 1), numpy.int8)) + label_value
 
@@ -392,43 +396,44 @@ class MultipleBinary(object):
             file_prefix = '_'.join((str(label_i),  str(label_j), ''))
             transfer_hash = {label_i:-1, label_j:1}
 
+            self.label_tuple = tuple(data_matrix_hash.keys())
+
             smo = self.binary_class.train(data_matrix,label_matrix, 
                     edge_threshold, tolerance, max_iteration_count, arg_exp, transfer_hash)
             smo.test(data_matrix,label_matrix).pp()
-            smo.save_variables(self.data_path, prefix = file_prefix)
+            smo.save_variables(data_path, prefix = file_prefix)
             self.classifying_hash[classifying_key]=smo
 
         return self
 
     def normal_classify(self, row_matrix):
+        '''
+            It's the normal classify, it will take more times ((len(labels)-1)/2) than the dag, 
+            but the answer almost equal with dag.
+            {'error_count': 36, 'error_ratio %': 3.81, 'row_count': 946}
+            Finished tests in 94.411094s.
+        '''
         occurence_hash = { classifying_key:classifying_object.classify(row_matrix)
                 for classifying_key, classifying_object in self.classifying_hash.items()}
         return most_common(occurence_hash.values()), occurence_hash
 
-    def get_not_equal(self, predict_label, classifying_key):
-        result = classifying_key[0]
-        if predict_label == result:
-            result = classifying_key[1]
-        return result
 
-    def classify(self, row_matrix):
-        failed_labels = []
-        occurence_hash = {}
+    def dag_classify(self, row_matrix):
+        '''
+            Direct Acyclic Graph, DAG will let classify more efficient.
+            The classify times are only the length of labels.
+
+            {'error_count': 37, 'error_ratio %': 3.91, 'row_count': 946}
+            Finished tests in 20.857392s.    
+        '''
+        predict_label = self.label_tuple[0]
         order_labels = []
-        for classifying_key in self.classifying_hash.keys():
-            if not is_any_member_in_list(classifying_key, failed_labels):
-                predict_label = self.classifying_hash[classifying_key].classify(row_matrix)
-                failed_labels.append(self.get_not_equal(predict_label, classifying_key))
-                occurence_hash[classifying_key] = predict_label
-                order_labels.append([(predict_label,)]+list(classifying_key))
+        for next_label in self.label_tuple[1:]:
+            classifying_key = (predict_label, next_label)
+            predict_label = self.classifying_hash[classifying_key].classify(row_matrix)
+            order_labels.append([(predict_label,)]+list(classifying_key))
 
-        ''' if the result was beated by the other number, then change the result'''
-        result = most_common(occurence_hash.values())
-        for classifying_key in occurence_hash.keys():
-            if result in classifying_key and occurence_hash[classifying_key] != result:
-                result = occurence_hash[classifying_key]
-
-        return result, order_labels
+        return predict_label, order_labels
 
     def __package_info(self, error_count, row_count):
         return {'error_ratio %':round(float(error_count)/row_count * 100, 2),
@@ -446,20 +451,20 @@ class MultipleBinary(object):
         error_count = 0
         result_list = []
         for i in range(row_count):
-            result = self.classify(testing_data_matrix[i, :])
+            result = self.dag_classify(testing_data_matrix[i, :])
             if result[0]!=testing_label_matrix[i,0]:
                 error_count += 1
                 result_list.append([testing_label_matrix[i,0]]+list(result))
 
-            if error_count > 40:
-                break
+            # if error_count > 40:
+            #     break
         result_list.pp()
 
         self.last_test_info = self.__package_info(error_count, row_count)
         return self.last_test_info
 
-    def save_variables(self):
-        file_path = os.path.join(self.data_path, self.variables_file_name)
+    def save_variables(self, data_path):
+        file_path = os.path.join(data_path, self.variables_file_name)
         save_to_json_nicely(file_path, self.classifying_hash.keys())
         return True
 
@@ -478,30 +483,31 @@ class MultipleBinary(object):
         return {the_list[0]:-1, the_list[1]:1}
 
     @classmethod
-    def load_variables(cls, binary_class):
+    def load_variables(cls, binary_class, data_path):
         self = MultipleBinary(binary_class)
         # dir(self).pp()
-        file_path = os.path.join(self.data_path, self.variables_file_name)
+        file_path = os.path.join(data_path, self.variables_file_name)
         keys = load_from_json(file_path)
         keys = map(tuple, keys)
+        self.label_tuple = tuple(set(flatten_for_two_layers(keys)))
 
         for classifying_key in keys:
             file_prefix = self.gen_prefix_from_list(classifying_key)
             transfer_hash = self.gen_binary_transfer_hash(classifying_key)
 
-            smo = self.binary_class.load_variables(self.data_path, file_prefix)
+            smo = self.binary_class.load_variables(data_path, file_prefix)
             self.classifying_hash[classifying_key]=smo
 
         return self
 
     @classmethod
     def train_and_save_variables(cls, binary_class, data_matrix_hash,
-            edge_threshold, tolerance, max_iteration_count, arg_exp=20):
+            edge_threshold, tolerance, max_iteration_count, arg_exp, data_path='dataset'):
 
         this = cls(binary_class)
         this.build_classifying_objects(data_matrix_hash,
-            edge_threshold, tolerance, max_iteration_count, arg_exp)
-        this.save_variables()
+            edge_threshold, tolerance, max_iteration_count, arg_exp, data_path)
+        this.save_variables(data_path)
         return this
 
 
@@ -619,19 +625,21 @@ if __name__ == '__main__':
         # training_pic_path = os.path.join(pic_path,'training_digits')
         training_pic_path = cur_pic_path
         test_pic_path = os.path.join(pic_path,'test_digits')
-        test_pic_path = cur_pic_path
+        # test_pic_path = cur_pic_path
 
-        dataset_matrix_hash = get_dataset_matrix_hash(training_pic_path, range(10))
+        # dataset_matrix_hash = get_dataset_matrix_hash(training_pic_path, range(2))
+        # dataset_matrix_hash = get_dataset_matrix_hash(training_pic_path, range(10))
         # dataset_matrix_hash = get_dataset_matrix_hash(training_pic_path, (9,))
         # dataset_matrix_hash.pp()
 
-        mb = MultipleBinary.train_and_save_variables(Smo, dataset_matrix_hash, 200, 0.0001, 1000, arg_exp)
-        # mb = MultipleBinary.load_variables(Smo)
+        # mb = MultipleBinary.train_and_save_variables(Smo, dataset_matrix_hash, 200, 0.0001, 1000, arg_exp)
+        # mb = MultipleBinary.load_variables(Smo, 'font_dataset')
+        mb = MultipleBinary.load_variables(Smo, 'hand_dataset')
         # mb.classify(dataset_matrix_hash[9][0]).pp()
         # mb.normal_classify(dataset_matrix_hash[9][0]).pp()
 
-        # data_matrix,label_matrix = load_data_from_images_with_nums(test_pic_path, range(10))
-        # mb.test(data_matrix,label_matrix).pp()
+        data_matrix,label_matrix = load_data_from_images_with_nums(test_pic_path, range(10))
+        mb.test(data_matrix,label_matrix).pp()
         # training_digits
         # {'error_count': 38, 'error_ratio %': 4.02, 'row_count': 946}
         pass
