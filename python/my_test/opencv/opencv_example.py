@@ -1,3 +1,9 @@
+'''
+http://opencvpython.blogspot.com/2012/06/hi-this-article-is-tutorial-which-try.html
+box = cv2.cv.BoxPoints(rect)
+'''
+
+
 import numpy
 import cv2
 import os, sys

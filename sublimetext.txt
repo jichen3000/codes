@@ -162,6 +162,18 @@ I must use
 change tab size
 To change indentation within the document, go to View > Indentation > Convert Tabs to Spaces. To make this change within the document for future edits, go to View > Indentation > Spaces Width: 2. Additionally, if you have the status bar visible, you can you can click where it says Tab Size: 4 and change the indentation here from the context menu.
 
+change for python using pythonpath
+edit Python.sublime-build
+{
+    "cmd": ["python", "-u", "$file"],
+    "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+    "selector": "source.python",
+    "env":
+    {
+        "PYTHONPATH":"/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages:/Users/Colin/work/picture_sudoku"
+    }
+}
+
 
 for c
 For Windows:
