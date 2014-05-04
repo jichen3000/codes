@@ -22,27 +22,54 @@ TRACKBAR_2 = 'HoughLines_threshold'
 TRACKBAR_1_MAX = 100
 TRACKBAR_2_MAX = 100
 
-def __perform_by_normal_line(the_image, bar_value_1, bar_value_2):
+# def __perform_by_standard_line(the_image, bar_value_1, bar_value_2):
+#     gray_image = cv2.cvtColor(the_image,cv2.COLOR_BGR2GRAY)
+#     canny_low_threshold = bar_value_1+30
+#     edges = cv2.Canny(gray_image, canny_low_threshold, (canny_low_threshold)*4, 3);
+#     # cv2.convertScaleAbs(edges)
+#     color_image = the_image.copy()
+
+#     lines = cv2.HoughLines(edges, rho=1, theta=numpy.pi/180, threshold= bar_value_2+100)
+#     ''' this is true line list'''
+#     lines = lines[0]
+#     len(lines).pp()
+#     ''' you can decline the count line by canny low_threshold '''
+#     if len(lines) > 100:
+#         return color_image
+
+#     for rho, theta in lines:
+#         # (rho, theta).pp()
+#         cos_theta = numpy.cos(theta)
+#         sin_theta = numpy.sin(theta)
+#         x0 = cos_theta * rho
+#         y0 = sin_theta * rho
+#         point0 = (int(numpy.around(x0 + 1000*(- sin_theta))),  int(numpy.around(y0 + 1000*( cos_theta))))
+#         point1 = (int(numpy.around(x0 - 1000*(- sin_theta))),  int(numpy.around(y0 - 1000*( cos_theta))))
+#         cv2.line(color_image, point0, point1, (0,0,255), thickness=2)
+#     return color_image
+
+def __perform_by_probabilistic_line(the_image, bar_value_1, bar_value_2):
     gray_image = cv2.cvtColor(the_image,cv2.COLOR_BGR2GRAY)
-    canny_low_threshold = bar_value_1+30
+    canny_low_threshold = bar_value_1+80
     edges = cv2.Canny(gray_image, canny_low_threshold, (canny_low_threshold)*4, 3);
     # cv2.convertScaleAbs(edges)
     color_image = the_image.copy()
 
-    lines = cv2.HoughLines(edges, rho=1, theta=numpy.pi/180, threshold= bar_value_2+100)
+    lines = cv2.HoughLinesP(edges, rho=1, theta=numpy.pi/180, threshold= bar_value_2+80, minLineLength=50, maxLineGap=10)
+    lines = lines[0]
+    ''' you can decline the count line by canny low_threshold '''
+    if len(lines) > 100:
+        return color_image
 
-    for rho, theta in lines[0]:
-        (rho, theta).pp()
-        cos_theta = numpy.cos(theta)
-        sin_theta = numpy.sin(theta)
-        x0 = cos_theta * rho
-        y0 = sin_theta * rho
-        point0 = (int(numpy.around(x0 + 1000*(- sin_theta))),  int(numpy.around(y0 + 1000*( cos_theta))))
-        point1 = (int(numpy.around(x0 - 1000*(- sin_theta))),  int(numpy.around(y0 - 1000*( cos_theta))))
-        cv2.line(color_image, point0, point1, (0,0,255), thickness=3)
+    for line in lines:
+        line.pp()
+        point0 = (line[0], line[1])
+        point1 = (line[2], line[3])
+        cv2.line(color_image, point0, point1, (0,0,255), thickness=2)
     return color_image
 
 def __perform_by_canny(the_image, bar_value_1, bar_value_2):
+    (bar_value_1, bar_value_2).pp()
     gray_image = cv2.cvtColor(the_image,cv2.COLOR_BGR2GRAY)
     canny_low_threshold = bar_value_1+30
     edges = cv2.Canny(gray_image, canny_low_threshold, (canny_low_threshold)*4, 3);
@@ -58,6 +85,7 @@ def __controle__(the_position, the_image, control_window_name):
         method = globals()[name]
         set_parameters(window_name, bar_value_1, bar_value_2)
         refresh_image(the_position, the_image, window_name, method)
+
 
     draw_text(the_image, gen_message(bar_value_1, bar_value_2))
     cv2.imshow(control_window_name, the_image)
@@ -92,6 +120,12 @@ def show_window(the_image, window_name, index, perform_func, control_func=None):
         call_back = lambda the_position: refresh_image(the_position, the_image, window_name, perform_func)
     cv2.createTrackbar(TRACKBAR_1, window_name, 0, TRACKBAR_1_MAX, call_back)
     cv2.createTrackbar(TRACKBAR_2, window_name, 0, TRACKBAR_2_MAX, call_back)
+
+    # 58 for 05
+    # 03 has show problem
+    # set_parameters(window_name, 42, 39) 
+    # 42, 66 for 02, 03
+    set_parameters(window_name, 5, 39) 
     call_back(0)
     cv2.moveWindow(window_name, the_image.shape[1]*index, 0)
 
@@ -125,10 +159,10 @@ if __name__ == '__main__':
 
     with test("blurring"):
         pic_file_path = './original.jpg'
-        pic_file_path = '../../../../picture_sudoku/resource/example_pics/sample14.dataset.jpg'
+        pic_file_path = '../../../../picture_sudoku/resource/example_pics/sample02.dataset.jpg'
         main_test(pic_file_path)
         # for i in range(1,15):
-        #     pic_file_path = '../resource/example_pics/sample'+str(i).zfill(2)+'.dataset.jpg'
+        #     pic_file_path = '../../../../picture_sudoku/resource/example_pics/sample'+str(i).zfill(2)+'.dataset.jpg'
         #     main_test(pic_file_path)
         pass
 

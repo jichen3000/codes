@@ -126,11 +126,11 @@ if __name__ == '__main__':
             closed - Flag indicating whether the curve is closed or not  
             (its first and last vertices are connected). 
         '''
-        points = numpy.array([ [[393,   1]],
+        contour = numpy.array([ [[393,   1]],
                                [[393,   2]],
                                [[394,   2]],
                                [[394,   1]]])
-        perimeter = cv2.arcLength(points,True)
+        perimeter = cv2.arcLength(contour,True)
         perimeter.must_equal(4)
         contour = numpy.array([[[ 1,  1]],
                                [[ 1,  401]],
@@ -141,6 +141,21 @@ if __name__ == '__main__':
         contour = numpy.array([[[ 1,  1]],
                                [[ 1,  401]]])
         cv2.arcLength(contour, False).must_equal(400)
+
+
+    # with test("explain fitLine"):
+    #     line = cv2.fitLine(numpy.array([[-1,1],[1,0]]), distType=cv2.cv.CV_DIST_L2, param=0, reps=0.01, aeps=0.01)
+    #     line.pp()
+    #     the_image = Image.generate_mask((500, 600))
+    #     def draw_line(the_image, line):
+    #         vx,vy,x,y = line
+    #         lefty = int((-x*vy/vx) + y)
+    #         righty = int(((the_image.shape[1]-x)*vy/vx)+y)
+    #         cv2.line(the_image,(the_image.shape[1]-1,righty),(0,lefty),255,1)
+
+    #     draw_line(the_image, line)
+        # Image.show(the_image)
+
 
     with test("contourArea"):
         contour = numpy.array([[[ 1,  1]],
@@ -159,7 +174,7 @@ if __name__ == '__main__':
             epsilon - Parameter specifying the approximation accuracy
             closed -
         '''
-        cv2.approxPolyDP(points,0.01*perimeter,True).must_equal(points, numpy.allclose)
+        cv2.approxPolyDP(contour,0.01*perimeter,True).must_equal(contour, numpy.allclose)
 
     with test("is_almost_square"):
         contour = numpy.array([[[ 1,  1]],
@@ -237,6 +252,22 @@ if __name__ == '__main__':
                                [[ 401, 1]]])
         # cv2_helper.show_contours_in_pic(color_pic, [contour])
 
+    with test("norm"):
+        vertices = numpy.array(
+              [[ 0, 0],
+               [ 0, 1],
+               [ 1, 1],
+               [ 1, 0]], dtype=numpy.int32)
+        cv2.norm(vertices[0], vertices[1]).pp()
+        vertices2 = numpy.array(
+              [[ 2, 2],
+               [ 2, 3],
+               [ 3, 3],
+               [ 3, 2]], dtype=numpy.int32)
+        cv2.norm(vertices, vertices2).pp()
+        # vertices[0].pp()        
+        # vertices[1].pp()        
+
     with test("find_max_square"):
         max_square = find_max_square(gray_pic)
         max_square.must_equal(numpy.array([[[ 671,  421]],
@@ -269,3 +300,18 @@ if __name__ == '__main__':
         # current_pic_array[cur_indexs[0]:cur_indexs[1],cur_indexs[2]:cur_indexs[3]] = \
         #     gray_area_pic[cur_indexs[0]:cur_indexs[1],cur_indexs[2]:cur_indexs[3]]
         # show_pic(current_pic_array)
+
+    # with test("resize"):
+    #     image_list = binary_number_to_lists(small_number_path)
+    #     image_array = list_to_image_array(image_list)
+    #     cur_rect = (7, 9, 18, 18)
+    #     sub_image = Rect.get_ragion(cur_rect, image_array)
+    #     sub_image.shape.pp()
+    #     # resized_image = cv2.pyrUp(sub_image)
+    #     # resized_image.shape.pp()
+    #     resized_image = cv2.resize(sub_image, (IMG_SIZE, IMG_SIZE), interpolation=cv2.INTER_CUBIC)
+    #     # transfer_values(resized_image, {1:255})
+    #     resized_image.shape.pp()
+    #     Image.save_to_txt('test_resources/test.txt', sub_image)
+    #     Image.save_to_txt('test_resources/test1.txt', resized_image)
+    #     # show_pic(resized_image)

@@ -4,6 +4,8 @@ from numpy import *
 if __name__ == '__main__':
     from minitest import *
 
+    inject_customized_must_method(allclose, 'must_close')
+
     # array([[ 0.,  1.,  2.],
     #        [ 3.,  4.,  5.]])
     arr23 = arange(6.0).reshape((2,3))
@@ -21,7 +23,8 @@ if __name__ == '__main__':
     mat32 = mat(arr32)
 
     with test("matric.*"):
-        (mat23 * mat32).must_equal(matrix([[ 10.,  13.],[ 28.,  40.]]), allclose)
+        # (mat23 * mat32).must_equal(matrix([[ 10.,  13.],[ 28.,  40.]]), allclose)
+        (mat23 * mat32).must_close(matrix([[ 10.,  13.],[ 28.,  40.]]))
 
     with test("matric.T"):
         mat23.T.must_equal(
@@ -127,12 +130,17 @@ if __name__ == '__main__':
         # outfile.readlines().pp()
         brr = loadtxt(file_name, delimiter=delimiter)
         brr.must_equal(arr, allclose)
-        brr.pp()
+        # brr.pp()
         # brr.must_equal
 
-    with test("save with others"):
+    with test("angle"):
+        one_degree = pi / 180
+        one_degree.must_equal(0.017453292519943295)
 
-        pass
+        degree_30 = pi / 6
+        sin(degree_30).must_equal(0.49999999999999994)
+        arctan(tan(degree_30)).must_equal(degree_30, allclose)
+        arccos(cos(degree_30)).must_equal(degree_30, allclose)
         
     with test("add tow"):
         arr1 = zeros((3,3))+1
@@ -153,3 +161,4 @@ if __name__ == '__main__':
                    [ 3.,  3.,  3.,  4.,  4.,  4.],
                    [ 3.,  3.,  3.,  4.,  4.,  4.],
                    [ 3.,  3.,  3.,  4.,  4.,  4.]]), allclose)
+

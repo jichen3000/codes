@@ -12,9 +12,11 @@ class TestSequenceFunctions(unittest.TestCase):
         self.seq.sort()
         self.assertEqual(self.seq, range(10))
 
+        self.assertEqual('jc','jc1')
+
         # should raise an exception for an immutable sequence
-        print random.shuffle(1,2,3)
-        self.assertRaises(TypeError, random.shuffle, (1,2,3))
+        # print random.shuffle((1,2,3))
+        # self.assertRaises(TypeError, random.shuffle, (1,2,3))
 
     def test_choice(self):
         element = random.choice(self.seq)
