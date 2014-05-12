@@ -18,6 +18,10 @@ find / -name *sublime-setting
     输入install 调出 Install Package 选项并回车，然后在列表中选中要安装的插件。
     不爽的是，有的网络环境可能会不允许访问陌生的网络环境从而设置一道防火墙，而Sublime Text 2貌似无法设置代理，可能就获取不到安装包列表了。
     
+    sublime 3
+    import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
+
+
 3. browse file in the browser
     "Tools"->"Build System"->"New Build System"
     windows:
@@ -110,7 +114,10 @@ If I not give special notice, that mean you just replace the ctrl to commond on 
 
     // gist, create private, update, browse gist
 
-    //plaintask, tasks, super+i create a task. tag @
+    // for TODO
+    // plaintask, tasks, super+i create a task. tag @
+
+    
     // split line, --+Tab
     // set done, super+d
     // archieve the ites done, super+shift+a
@@ -195,3 +202,8 @@ For Linux:
 
 fix mac path
 install package called fix mac path
+
+
+most like plugin:
+sidebarEnhanced
+Plaintask

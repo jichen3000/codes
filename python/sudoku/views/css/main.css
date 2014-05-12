@@ -6,6 +6,8 @@
   background-color: #F7F7F9;
   float: left;
   border-color: #DDD;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
 }
 .cell.answered{
   color: blue;
@@ -14,7 +16,7 @@
   color: red;
 }
 .cell.fix{
-  font-weight: bold;
+  /*font-weight: bold;*/
 }
 .cell.hover{
   background-color: #BEBEC5;

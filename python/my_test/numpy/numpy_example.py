@@ -51,6 +51,7 @@ if __name__ == '__main__':
         nonzero([1,2,0,0,1,0,2,0]).must_equal(
             (array([0, 1, 4, 6]),), allclose)
 
+        # notice, first array is y indexs, second array is x indexs
         arr = array([[1,0],[2,3]])
         arr.nonzero().must_equal(
             (array([0, 1, 1]), array([0, 0, 1])), allclose)
@@ -61,6 +62,9 @@ if __name__ == '__main__':
 
         # this will show why nonzero result is so weird.
         arr[arr.nonzero()].must_equal(array([1, 2, 3]), allclose)
+
+        arr = array([[0,0],[0,0]])
+        arr.nonzero().must_close((array([]), array([])))
 
     with test("nonzero advanced"):
         arr = array([[10], [20], [0], [0], [15], [16], [0]])

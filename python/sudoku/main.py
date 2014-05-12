@@ -6,10 +6,10 @@ def sudoku_main():
     return static_file('main.html', root='./views')
 @route("/css/<filename:path>")
 def sudoku_css(filename):
-    return static_file(filename, root='./public/css')
+    return static_file(filename, root='./views/css')
 @route("/js/<filename:path>")
 def sudoku_js(filename):
-    return static_file(filename, root='./public/js')
+    return static_file(filename, root='./views/js')
 
 import json
 # notice: when you use json, you must use post instead of get.

@@ -1,7 +1,7 @@
 import cv2
 import numpy
 
-from picture_sudoku.helpers import cv2_helper
+import cv2_helper
 
 ''' 
     the methods which name starts with "__perform_by_" will be invoked when trackbar changes.
