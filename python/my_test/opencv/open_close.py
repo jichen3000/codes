@@ -1,7 +1,7 @@
 import cv2
 import numpy
 
-from picture_sudoku.helpers import cv2_helper
+from picture_sudoku.cv2_helpers.image import Image
 
 ''' 
     the methods which name starts with "__perform_by_" will be invoked when trackbar changes.
@@ -95,8 +95,8 @@ if __name__ == '__main__':
     image_path = './original.jpg'
     color_image = cv2.imread(image_path)
     gray_image = cv2.imread(image_path, 0)
-    color_image = cv2_helper.resize_with_fixed_height(color_image)
-    gray_image = cv2_helper.resize_with_fixed_height(gray_image)
+    color_image = Image.resize_keeping_ratio_by_height(color_image)
+    gray_image = Image.resize_keeping_ratio_by_height(gray_image)
 
     with test("blurring"):
         # show_simple_blurring(color_image)

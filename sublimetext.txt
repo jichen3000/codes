@@ -204,6 +204,17 @@ fix mac path
 install package called fix mac path
 
 
-most like plugin:
+## most like plugin:
 sidebarEnhanced
 Plaintask
+
+## package directory
+/Applications/Sublime Text.app/Contents/MacOS/Packages
+
+## java plugin
+Javatar
+Key+Shift+K twice
+firstly, open Javatar.sublime-settings for user
+set your    
+"source_folder" : "src",
+https://javatar.readthedocs.org/getting_started.html#getting-started

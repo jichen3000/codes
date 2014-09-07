@@ -27,10 +27,11 @@ try:
     s = f.readline()
     i = int(s.strip())
 except IOError as e:
-    print e
+    # print e
     import traceback
+    # print "error:"+traceback.format_exc()
     print traceback.format_exc()
-    print "I/O error({0}): {1}".format(e.errno, e.strerror)
+    # print "I/O error({0}): {1}".format(e.errno, e.strerror)
 except ValueError:
     print "Could not convert data to an integer."
 except:
