@@ -1,0 +1,14 @@
+*** Settings ***
+Documentation     Example test cases using the keyword-driven testing approach.
+...
+...               Colin's simple test
+Library           FxLibrary
+
+*** Test Cases ***
+Simple One
+    Return self         1
+    Result must be    1
+
+Simple wrong
+    Return self         1
+    Result must be    2

@@ -1,0 +1,15 @@
+[
+    {"table_name":"bar",
+     "columns":[
+        {"column_name":"name", "data_type":"text", "is_prime_key":1},
+        {"column_name":"no",    "data_type":"integer", "is_prime_key":1},
+        {"column_name":"content", "data_type":"text", "is_prime_key":0},
+        {"column_name":"last_update",    "data_type":"timestamp", "is_prime_key":0}
+    ]},
+    {"table_name":"foo",
+     "columns":[
+        {"column_name":"content", "data_type":"text", "is_prime_key":0},
+        {"column_name":"last_update",    "data_type":"timestamp", "is_prime_key":0}
+    ]}
+]
+

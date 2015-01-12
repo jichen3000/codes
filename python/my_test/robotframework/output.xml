@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20150103 21:28:12.613" generator="Robot 2.8.6 (Python 2.7.6 on darwin)">
+<suite source="/Users/colin/work/codes/python/my_test/robotframework/keyword_driven.txt" id="s1" name="Keyword Driven">
+<test id="s1-t1" name="Simple One">
+<kw type="kw" name="FxLibrary.Return Self">
+<doc></doc>
+<arguments>
+<arg>1</arg>
+</arguments>
+<status status="PASS" endtime="20150103 21:28:12.666" starttime="20150103 21:28:12.666"></status>
+</kw>
+<kw type="kw" name="FxLibrary.Result Must Be">
+<doc></doc>
+<arguments>
+<arg>1</arg>
+</arguments>
+<status status="PASS" endtime="20150103 21:28:12.667" starttime="20150103 21:28:12.666"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="PASS" endtime="20150103 21:28:12.667" critical="yes" starttime="20150103 21:28:12.664"></status>
+</test>
+<test id="s1-t2" name="Simple wrong">
+<kw type="kw" name="FxLibrary.Return Self">
+<doc></doc>
+<arguments>
+<arg>1</arg>
+</arguments>
+<status status="PASS" endtime="20150103 21:28:12.669" starttime="20150103 21:28:12.669"></status>
+</kw>
+<kw type="kw" name="FxLibrary.Result Must Be">
+<doc></doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20150103 21:28:12.670" level="FAIL">1 != 2 </msg>
+<status status="FAIL" endtime="20150103 21:28:12.670" starttime="20150103 21:28:12.669"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="FAIL" endtime="20150103 21:28:12.671" critical="yes" starttime="20150103 21:28:12.668">1 != 2 </status>
+</test>
+<doc>Example test cases using the keyword-driven testing approach.
+
+Colin's simple test</doc>
+<metadata>
+</metadata>
+<status status="FAIL" endtime="20150103 21:28:12.671" starttime="20150103 21:28:12.614"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="1">Critical Tests</stat>
+<stat fail="1" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" pass="1" id="s1" name="Keyword Driven">Keyword Driven</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

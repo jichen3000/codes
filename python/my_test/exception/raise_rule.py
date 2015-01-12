@@ -35,9 +35,9 @@ if __name__ == '__main__':
             raise_key_error_with_original_info()
         except Exception, e:
             error_block = '''Traceback (most recent call last):
-  File "/Users/colin/work/codes/python/my_test/exception/extend_exception.py", line 35, in <module>
+  File "/Users/colin/work/codes/python/my_test/exception/raise_rule.py", line 35, in <module>
     raise_key_error_with_original_info()
-  File "/Users/colin/work/codes/python/my_test/exception/extend_exception.py", line 14, in raise_key_error_with_original_info
+  File "/Users/colin/work/codes/python/my_test/exception/raise_rule.py", line 14, in raise_key_error_with_original_info
     the_dict['mm']
 MyError: 'mm'
 '''
@@ -48,9 +48,9 @@ MyError: 'mm'
             raise_key_error_without_original_info()
         except Exception, e:
             error_block = '''Traceback (most recent call last):
-  File "/Users/colin/work/codes/python/my_test/exception/extend_exception.py", line 48, in <module>
+  File "/Users/colin/work/codes/python/my_test/exception/raise_rule.py", line 48, in <module>
     raise_key_error_without_original_info()
-  File "/Users/colin/work/codes/python/my_test/exception/extend_exception.py", line 24, in raise_key_error_without_original_info
+  File "/Users/colin/work/codes/python/my_test/exception/raise_rule.py", line 24, in raise_key_error_without_original_info
     raise MyError(e)
 MyError: 'mm'
 '''

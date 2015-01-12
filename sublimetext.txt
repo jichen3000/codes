@@ -55,11 +55,29 @@ find / -name *sublime-setting
     
     
 5. hot keys
+    split window with column best choise:
+        "keys": ["super+alt+1"], "command": "set_layout",
+        "keys": ["super+alt+2"], "command": "set_layout",
+        "keys": ["super+alt+shift+2"], "command": "set_layout", # up and down
+    switch in different windows:
+        "keys": ["ctrl+1"], "command": "to window 1",
+        "keys": ["ctrl+2"], "command": "to window 2",
+    take current file to another window:
+        "keys": ["ctrl+shift+1"], "command": "to window 1",
+        "keys": ["ctrl+shift+2"], "command": "to window 2",
+
+
 If I not give special notice, that mean you just replace the ctrl to commond on the mac. 
 	{ "keys": ["ctrl+="], "command": "increase_font_size" },
 	{ "keys": ["ctrl+-"], "command": "decrease_font_size" },
     
     { "keys": ["ctrl+d"], "command": "find_under_expand" },
+
+    // go to line no
+    { "keys": ["ctrl+g"], "command": "show_overlay", "args": {"overlay": "goto", "text": ":"} },
+
+    // Handy for Javascript, CSS, Python, etc. CMD + R. Type your method or rule name and Sublime automatically jumps into its declaration.
+
     Mac
     // Alt + Mouse 1 Column select
     {
@@ -160,6 +178,10 @@ If I not give special notice, that mean you just replace the ctrl to commond on 
 
     Jeffrey Way twitter
 
+command line
+http://www.sublimetext.com/docs/3/osx_command_line.html
+
+
 for rvm
 ~/Library/Application Support/Sublime Text 2/Packages/Ruby/Ruby.sublime-build
 {   "cmd": ["~/.rvm/bin/rvm-auto-ruby", "$file"],   "file_regex": "^(...*?):([0-9]*):?([0-9]*)",    "selector": "source.ruby"}
@@ -218,3 +240,6 @@ firstly, open Javatar.sublime-settings for user
 set your    
 "source_folder" : "src",
 https://javatar.readthedocs.org/getting_started.html#getting-started
+
+how to use it quickly
+http://thunderboltlabs.com/blog/2013/11/19/efficiency-with-sublime-text-and-ruby/

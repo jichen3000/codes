@@ -58,7 +58,7 @@ if __name__ == '__main__':
         add_suffix(file_path, '_changed').must_equal('/Users/colin/123_changed.sub')
 
     def main():
-        file_path = '/Users/colin/Movies/Simpsons/Simpsons S01E06 - Moaning Lisa.sub'
+        file_path = '/Users/colin/Movies/Simpsons/Simpsons S01E13 - Some Enchanted Evening.sub'
         transfer_func = get_rate_transfer_func2(1.2465)
         lines = adjust_file(file_path, transfer_func)
         # changed_file_path = add_suffix(file_path, '_changed')

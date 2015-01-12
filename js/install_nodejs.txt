@@ -17,3 +17,25 @@ open port:
 /etc/rc.d/init.d/iptables save
 /etc/init.d/iptables status
 and it will add one line to the file (/etc/sysconfig/iptables).
+
+add nodejs.sublime-build to user:
+{
+  "cmd": ["/usr/local/bin/node", "$file"],
+  "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+  "selector": "source.js",
+  "windows":
+    {
+        "cmd": ["taskkill /F /IM node.exe & node", "$file"]
+    },
+  "linux":
+    {
+        "cmd": ["killall node; node", "$file"]
+    }
+}
+
+
+
+npm set init.author.name "Brent Ertz"
+npm set init.author.email "brent.ertz@gmail.com"
+# This next command will prompt you for an email and password, create or verify a user in the npm registry, and save the credentials to the ~/.npmrc file.
+npm adduser

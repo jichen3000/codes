@@ -1,0 +1,193 @@
+{   "name": "Agen",
+    "scopeName": "source.agen",
+    "fileTypes": ["agen"],
+    "patterns": [
+        {
+            "include": "#comments"
+        }, 
+        {
+            "match": "\\b([1-9]+[0-9]*|0)", 
+            "name": "constant.numeric.integer.decimal.agen"
+        }, 
+        {
+            "match": "\\b(else|if|break|continue|return|end|ifphrase|switch|start|finish|case|default)\\b", 
+            "name": "keyword.control.flow.agen", 
+            "comment": "keywords that delimit flow blocks or alter flow from within a block"
+        }, 
+        {
+            "match": "<\\=|>\\=|\\=\\=|<|>|\\!\\=", 
+            "name": "keyword.operator.comparison.agen"
+        }, 
+        {
+            "match": "\\+\\=|-\\=|\\*\\=|/\\=|//\\=|%\\=|&\\=|\\|\\=|\\^\\=|>>\\=|<<\\=|\\*\\*\\=", 
+            "name": "keyword.operator.assignment.augmented.agen"
+        }, 
+        {
+            "match": "\\+|\\-|\\*|\\*\\*|/|//|%|<<|>>|&|\\||\\^|~", 
+            "name": "keyword.operator.arithmetic.agen"
+        }, 
+        {
+            "match": "\\=", 
+            "name": "keyword.operator.assignment.agen"
+        }, 
+        {
+            "captures": {
+                "1": {
+                    "name": "keyword.other.agen"
+                }
+            }, 
+            "match": "\\b(normal|caps|small|hidden|decimal|hex|float)\\b", 
+            "comment": "keywords that haven't fit into other groups (yet)."
+        }, 
+        {
+            "captures": {
+                "1": {
+                    "name": "variable.parameter.function.agen"
+                }
+            }, 
+            "match": "\\b(include|setstring|setnumber|calc|define|type|call|sscanf|askstring|asknumber|setlist|listorder|liststringfind|loclist|set|combo)\\b", 
+            "comment": "the functions built in."
+        }, 
+        {
+            "captures": {
+                "1": {
+                    "name": "variable.parameter.function.agen"
+                }
+            }, 
+            "match": "\\b(kbopen|kbread|kbclose|rdwrt|rdonly|kbsetkey|kbspecial)\\b", 
+            "comment": "the functions built in for kb."
+        }, 
+        {
+            "captures": {
+                "1": {
+                    "name": "variable.parameter.function.agen"
+                }
+            }, 
+            "match": "\\b(odbc|login|exec|init|select|next)\\b", 
+            "comment": "the functions built in for odbc."
+        }, 
+        {
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.agen"
+                }
+            }, 
+            "end": "\"", 
+            "patterns": [
+                {
+                    "include": "#string_escaped_char"
+                }, 
+                {
+                    "include": "#string_placeholder"
+                }
+            ], 
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.agen"
+                }
+            }, 
+            "begin": "\"", 
+            "name": "string.quoted.double.agen"
+        },
+        {
+            "match": "^([A-Za-z_][A-Za-z0-9_]*)\\:\\s*\\n",
+            "name": "entity.name.function.agen"
+        }
+    ],
+    "repository": {
+        "generic_names": {
+            "match": "[A-Za-z_][A-Za-z0-9_]*"
+        }, 
+        "string_escaped_char": {
+            "patterns": [
+                {
+                    "match": "\\\\(\\\\|[abefnprtv'\"?]|[0-3]\\d{,2}|[4-7]\\d?|x[a-fA-F0-9]{,2}|u[a-fA-F0-9]{,4}|U[a-fA-F0-9]{,8})", 
+                    "name": "constant.character.escape.agen"
+                }, 
+                {
+                    "match": "\\\\.", 
+                    "name": "invalid.illegal.unknown-escape.agen"
+                }
+            ]
+        }, 
+        "string_placeholder": {
+            "patterns": [
+                {
+                    "match": "(?x)%\n    \t\t\t\t\t\t(\\d+\\$)?                             # field (argument #)\n    \t\t\t\t\t\t[#0\\- +']*                           # flags\n    \t\t\t\t\t\t[,;:_]?                              # separator character (AltiVec)\n    \t\t\t\t\t\t((-?\\d+)|\\*(-?\\d+\\$)?)?              # minimum field width\n    \t\t\t\t\t\t(\\.((-?\\d+)|\\*(-?\\d+\\$)?)?)?         # precision\n    \t\t\t\t\t\t(hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)? # length modifier\n    \t\t\t\t\t\t[diouxXDOUeEfFgGaACcSspn%]           # conversion type\n    \t\t\t\t\t", 
+                    "name": "constant.other.placeholder.agen"
+                }, 
+                {
+                    "match": "%", 
+                    "name": "invalid.illegal.placeholder.agen"
+                }
+            ]
+        },
+        "comments": {
+            "patterns": [
+                {
+                    "captures": {
+                        "1": {
+                            "name": "meta.toc-list.banner.block.agen"
+                        }
+                    }, 
+                    "match": "^/\\* =(\\s*.*?)\\s*= \\*/$\\n?", 
+                    "name": "comment.block.agen"
+                }, 
+                {
+                    "captures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.agen"
+                        }
+                    }, 
+                    "begin": "/\\*", 
+                    "name": "comment.block.agen", 
+                    "end": "\\*/"
+                }, 
+                {
+                    "match": "\\*/.*\\n", 
+                    "name": "invalid.illegal.stray-comment-end.agen"
+                }, 
+                {
+                    "captures": {
+                        "1": {
+                            "name": "meta.toc-list.banner.line.agen"
+                        }
+                    }, 
+                    "match": "^// =(\\s*.*?)\\s*=\\s*$\\n?", 
+                    "name": "comment.line.banner.agen"
+                }, 
+                {
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.agen"
+                        }
+                    }, 
+                    "begin": "//", 
+                    "name": "comment.line.double-slash.agen", 
+                    "end": "$\\n?", 
+                    "patterns": [
+                        {
+                            "match": "(?>\\\\\\s*\\n)", 
+                            "name": "punctuation.separator.continuation.agen"
+                        }
+                    ]
+                }
+            ]
+        },
+        "illegal_names": {
+            "match": "\\b(and|as|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|raise|return|try|while|with|yield)\\b", 
+            "name": "invalid.illegal.name.agen"
+        }, 
+        "entity_name_function": {
+            "patterns": [
+                {
+                    "include": "#illegal_names"
+                }, 
+                {
+                    "include": "#generic_names"
+                }
+            ]
+        }
+    },
+    "uuid": "ca03e751-04ef-4330-9a6b-9b99aae1c418"
+}

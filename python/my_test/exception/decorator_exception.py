@@ -61,7 +61,6 @@ def raise_my_exception_with_code(msg1, msg2):
 def div_zero2(the_num):
     the_num/0
 
-
 if __name__ == '__main__':
     from minitest import *
 
