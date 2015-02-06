@@ -46,19 +46,19 @@ def write_lines(file_path, lines):
 if __name__ == '__main__':
     from minitest import *
 
-    with test(adjust_one_line):
-        line1 = '{2778}{2842}Party hardy was tardy.'
-        line2 = '{28869}{28914}Go, Dad!' 
-        transfer_func = get_rate_transfer_func(1.22)
-        adjust_one_line(line1, transfer_func).must_equal('{3389}{3467}Party hardy was tardy.')
-        adjust_one_line(line2, transfer_func).must_equal('{35220}{35275}Go, Dad!')
+    # with test(adjust_one_line):
+    #     line1 = '{2778}{2842}Party hardy was tardy.'
+    #     line2 = '{28869}{28914}Go, Dad!' 
+    #     transfer_func = get_rate_transfer_func(1.22)
+    #     adjust_one_line(line1, transfer_func).must_equal('{3389}{3467}Party hardy was tardy.')
+    #     adjust_one_line(line2, transfer_func).must_equal('{35220}{35275}Go, Dad!')
 
-    with test(add_suffix):
-        file_path = '/Users/colin/123.sub'
-        add_suffix(file_path, '_changed').must_equal('/Users/colin/123_changed.sub')
+    # with test(add_suffix):
+    #     file_path = '/Users/colin/123.sub'
+    #     add_suffix(file_path, '_changed').must_equal('/Users/colin/123_changed.sub')
 
     def main():
-        file_path = '/Users/colin/Movies/Simpsons/Simpsons S01E13 - Some Enchanted Evening.sub'
+        file_path = '/Users/colin/Movies/Simpsons/The Simpsons - S02E04 - Treehouse Of Horror I.EN.sub'
         transfer_func = get_rate_transfer_func2(1.2465)
         lines = adjust_file(file_path, transfer_func)
         # changed_file_path = add_suffix(file_path, '_changed')

@@ -3,9 +3,15 @@ Documentation     Example test cases using the keyword-driven testing approach.
 ...
 ...               Colin's simple test
 Library           FxLibrary
+Library           OtherLibrary
+
+*** Variables ***
+${SERVER}         localhost:7272
+${BROWSER}        Chrome
 
 *** Test Cases ***
 Simple One
+    print variables
     Return self         1
     Result must be    1
 

@@ -1,0 +1,3 @@
+in linux(python 2.7.5) mac(python2.7.6)
+the print has issue.
+but in windows(python 2.7.8) works.
