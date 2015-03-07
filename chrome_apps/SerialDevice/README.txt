@@ -1,0 +1,1 @@
+It's an example for using serial port of Arduino.
