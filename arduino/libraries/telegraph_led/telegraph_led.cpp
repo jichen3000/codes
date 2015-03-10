@@ -1,6 +1,6 @@
 #include <ctype.h>
 #include <Arduino.h>
-#include "telegraph.h"
+#include "telegraph_led.h"
 
 const char* LETTERS[] = {
     ".-", "-...", "-.-.", "-..", ".", // A-E 

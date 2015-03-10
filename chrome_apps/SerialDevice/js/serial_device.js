@@ -15,7 +15,7 @@
 
 var SerialDevice = function(path, baudRate) {
   this.path = path; 
-  this.baudRate = baudRate || 38400;
+  this.baudRate = baudRate || 9600;
   this.connectionId = -1;
   this.readBuffer = ""; 
   this.boundOnReceive = this.onReceive.bind(this);
