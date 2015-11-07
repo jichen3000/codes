@@ -43,6 +43,7 @@ if __name__ == '__main__':
     from minitest import *
     with test(get_all_str_recursively):
         get_all_str_recursively('abcd').size().must_equal(24)
+        get_all_str_recursively('abcd').pp()
 
     with test(get_all_str_o):
         get_all_str_o('abc').size().must_equal(6)

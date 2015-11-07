@@ -21,4 +21,5 @@ support vectors
 The points closest to the separating hyperplane are known as support vectors.
 
 SMO
+most popular implementations
 Platt’s SMO stands for Sequential Minimal Optimization, and it takes the large optimization problem and breaks it into many small problems. The small problems can easily be solved, and solving them sequentially will give you the same answer as trying to solve everything together.

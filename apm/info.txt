@@ -1,0 +1,40 @@
+
+apm 2.8
+http://copter.ardupilot.com/
+
+http://copter.ardupilot.com/wiki/introduction/
+gyroscopes
+
+taobao
+http://s.taobao.com/search?q=apm+2.6&commend=all&ssid=s5-e&search_type=mall&sourceId=tb.index&spm=a215z.7106357.5803581.d4908513
+
+taobao support
+http://s.taobao.com/search?q=x8%2B+%E9%A3%9E%E8%A1%8C%E5%99%A8&js=1&stats_click=search_radio_all%253A1&initiative_id=staobaoz_20150331
+http://item.taobao.com/item.htm?spm=a230r.1.0.0.PXmW3n&id=37757854292&ns=1#detail
+
+原创源码公开：基于KK飞控的一个纯C的四轴飞控完整代码
+kk飞控板
+http://www.amobbs.com/thread-4706890-1-1.html
+
+This one is the all things I need:
+
+https://store.3drobotics.com/checkout/delivery
+
+Multicopter frame including motors, ESCs and propellers
+
+6+ channel RC transmitter and receiver
+At $54, the Turnigy 9x
+
+## Autopilot hardware with GPS module
+APM is a reliable, Arduino-compatible platform
+PX4 is a newer, more powerful autopilot featuring more memory, although it is not Arduino-compatible. 
+
+LiPo batteries and charger
+
+Ground station with Mission Planner software
+
+
+http://www.amazon.com/Hubsan-X4-H107-Copter-2-4GHZ/dp/B009M1PO7W
+
+http://copter.ardupilot.com/wiki/introduction/build-your-own-multicopter/
+ss

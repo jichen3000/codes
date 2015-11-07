@@ -18,7 +18,7 @@ The 'confidence' is defined for an association rule like {diapers} ➞ {wine}. T
 Apriori
 A priori means “from before” in Latin. When defining a problem, it’s common to state prior knowledge, or assumptions.
 
-The Apriori principle says that if an itemset is fre- quent, then all of its subsets are frequent.
+The Apriori principle says that if an itemset is frequent, then all of its subsets are frequent.
 The rule turned around says that if an itemset is infrequent, then its supersets are also infrequent.
 
 We have a similar measurement for association rules. This measurement is called the confidence.

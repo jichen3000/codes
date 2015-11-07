@@ -15,15 +15,21 @@ def gen_parse():
 
 def main(args):
     # args = parser.parse_args()
-    args.func(args)
+    args.__dict__.pp()
+    # dir(args).pp()
+    # args.func(args)
     
 
 
 if __name__ == '__main__':
+    from minitest import *
+
     print "sys.argv",sys.argv
     if len(sys.argv)==1:
         sys.argv=sys.argv+['answer', '-x', 'xxx']
+    print "sys.argv",sys.argv
     parser = gen_parse()
     args = parser.parse_args()
+    print "args", args
     main(args)
     print "end!"

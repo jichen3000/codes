@@ -19,6 +19,8 @@ class skip(object):
             frame = inspect.currentframe(1)
 
             frame.f_trace = self.trace
+            return
+        print "some"
     def trace(self, frame, event, arg):
         raise
     def __exit__(self, type, value, traceback):

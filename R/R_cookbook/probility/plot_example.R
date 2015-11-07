@@ -1,0 +1,7 @@
+x <- seq(from=0, to=6, length.out=100) 
+ylim <- c(0, 0.6)
+par(mfrow=c(2,2))
+plot(x, dunif(x,min=2,max=4), main="Uniform", type='l', ylim=ylim)
+plot(x, dnorm(x,mean=3,sd=1), main="Normal", type='l', ylim=ylim)
+plot(x, dexp(x,rate=1/2), main="Exponential", type='l', ylim=ylim)
+plot(x, dgamma(x,shape=2,rate=1), main="Gamma", type='l', ylim=ylim)
