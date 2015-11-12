@@ -13,4 +13,3 @@ if __name__ == '__main__':
     # support print in the test methods
     os.environ['NOSE_NOCAPTURE'] = '1'
     result = nose.runmodule()
-

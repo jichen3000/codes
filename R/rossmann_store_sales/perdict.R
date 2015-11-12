@@ -10,10 +10,10 @@
 #     perdict_bagging <- predict(reg_bagging, newdata=test_set_83,
 #         type="class")
 #     test_set_83$perdict_bagging <- perdict_bagging
-#     rasiduals_bagging <- abs(test_set_83$Sales - test_set_83$perdict_bagging)
-#     # it is better than simple_regression 
-#     summary(rasiduals_bagging)
-#     # t.test(rasiduals_bagging, rasiduals_simple)
+#     residuals_bagging <- abs(test_set_83$Sales - test_set_83$perdict_bagging)
+#     # it is better than simple_regression
+#     summary(residuals_bagging)
+#     # t.test(residuals_bagging, residuals_simple)
 #     ## cross-validation, cannot find the example.
 #     # cv(Sales, Sales~DayOfWeek+Promo, data=train_set_83)
 
@@ -24,33 +24,33 @@
 
 # }
 
-    reg_boosting1 <- boosting(Sales~DayOfWeek+Promo, 
-        data=train_set_83)
+    # reg_boosting1 <- boosting(Sales~DayOfWeek+Promo,
+    #     data=train_set_83)
 
 
 # perdict_with_boosting <- function(){
 #     library(gbm)
 #     set.seed(2)
 #     # use the columns which only use in the formula.
-#     reg_boosting <- gbm(Sales~DayOfWeek+Promo, 
+#     reg_boosting <- gbm(Sales~DayOfWeek+Promo,
 #         data=train_set_83,
 #         distribution="gaussian",
 #         n.trees = 1000,interaction.depth = 3,shrinkage = 0.1)
-#     train_set_83_s = train_set_83[,names(train_set_83) %in% 
-#         c('Sales','DayOfWeek','Promo')]           
-#     reg_boosting <- gbm(Sales~DayOfWeek+Promo, 
+#     train_set_83_s = train_set_83[,names(train_set_83) %in%
+#         c('Sales','DayOfWeek','Promo')]
+#     reg_boosting <- gbm(Sales~DayOfWeek+Promo,
 #         data=train_set_83_s,
 #         distribution="gaussian",
 #         n.trees = 1000,interaction.depth = 7,shrinkage = 0.01,
-#         cv.folds = 3) 
+#         cv.folds = 3)
 #     summary(reg_boosting)
 #     # reg_boosting_iter = gbm.perf(reg_boosting,method="cv")
 #     reg_boosting_iter = gbm.perf(reg_boosting)
 #     perdict_boosting <- predict(reg_boosting, newdata=test_set_83,
 #         n.trees = 100)
 # #     test_set_83$perdict_boosting <- perdict_boosting
-#     rasiduals_boosting <- abs(test_set_83$Sales - perdict_boosting)
-#     summary(rasiduals_boosting)
+#     residuals_boosting <- abs(test_set_83$Sales - perdict_boosting)
+#     summary(residuals_boosting)
 
 #     with(test_set_83, plot(Date,Sales, col='black'))
 #     with(test_set_83, points(Date,perdict_simple, col='red'))
@@ -71,14 +71,14 @@
 #     library(randomForest)
 #     set.seed(2)
 #     # use the columns which only use in the formula.
-#     reg_randomforest <- randomForest(Sales~DayOfWeek+Promo, 
+#     reg_randomforest <- randomForest(Sales~DayOfWeek+Promo,
 #         data=train_set_83,
 #         importance = T)
 
 #     perdict_randomforest <- predict(reg_randomforest, newdata=test_set_83)
 #     test_set_83$perdict_randomforest <- perdict_randomforest
-#     rasiduals_randomforest <- abs(test_set_83$Sales - test_set_83$perdict_randomforest)
-#     summary(rasiduals_randomforest)
+#     residuals_randomforest <- abs(test_set_83$Sales - test_set_83$perdict_randomforest)
+#     summary(residuals_randomforest)
 
 #     with(test_set_83, plot(Date,Sales, col='black'))
 #     with(test_set_83, points(Date,perdict_simple, col='red'))
@@ -98,8 +98,8 @@
 #     reg_svm <- svm(Sales~DayOfWeek+Promo, data=train_set_83, type='eps-regression')
 #     perdict_svm <- predict(reg_svm, newdata=test_set_83)
 #     test_set_83$perdict_svm <- perdict_svm
-#     rasiduals_svm <- abs(test_set_83$Sales - test_set_83$perdict_svm)
-#     summary(rasiduals_svm)
+#     residuals_svm <- abs(test_set_83$Sales - test_set_83$perdict_svm)
+#     summary(residuals_svm)
 
 #     # with(test_set_83, plot(Date,Sales, col='black'))
 #     # with(test_set_83, points(Date,perdict_simple, col='red'))
@@ -118,8 +118,8 @@
 #     #         gamma=0.1, cost=100)
 #     # perdict_svm <- predict(reg_svm, newdata=test_set_83)
 #     # test_set_83$perdict_svm <- perdict_svm
-#     # rasiduals_svm <- abs(test_set_83$Sales - test_set_83$perdict_svm)
-#     # summary(rasiduals_svm)
+#     # residuals_svm <- abs(test_set_83$Sales - test_set_83$perdict_svm)
+#     # summary(residuals_svm)
 
 # }
 
@@ -128,11 +128,11 @@
 #     library(neuralnet)
 #     reg_neuralnet <- neuralnet(Sales~DayOfWeek+Promo, data=train_set_83,
 #             hidden=3)
-#     perdict_neuralnet <- compute(reg_neuralnet, 
+#     perdict_neuralnet <- compute(reg_neuralnet,
 #             test_set_83[, names(test_set_83) %in% c("DayOfWeek","Promo")])$net.result
 #     test_set_83$perdict_neuralnet <- perdict_neuralnet
-#     rasiduals_neuralnet <- abs(test_set_83$Sales - test_set_83$perdict_neuralnet)
-#     summary(rasiduals_neuralnet)
+#     residuals_neuralnet <- abs(test_set_83$Sales - test_set_83$perdict_neuralnet)
+#     summary(residuals_neuralnet)
 
 #     with(test_set_83, plot(Date,Sales, col='black'))
 #     with(test_set_83, points(Date,perdict_simple, col='red'))
@@ -146,8 +146,8 @@
 #     perdict_simple = predict(reg_simple, test_dataset, interval="predict")
 #     column_len = length(perdict_simple)/3
 #     # test_dataset$perdict_simple <- perdict_simple[1:column_len]
-#     rasiduals_simple <- abs(test_dataset$Sales - test_dataset$perdict_simple)
-#     summary(rasiduals_simple)
+#     residuals_simple <- abs(test_dataset$Sales - test_dataset$perdict_simple)
+#     summary(residuals_simple)
 
 #     #
 #     # library(caret)
@@ -157,73 +157,9 @@
 #     # perdict_simple = predict(model$finalModel, test_dataset, interval="predict")
 # }
 
-evaluate_all <- function(train_set, test_set, method_names){
-    formula <- Sales~DayOfWeek+Promo
-    summary_matrix <- sapply(unique(train_set$Store), function(store_id){
-        train_set_by_store <- train_set[train_set$Store==store_id,]
-        test_set_by_store  <- test_set[test_set$Store==store_id,]
-        cat("store: ")
-        print(store_id)
-        result <- sapply(method_names, function(method_name){
-                # print(method_name)
-                summary_rasiduals <- do.call(paste0("perdict_with_",
-                        method_name),list(formula, 
-                        train_set_by_store, test_set_by_store))
-                list(summary_rasiduals)
-            })
-    })
-    colnames(summary_matrix)<-unique(train_set$Store)
-    # result_dataframe <- as.data.frame(summary_matrix)
-    summary_matrix
-}
 
-organize_best_chcoices <- function(summary_matrix,method_names){
-    all_stores <- colnames(summary_matrix)
-    store_count <- length(all_stores)
-    choosed_count <- 3
-    if(length(method_names) < choosed_count){
-        choosed_count <- length(method_names)
-    }
-    summary_length <- 6
-    best_choices <- data.frame(matrix(NA, nrow = store_count, ncol = choosed_count*2+summary_length))
-    rownames(best_choices) <- all_stores
-    colnames(best_choices) <- append(as.vector(sapply(1:choosed_count,function(x){c(paste0("method",x), paste0("mean",x))})),
-        c("Min.","1st Qu.","Median","Mean","3rd Qu.","Max."))
-    for(row_index in 1:store_count){
-        summaries <- summary_matrix[,row_index]
-        means <- sapply(summaries, function(x){x[4]})
-        sorted_means <- sort(means)
-        for(summary_index in 1:choosed_count){
-            cur_name <- names(sorted_means)[summary_index]
-            best_choices[row_index,(summary_index-1)*2+1] <- unlist(strsplit(cur_name,"[.]"))[1]
-            best_choices[row_index,(summary_index-1)*2+2] <- sorted_means[summary_index]
-        }
-        # min_mean <- min(means)
-        # mean_indexs <- which(means==min_mean)
-        # names(mean_indexs) <- sapply(names(mean_indexs), function(x){unlist(strsplit(x,"[.]"))[1]})
-        # best_choices[row_index,1] <- paste(names(mean_indexs),collapse=",")
-        # best_choices[row_index,2] <- min_mean
 
-        best_method_name <- names(sorted_means)[1]
-        best_method_name <- unlist(strsplit(best_method_name,"[.]"))[1]
-        best_index <- which(method_names==best_method_name)
-        best_summary <- summaries[[best_index]]
-        for(col_index in 1:summary_length){
-            best_choices[row_index,col_index+2*choosed_count] <- best_summary[col_index]
-        }
-    }
-    best_choices
-}
-
-get_range_difference <- function(train_set){
-    sapply(unique(train_set$Store), function(store_id){
-        train_set_by_store <- train_set[train_set$Store==store_id,]
-        cur_range <- range(train_set_by_store$Sales)
-        cur_range[2]-cur_range[1]
-    })
-}
-
-main <- function(){
+main_test <- function(){
     train_raw <- read.csv('data/train.csv', header=TRUE)
     # head(train_raw)
     # str(train_raw)
@@ -232,7 +168,7 @@ main <- function(){
     # set.seed(2)
     # sample_store_ids <- sort(sample(1:store_count, 20))
     source("evaluate_helper.R")
-    train_20_raw <- sample_by_column(train_raw, 'Store', 20, 2)
+    # train_20_raw <- sample_by_column(train_raw, 'Store', 20, 2)
     train_20_raw <- read.csv('data/train_20.csv', header=TRUE)
 
     # train_20 <- remove_columns(train_20_raw,c("Date","Customers"))
@@ -255,18 +191,20 @@ main <- function(){
     # all_set = split_by_column(train_20, 'Date', 50)
     train_set = all_set$train
     test_set = all_set$test
-    # method_names <- c("boosting_cv","rubost_regression")
+    method_names <- c("svm","svm_tune")
     # method_names <- c("simple_regression","rubost_regression","log_regression")
     method_names <- c("simple_regression","rubost_regression",
             "log_regression","glm_regression","gam_regression",
             "bagging","boosting","boosting_cv","randomforest","svm")
-    summary_matrix <- evaluate_all(train_set,test_set,method_names)
-    best_choices <- organize_best_chcoices(summary_matrix,method_names)
+    perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
+    best_choices <- organize_best_chcoices_by_store(perdict_matrix,test_set,method_names)
     range_differences = get_range_difference(train_set)
     best_choices$range <- range_differences
     best_choices$mean2range <- round(best_choices[2] / range_differences, 3)
     # colnames(best_choices)[13] <- "mean2range"
     best_choices <- subset(best_choices,select=c(1:2, 13:14, 3:12))
+
+    all_store_residuals <- cal_all_store_residuals(perdict_matrix, best_choices, test_set)
 
 # 839
     # train_set_83=train_set[(train_set$Store==83 && train_set$Open==1),]
@@ -276,12 +214,31 @@ main <- function(){
     test_set_839=test_set[test_set$Store==839,]
     train_set_839_1 <- train_set_839[train_set_839$Sales<10050,]
 
+    boxplot.stats(test_set_839$Sales)
+
+    train_set_839_removed <- remove_outlies(train_set_839, "Sales")
+    cal_summary_residuals_with_perdict('rubost_regression', formula,
+            train_set_839, test_set_839)
+    cal_summary_residuals_with_perdict('rubost_regression', formula,
+            train_set_839_removed, test_set_839)
+    cal_summary_residuals_with_perdict('svm', formula,
+            train_set_839, test_set_839)
+    cal_summary_residuals_with_perdict('svm', formula,
+            train_set_839_removed, test_set_839)
+
     train_dataset <- train_set_83
     test_dataset <- test_set_83
     formula = Sales~DayOfWeek+Promo
     # formula = Sales~DayOfWeek+Promo+DayOfYear+DateInt
     perdict_with_simple_regression(formula, train_dataset, test_dataset)
     # do.call("perdict_with_simple_regression",list(formula, train_dataset, test_dataset))
+
+    train_set_25=train_set[train_set$Store==25,]
+    test_set_25=test_set[test_set$Store==25,]
+
+    perdict_matrix <-evaluate_all_by_store(train_set_25,test_set_25,method_names)
+    best_choices <- organize_best_chcoices_by_store(perdict_matrix,test_set_25,method_names)
+
 
 #     lmfit = lm(Sales~DayOfWeek+Open+Promo+StateHoliday+SchoolHoliday, train_set_83)
 #     lmfit = lm(Sales~DayOfWeek+Promo, train_set_83)
@@ -388,6 +345,32 @@ main <- function(){
 #     > olsfit = ols(log(wages) ~ age + sex + education, data= SLID, x= TRUE,
 #     y= TRUE)
 #     > robcov(olsfit)
+}
+
+test_split_promo <- function(){
+    'dont have any significant difference'
+    train_set_83 <- train_set[train_set$Store==83,]
+    test_set_83 <- test_set[test_set$Store==83,]
+
+    formula <- Sales ~ DayOfWeek + Promo
+    residuals_with_promo <- cal_summary_residuals_with_perdict("boosting", formula, train_set_83, test_set_83)
+
+    train_set_83_promo0 <- train_set_83[train_set_83$Promo==0,]
+    train_set_83_promo1 <- train_set_83[train_set_83$Promo==1,]
+    test_set_83_promo0 <- test_set_83[test_set_83$Promo==0,]
+    test_set_83_promo1 <- test_set_83[test_set_83$Promo==1,]
+    formula_without_promo <- Sales ~ DayOfWeek
+    residuals_promo0 <- cal_summary_residuals_with_perdict("boosting",
+            formula_without_promo, train_set_83_promo0, test_set_83_promo0)
+    residuals_promo1 <- cal_summary_residuals_with_perdict("boosting",
+            formula_without_promo, train_set_83_promo1, test_set_83_promo1)
+    perdicts_promo0 <- perdict_with_boosting(
+            formula_without_promo, train_set_83_promo0, test_set_83_promo0)
+    perdicts_promo1 <- perdict_with_boosting(
+            formula_without_promo, train_set_83_promo1, test_set_83_promo1)
+    perdicts_83 <- append(perdicts_promo0, perdicts_promo1)
+    actual_83 <- append(test_set_83_promo0$Sales, test_set_83_promo1$Sales)
+    cal_summary_residuals(actual_83, perdicts_83)
 }
 
 if (is.null(sys.frames())){

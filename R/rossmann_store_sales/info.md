@@ -32,46 +32,46 @@ pglmfit = glm(Sales~DayOfWeek+Promo, data = train_set_83,
 
 
 simple regression
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   11.4   154.8   377.8   418.8   620.6  1059.0 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   11.4   154.8   377.8   418.8   620.6  1059.0
 
 rubost regression
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
    3.729  157.600  350.300  433.600  705.300 1144.000
 
 log rubost regression
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   2.718 148.200 378.200 415.000 591.600 982.800
 
 Generalized linear model regression
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   11.4   154.8   377.8   418.8   620.6  1059.0 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   11.4   154.8   377.8   418.8   620.6  1059.0
 
 Generalized additive model regression
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
    11.4   154.8   377.8   418.8   620.6  1059.0
 
 bagging is the best for now, since summary(rasiduals_bagging)
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   36.45  170.50  388.30  395.10  573.80  934.70
 
-boosting 
+boosting
 since summary(rasiduals_boosting)
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   46.64  176.40  338.70  385.00  581.40  923.90
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   26.59  174.10  332.80  382.30  570.70  929.40
-  
+
 random forest
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  28.31  125.80  311.50  395.70  603.00  964.70 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  28.31  125.80  311.50  395.70  603.00  964.70
 
 svm
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  39.89  154.50  316.10  391.70  605.60  979.90 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  39.89  154.50  316.10  391.70  605.60  979.90
 tuned svm
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  36.11  159.10  317.50  394.60  623.90  967.10 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  36.11  159.10  317.50  394.60  623.90  967.10
 
 neuralnet
        V1           
@@ -81,3 +81,15 @@ neuralnet
  Mean   : 663.9227  
  3rd Qu.:1011.5548  
  Max.   :1861.4452    
+
+ > all_store_residuals
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.133  193.900  421.300  554.700  731.600 6497.000
+
+   all together $svm
+   $boosting
+       Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+      4.064  300.000  620.500  755.700 1043.000 7178.000
+
+839  rubost_regression 1358.0  9889 0.137               svm 1396.0
+1107.0 1361.0 1358.0  1642.0 2216.0      

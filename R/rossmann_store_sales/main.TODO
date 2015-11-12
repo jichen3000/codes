@@ -1,14 +1,13 @@
- ☐ cluster by store, so more data can be used in lm
- ☐ cv svm
- ☐ delete outlier points
- ☐ 839  log_regression 1323.0 rubost_regression 1358.0               svm 1396.0
- ☐ 1048    boosting_cv  780.7          boosting  783.3           bagging  797.8
- ☐ 
+ ☐ handle the high variabtion store data which ids are 839 and 1048
+ ☐ check split data by Promo
 
- 
+
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+    ✔ cluster by store, so more data can be used in lm @done(2015-11-11 11:58)
+    ✔ delete outlier points @done(2015-11-11 11:58)
+ ✔ cv svm @done(2015-11-11 10:16)
  ✔ find how many models which can be used @done (15-11-05 13:57)
  ✔ try them one by one, easy one first @done (15-11-05 13:57)
  ✔ plot the perdict values and actual values @done (15-11-05 13:57)
