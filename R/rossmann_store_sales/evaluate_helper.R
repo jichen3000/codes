@@ -308,7 +308,7 @@ remove_outlies <- function(train_set, column_name){
 main <- function(export_csv_path, from_store_id, to_store_id){
     # source("evaluate_helper.R")
     # train_raw <- read.csv('data/train.csv', header=TRUE)
-    train_raw <- read.csv('data/train.csv', header=TRUE)
+    train_raw <- read.csv('data/train_20.csv', header=TRUE)
     train_clean <- train_raw[train_raw$Open==1,]
 
     # 54 rows, cause log_regression wrong
@@ -337,10 +337,11 @@ main <- function(export_csv_path, from_store_id, to_store_id){
     # perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
     perdict_matrix <-evaluate_to_file(train_set,test_set,method_names,append_file)
     best_choices <- organize_best_chcoices_by_store(perdict_matrix,test_set,method_names)
-    range_differences = get_range_difference(train_set)
-    best_choices$range <- range_differences
-    best_choices$mean2range <- round(best_choices[2] / range_differences, 3)
+    # range_differences = get_range_difference(train_set)
+    # best_choices$range <- range_differences
+    # best_choices$mean2range <- round(best_choices[2] / range_differences, 3)
 
+    write.table(best_choices, file="best_choices.csv", sep=",")
 
 }
 
