@@ -187,6 +187,12 @@ main_test <- function(){
     train_20$DateInt <- as.integer(train_20$Date)
     train_2 <- train_20[train_20$Store %in% c(83,144),]
 
+    file_dir <- "."
+    file_path <- file.path(file_dir, "result_2.csv")
+    clear_file(file_path)
+    append_file<-get_append_file_function(file_path)
+    append_file("store_id","method","mean")
+
     all_set = split_by_column(train_2, 'Date', 50)
     # all_set = split_by_column(train_20, 'Date', 50)
     train_set = all_set$train
@@ -196,7 +202,8 @@ main_test <- function(){
     method_names <- c("simple_regression","rubost_regression",
             "log_regression","glm_regression","gam_regression",
             "bagging","boosting","boosting_cv","randomforest","svm")
-    perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
+    # perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
+    perdict_matrix <-evaluate_to_file(train_set,test_set,method_names,append_file)
     best_choices <- organize_best_chcoices_by_store(perdict_matrix,test_set,method_names)
     range_differences = get_range_difference(train_set)
     best_choices$range <- range_differences

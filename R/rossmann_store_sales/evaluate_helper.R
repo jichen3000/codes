@@ -1,3 +1,15 @@
+clear_file <- function(file_path){
+    # clear file
+    cat(c(""), file=file_path)
+}
+
+get_append_file_function <- function(file_path){
+    function(...) {
+        write.table(t(matrix(c(...))), file=file_path,
+                row.names=FALSE, append=TRUE, col.names=FALSE, sep=",")
+    }
+}
+
 remove_columns <- function(the_data, drop_names){
     return(the_data[,!(names(the_data) %in% drop_names)])
 }
@@ -145,11 +157,35 @@ cal_summary_residuals_with_perdict <- function(method_name, formula, train_datas
     cal_summary_residuals(test_dataset$Sales, perdicts)
 }
 
+evaluate_to_file <- function(train_set, test_set, method_names, append_file){
+    formula <- Sales~DayOfWeek+Promo
+    perdict_matrix <- sapply(unique(train_set$Store), function(store_id){
+        train_set_by_store <- train_set[train_set$Store==store_id,]
+        # train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
+        test_set_by_store  <- test_set[test_set$Store==store_id,]
+        cat("store: ")
+        print(store_id)
+        result <- sapply(method_names, function(method_name){
+            print(method_name)
+            perdicts <- do.call(paste0("perdict_with_",
+                    method_name),list(formula,
+                    train_set_by_store, test_set_by_store))
+            cur_summary <- cal_summary_residuals(
+                     test_set_by_store$Sales, perdicts)
+            append_file(as.numeric(store_id),method_name,as.numeric(cur_summary[4]))
+            list(perdicts)
+        })
+    })
+    colnames(perdict_matrix)<-unique(train_set$Store)
+    # result_dataframe <- as.data.frame(perdict_matrix)
+    perdict_matrix
+}
+
 evaluate_all_by_store <- function(train_set, test_set, method_names){
     formula <- Sales~DayOfWeek+Promo
     perdict_matrix <- sapply(unique(train_set$Store), function(store_id){
         train_set_by_store <- train_set[train_set$Store==store_id,]
-        train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
+        # train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
         test_set_by_store  <- test_set[test_set$Store==store_id,]
         cat("store: ")
         print(store_id)
@@ -258,7 +294,7 @@ remove_outlies <- function(train_set, column_name){
 
 
 main <- function(){
-    # source("evaluate_helper.R")
+    source("evaluate_helper.R")
     train_raw <- read.csv('data/train.csv', header=TRUE)
     train_clean <- train_raw[train_raw$Open==1,]
 
