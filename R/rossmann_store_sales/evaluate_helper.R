@@ -307,8 +307,8 @@ remove_outlies <- function(train_set, column_name){
 
 main <- function(export_csv_path, from_store_id, to_store_id){
     # source("evaluate_helper.R")
-    # train_raw <- read.csv('data/train.csv', header=TRUE)
-    train_raw <- read.csv('data/train_20.csv', header=TRUE)
+    train_raw <- read.csv('data/train.csv', header=TRUE)
+    # train_raw <- read.csv('data/train_20.csv', header=TRUE)
     train_clean <- train_raw[train_raw$Open==1,]
 
     # 54 rows, cause log_regression wrong
