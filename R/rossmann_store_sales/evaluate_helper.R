@@ -1,3 +1,12 @@
+install_relative_packages <- function(){
+    install.packages("MASS")
+    install.packages("mgcv")
+    install.packages("ipred")
+    install.packages("gbm")
+    install.packages("randomForest")
+    install.packages("e1071")
+}
+
 clear_file <- function(file_path){
     # clear file
     cat(c(""), file=file_path)
@@ -44,14 +53,14 @@ perdict_with_simple_regression <- function(formula, train_dataset, test_dataset)
 }
 
 perdict_with_rubost_regression <- function(formula, train_dataset, test_dataset){
-    require(MASS)
+    suppressPackageStartupMessages(require(MASS))
     reg_rubost <- rlm(formula, train_dataset)
     perdict_rubost <- predict(reg_rubost, test_dataset)
     perdict_rubost
 }
 
 perdict_with_log_regression <- function(formula, train_dataset, test_dataset){
-    require(MASS)
+    suppressPackageStartupMessages(require(MASS))
     # change from Sales ~ DayOfWeek + Promo
     # to log(Sales) ~ DayOfWeek + Promo
     reg_log <- rlm(update(formula, log(.) ~ .), train_dataset)
@@ -69,14 +78,14 @@ perdict_with_glm_regression <- function(formula, train_dataset, test_dataset){
 
 # Generalized additive model
 perdict_with_gam_regression <- function(formula, train_dataset, test_dataset){
-    require(mgcv)
+    suppressPackageStartupMessages(require(mgcv))
     reg_gam <- gam(formula, data = train_dataset)
     perdict_gam <- predict(reg_gam, test_dataset)
     perdict_gam
 }
 
 perdict_with_bagging <- function(formula, train_dataset, test_dataset){
-    require(ipred)
+    suppressPackageStartupMessages(require(ipred))
     set.seed(2)
     reg_bagging <- bagging(formula, data=train_dataset, coob=T)
     perdict_bagging <- predict(reg_bagging, newdata=test_dataset)
@@ -84,7 +93,7 @@ perdict_with_bagging <- function(formula, train_dataset, test_dataset){
 }
 
 perdict_with_boosting <- function(formula, train_dataset, test_dataset){
-    require(gbm)
+    suppressPackageStartupMessages(require(gbm))
     set.seed(2)
     # use the columns which only use in the formula.
     reg_boosting <- gbm(formula,
@@ -97,7 +106,7 @@ perdict_with_boosting <- function(formula, train_dataset, test_dataset){
 }
 
 perdict_with_boosting_cv <- function(formula, train_dataset, test_dataset){
-    require(gbm)
+    suppressPackageStartupMessages(require(gbm))
     set.seed(2)
     train_dataset_s <- train_dataset[,names(train_dataset) %in%
         c('Sales','DayOfWeek','Promo')]
@@ -115,7 +124,7 @@ perdict_with_boosting_cv <- function(formula, train_dataset, test_dataset){
 }
 
 perdict_with_randomforest<- function(formula, train_dataset, test_dataset){
-    require(randomForest)
+    suppressPackageStartupMessages(require(randomForest))
     set.seed(2)
     # use the columns which only use in the formula.
     reg_randomforest <- randomForest(formula,
@@ -127,14 +136,14 @@ perdict_with_randomforest<- function(formula, train_dataset, test_dataset){
 }
 
 perdict_with_svm <- function(formula, train_dataset, test_dataset){
-    require(e1071)
+    suppressPackageStartupMessages(require(e1071))
     reg_svm <- svm(formula, data=train_dataset, type='eps-regression')
     perdict_svm <- predict(reg_svm, newdata=test_dataset)
     perdict_svm
 }
 
 perdict_with_svm_tune <- function(formula, train_dataset, test_dataset){
-    require(e1071)
+    suppressPackageStartupMessages(require(e1071))
     tuned <- tune.svm(formula, data=train_dataset,
             gamma = 10^(-6:-1),cost=10^(0:2))
     reg_svm_tune <- svm(formula, data=train_dataset,
@@ -159,7 +168,10 @@ cal_summary_residuals_with_perdict <- function(method_name, formula, train_datas
 
 evaluate_to_file <- function(train_set, test_set, method_names, append_file){
     formula <- Sales~DayOfWeek+Promo
-    perdict_matrix <- sapply(unique(train_set$Store), function(store_id){
+    all_stores <- unique(train_set$Store)
+    cat("store count: ")
+    print(length(all_stores))
+    perdict_matrix <- sapply(all_stores, function(store_id){
         train_set_by_store <- train_set[train_set$Store==store_id,]
         # train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
         test_set_by_store  <- test_set[test_set$Store==store_id,]
@@ -293,13 +305,17 @@ remove_outlies <- function(train_set, column_name){
 }
 
 
-main <- function(){
-    source("evaluate_helper.R")
+main <- function(export_csv_path, from_store_id, to_store_id){
+    # source("evaluate_helper.R")
+    # train_raw <- read.csv('data/train.csv', header=TRUE)
     train_raw <- read.csv('data/train.csv', header=TRUE)
     train_clean <- train_raw[train_raw$Open==1,]
 
     # 54 rows, cause log_regression wrong
     train_clean <- train_clean[train_clean$Sales!=0,]
+
+    train_clean <- train_clean[train_clean$Store>=from_store_id,]
+    train_clean <- train_clean[train_clean$Store<=to_store_id,]
 
     train_clean$Date <- as.Date(train_clean$Date)
 
@@ -307,12 +323,19 @@ main <- function(){
     train_set = all_set$train
     test_set = all_set$test
 
+    file_dir <- "."
+    file_path <- file.path(file_dir, export_csv_path)
+    clear_file(file_path)
+    append_file<-get_append_file_function(file_path)
+    append_file("store_id","method","mean")
+
     formula = Sales~DayOfWeek+Promo
 
     method_names <- c("simple_regression","rubost_regression",
             "log_regression","glm_regression","gam_regression",
             "bagging","boosting","boosting_cv","randomforest","svm")
-    perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
+    # perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
+    perdict_matrix <-evaluate_to_file(train_set,test_set,method_names,append_file)
     best_choices <- organize_best_chcoices_by_store(perdict_matrix,test_set,method_names)
     range_differences = get_range_difference(train_set)
     best_choices$range <- range_differences
@@ -320,3 +343,38 @@ main <- function(){
 
 
 }
+
+gen_result_csv_name <- function(){
+    now <- Sys.time()
+    paste0("result_",format(now,"%Y-%m-%d_%H-%M-%S"),".csv")
+}
+
+
+get_args <- function(){
+    suppressPackageStartupMessages(require(optparse)) # don't say "Loading required package: optparse"
+    # manual: http://cran.r-project.org/web/packages/optparse/optparse.pdf
+    # vignette: http://www.icesi.edu.co/CRAN/web/packages/optparse/vignettes/optparse.pdf
+
+    option_list = list(
+      make_option(c("-e", "--export_csv_path"), action="store", default=gen_result_csv_name(), type='character',
+                  help="just a variable named a"),
+      make_option(c("-f", "--from_store_id"), action="store", default=1, type='integer',
+                  help="just a variable named b"),
+      make_option(c("-t", "--to_store_id"), action="store", default=9999, type='integer',
+                  help="just a variable named b")
+    )
+    args = parse_args(OptionParser(option_list=option_list))
+    cat("export_csv_path: ")
+    cat(args$export_csv_path)
+    cat("\n")
+    cat("from_store_id: ")
+    cat(args$from_store_id)
+    cat("\n")
+    cat("to_store_id: ")
+    cat(args$to_store_id)
+    cat("\n")
+    args
+}
+
+args <- get_args()
+main(args$export_csv_path, args$from_store_id, args$to_store_id)

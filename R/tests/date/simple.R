@@ -15,3 +15,6 @@ as.character(colin)
 as.integer(colin)
 
 days <- as.numeric(strftime(today, format = "%j"))
+
+now <- Sys.time()
+format(now,"%Y-%m-%d %H:%M:%S")
