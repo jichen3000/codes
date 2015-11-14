@@ -1,3 +1,0 @@
-"method1","mean1","range","mean2range","method2","mean2","method3","mean3","Min.","1st Qu.","Median","Mean","3rd Qu.","Max."
-"83","boosting_cv",390.9,5967,0.066,"boosting",391.9,"randomforest",399.8,43.42,185.1,343.2,390.9,585.4,925.6
-"144","svm",473.2,18523,0.026,"boosting",525.5,"boosting_cv",537.2,10.32,150.8,333.5,473.2,601,2202
