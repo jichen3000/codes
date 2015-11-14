@@ -230,6 +230,32 @@ evaluate_all_ignoring_store <- function(train_set, test_set, method_names){
     perdict_list
 }
 
+
+perdict_all <- function(train_set, test_set, best_choices){
+    formula <- Sales~DayOfWeek+Promo
+    all_stores <- unique(train_set$Store)
+    cat("store count: ")
+    print(length(all_stores))
+    # perdict_matrix <- sapply(all_stores, function(store_id){
+    for(store_id in all_stores){
+        train_set_by_store <- train_set[train_set$Store==store_id,]
+        test_set_by_store  <- test_set[test_set$Store==store_id,]
+        cat("store: ")
+        print(store_id)
+        method_name <- method_name <- as.character(best_choices[best_choices$Store==store_id,][1,1])
+        print(method_name)
+        perdicts <- do.call(paste0("perdict_with_",
+                method_name),list(formula,
+                train_set_by_store, test_set_by_store))
+        test_set[test_set$Store==store_id,]$Sales <- round(perdicts,0)
+        # print(head(test_set[test_set$Store==store_id,]$Sales))
+        TRUE
+    }
+    # print(head(test_set[!is.na(test_set$Sales),]))
+    test_set
+}
+
+
 organize_best_chcoices_ignoring_store <- function(perdict_list, test_set){
     method_names <- names(perdict_list)
     summarie_list <- lapply(perdict_list, function(x){cal_summary_residuals(

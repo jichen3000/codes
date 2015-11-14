@@ -1,51 +1,52 @@
-main <- function(train_csv_path, export_csv_path, from_store_id, to_store_id){
+main <- function(train_csv_path, export_csv_path, best_choices_csv_path,from_store_id, to_store_id){
     source("evaluate_helper.R")
+    # best_choices_csv_path <- "best_choices.csv"
+    best_choices <- read.csv(best_choices_csv_path, header=TRUE)
+    best_choices$Store <- as.integer(rownames(best_choices))
+    # train_csv_path <- 'data/train_20.csv'
     train_raw <- read.csv(train_csv_path, header=TRUE)
-    # train_raw <- read.csv('data/train.csv', header=TRUE)
-    # train_raw <- read.csv('data/train_20.csv', header=TRUE)
+
     train_clean <- train_raw[train_raw$Open==1,]
 
     # 54 rows, cause log_regression wrong
     train_clean <- train_clean[train_clean$Sales!=0,]
 
+    # from_store_id <- 80
+    # to_store_id <- 150
     train_clean <- train_clean[train_clean$Store>=from_store_id,]
     train_clean <- train_clean[train_clean$Store<=to_store_id,]
 
-    train_clean$Date <- as.Date(train_clean$Date)
+    # train_clean$Date <- as.Date(train_clean$Date)
+    #
+    # all_set = split_by_column(train_clean, 'Date', 50)
+    # train_set = all_set$train
+    # test_set = all_set$test
 
-    all_set = split_by_column(train_clean, 'Date', 50)
-    train_set = all_set$train
-    test_set = all_set$test
+    test_csv_path <- 'data/test.csv'
+    test_raw <- read.csv(test_csv_path, header=TRUE)
+    test_raw$Sales<-NA
 
-    file_dir <- "."
-    file_path <- file.path(file_dir, export_csv_path)
-    clear_file(file_path)
-    append_file<-get_append_file_function(file_path)
-    append_file("store_id","method","mean")
+    test_clean <- test_raw[test_raw$Open==1,]
+    test_clean <- test_clean[test_clean$Store>=from_store_id,]
+    test_clean <- test_clean[test_clean$Store<=to_store_id,]
+    test_clean <- test_clean[!is.na(test_clean$Store),]
 
-    formula = Sales~DayOfWeek+Promo
+    # file_dir <- "."
+    # file_path <- file.path(file_dir, export_csv_path)
+    # clear_file(file_path)
+    # append_file<-get_append_file_function(file_path)
+    # append_file("store_id","method","mean")
 
-    method_names <- c("simple_regression","rubost_regression",
-            "log_regression","glm_regression","gam_regression",
-            "bagging","boosting","boosting_cv","randomforest","svm")
-    # perdict_matrix <-evaluate_all_by_store(train_set,test_set,method_names)
-    perdict_matrix <-evaluate_to_file(train_set,test_set,method_names,append_file)
-    best_choices <- organize_best_chcoices_by_store(perdict_matrix,test_set,method_names)
-    range_differences = get_range_difference(train_set)
-    best_choices$range <- range_differences
-    best_choices$mean2range <- round(best_choices[2] / range_differences, 3)[,1]
-    best_choices <- subset(best_choices,select=c(1:2, 13:14, 3:12))
 
-    write.table(best_choices, file="best_choices.csv", sep=",")
+
+    # formula = Sales~DayOfWeek+Promo
+    train_set <- train_clean
+    test_set <- test_clean
+    test_result <- perdict_all(train_set, test_set, best_choices)
+    test_result <- test_result[!is.na(test_result$Sales),]
+    write.table(test_result, file=export_csv_path, sep=",")
 
 }
-
-gen_result_csv_name <- function(){
-    now <- Sys.time()
-    paste0("result_",format(now,"%Y-%m-%d_%H-%M-%S"),".csv")
-}
-
-
 
 get_args <- function(){
     suppressPackageStartupMessages(require(optparse)) # don't say "Loading required package: optparse"
@@ -57,8 +58,11 @@ get_args <- function(){
             default="data/train.csv", type='character',
             help="train set csv file path, data/train.csv or data/train_20.csv"),
       make_option(c("-e", "--export_csv_path"), action="store",
-            default=gen_result_csv_name(), type='character',
-            help="method mean csv file path"),
+            default="test_result.csv", type='character',
+            help="test result csv file path"),
+      make_option(c("-b", "--best_choices_csv_path"), action="store",
+            default="best_choices.csv", type='character',
+            help="best choices csv file path"),
       make_option(c("-f", "--from_store_id"), action="store",
             default=1, type='integer',
             help="from which store id"),
@@ -73,6 +77,9 @@ get_args <- function(){
     cat("export_csv_path: ")
     cat(args$export_csv_path)
     cat("\n")
+    cat("best_choices_csv_path: ")
+    cat(args$best_choices_csv_path)
+    cat("\n")
     cat("from_store_id: ")
     cat(args$from_store_id)
     cat("\n")
@@ -84,7 +91,7 @@ get_args <- function(){
 
 args <- get_args()
 # RScript choose_methods.R -c data/train_20.csv -e result_1.csv -f 80 -t 100
-main(args$train_csv_path, args$export_csv_path,
+main(args$train_csv_path, args$export_csv_path, args$best_choices_csv_path,
         args$from_store_id, args$to_store_id)
 
         # train_csv_path<- "data/train_20.csv"
