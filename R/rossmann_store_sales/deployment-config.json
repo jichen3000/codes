@@ -1,0 +1,9 @@
+{
+    "type": "sftp",
+    "host": "fivekc-host",
+    "username": "root",
+    "password": "fortinet",
+    "port": 22,
+    "remotePath": "/root/work/rossmann_store_sales",
+    "uploadOnSave": false
+}

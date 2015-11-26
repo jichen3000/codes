@@ -1,10 +1,11 @@
- ☐ handle the high variabtion store data which ids are 839 and 1048
- ☐ check split data by Promo
+ ☐ use cv or tune
 
 
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+    ✔ handle the high variabtion store data which ids are 839 and 1048 @done(2015-11-15 21:37)
+    ✔ check split data by Promo @done(2015-11-15 21:37)
     ✔ cluster by store, so more data can be used in lm @done(2015-11-11 11:58)
     ✔ delete outlier points @done(2015-11-11 11:58)
  ✔ cv svm @done(2015-11-11 10:16)

@@ -92,4 +92,32 @@ neuralnet
       4.064  300.000  620.500  755.700 1043.000 7178.000
 
 839  rubost_regression 1358.0  9889 0.137               svm 1396.0
-1107.0 1361.0 1358.0  1642.0 2216.0      
+1107.0 1361.0 1358.0  1642.0 2216.0  
+
+
+# different formula
+Sales ~ DayOfWeek + Promo + SchoolHoliday
+method1 mean1  method2 mean2     method3 mean3  Min. 1st Qu. Median  Mean
+8 bagging 917.2 boosting 926.6 boosting_cv 927.3    
+
+
+## high score
+183   183 Sales ~ DayOfWeek + Promo       boosting_cv 0.54904
+192   192 Sales ~ DayOfWeek + Promo      randomforest 0.53731
+274   274 Sales ~ DayOfWeek + Promo      randomforest 0.51710
+292   292 Sales ~ DayOfWeek + Promo    log_regression 0.75800 not in
+530   530 Sales ~ DayOfWeek + Promo      randomforest 0.56797
+732   732 Sales ~ DayOfWeek + Promo      randomforest 0.50381
+876   876 Sales ~ DayOfWeek + Promo simple_regression 0.81242 not in
+909   909 Sales ~ DayOfWeek + Promo      randomforest 1.00279
+
+183   183 Sales ~ DayOfWeek + Promo + SchoolHoliday  boosting_cv 0.54904
+192   192 Sales ~ DayOfWeek + Promo + SchoolHoliday  boosting_cv 0.54487
+274   274 Sales ~ DayOfWeek + Promo + SchoolHoliday randomforest 0.50860
+292   292 Sales ~ DayOfWeek + Promo + SchoolHoliday     boosting 0.75788
+530   530 Sales ~ DayOfWeek + Promo + SchoolHoliday randomforest 0.52419
+732   732 Sales ~ DayOfWeek + Promo + SchoolHoliday randomforest 0.47311
+876   876 Sales ~ DayOfWeek + Promo + SchoolHoliday randomforest 0.80820
+909   909 Sales ~ DayOfWeek + Promo + SchoolHoliday randomforest 0.96229
+
+c(183,192,274,530,732,909)

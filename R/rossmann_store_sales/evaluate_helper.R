@@ -63,8 +63,8 @@ perdict_with_log_regression <- function(formula, train_dataset, test_dataset){
     suppressPackageStartupMessages(require(MASS))
     # change from Sales ~ DayOfWeek + Promo
     # to log(Sales) ~ DayOfWeek + Promo
-    reg_log <- rlm(update(formula, log(.) ~ .), train_dataset)
-    perdict_log <- exp(predict(reg_log, test_dataset))
+    reg_log <- rlm(update(formula, log(.+1) ~ .), train_dataset)
+    perdict_log <- exp(predict(reg_log, test_dataset)) - 1
     perdict_log
 }
 
@@ -108,18 +108,24 @@ perdict_with_boosting <- function(formula, train_dataset, test_dataset){
 perdict_with_boosting_cv <- function(formula, train_dataset, test_dataset){
     suppressPackageStartupMessages(require(gbm))
     set.seed(2)
-    train_dataset_s <- train_dataset[,names(train_dataset) %in%
-        c('Sales','DayOfWeek','Promo')]
-    reg_boosting_cv <- gbm(Sales~DayOfWeek+Promo,
-        data=train_dataset_s,
-        distribution="gaussian",
-        n.trees = 1000,interaction.depth = 7,shrinkage = 0.01,
-        cv.folds = 3)
-    reg_boosting_cv_iter <- gbm.perf(reg_boosting_cv,
-        method="cv", plot.it=FALSE)
-    perdict_boosting_cv <- predict(reg_boosting_cv,
-            newdata=test_dataset, n.trees = reg_boosting_cv_iter)
-    perdict_boosting_cv
+    # train_dataset_s <- train_dataset[,names(train_dataset) %in%
+    #     c('Sales','DayOfWeek','Promo')]
+    if(length(all.vars(formula))<=2){
+        print("not cv")
+        perdict_with_boosting(formula, train_dataset, test_dataset)
+    }else{
+        train_dataset_s <- train_dataset[,all.vars(formula)]
+        reg_boosting_cv <- gbm(formula,
+            data=train_dataset_s,
+            distribution="gaussian",
+            n.trees = 1000,interaction.depth = 7,shrinkage = 0.01,
+            cv.folds = 3)
+        reg_boosting_cv_iter <- gbm.perf(reg_boosting_cv,
+            method="cv", plot.it=FALSE)
+        perdict_boosting_cv <- predict(reg_boosting_cv,
+                newdata=test_dataset, n.trees = reg_boosting_cv_iter)
+        perdict_boosting_cv
+    }
 
 }
 
@@ -128,8 +134,7 @@ perdict_with_randomforest<- function(formula, train_dataset, test_dataset){
     set.seed(2)
     # use the columns which only use in the formula.
     reg_randomforest <- randomForest(formula,
-        data=train_dataset,
-        importance = T)
+        data=train_dataset)
 
     perdict_randomforest <- predict(reg_randomforest, newdata=test_dataset)
     perdict_randomforest
@@ -148,6 +153,7 @@ perdict_with_svm_tune <- function(formula, train_dataset, test_dataset){
             gamma = 10^(-6:-1),cost=10^(0:2))
     reg_svm_tune <- svm(formula, data=train_dataset,
             gamma = tuned$best.parameters$gamma, cost=tuned$best.parameters$cost)
+    print(tuned$best.parameters)
     # reg_svm_tune <- tune.svm(formula, data=train_dataset,
     #         gamma = 10^(-6:-1),cost=10^(0:2),tunecontrol=tune.control(cross=10))
     perdict_svm <- predict(reg_svm_tune, newdata=test_dataset)
@@ -159,6 +165,10 @@ cal_summary_residuals <- function(actuals, perdicts){
     summary(residuals)
 }
 
+cal_score <- function(actuals, perdicts){
+    round(sqrt(mean( ((actuals - perdicts)/actuals)**2 )),5)
+}
+
 cal_summary_residuals_with_perdict <- function(method_name, formula, train_dataset, test_dataset){
     perdicts <- do.call(paste0("perdict_with_",
             method_name),list(formula,
@@ -166,8 +176,8 @@ cal_summary_residuals_with_perdict <- function(method_name, formula, train_datas
     cal_summary_residuals(test_dataset$Sales, perdicts)
 }
 
-evaluate_to_file <- function(train_set, test_set, method_names, append_file){
-    formula <- Sales~DayOfWeek+Promo
+evaluate_to_file <- function(train_set, test_set, method_names, formula, append_file){
+    # formula <- Sales~DayOfWeek+Promo
     all_stores <- unique(train_set$Store)
     cat("store count: ")
     print(length(all_stores))
@@ -193,8 +203,58 @@ evaluate_to_file <- function(train_set, test_set, method_names, append_file){
     perdict_matrix
 }
 
-evaluate_all_by_store <- function(train_set, test_set, method_names){
-    formula <- Sales~DayOfWeek+Promo
+
+gen_best_choices_to_file <- function(train_set, test_set, method_names, formula){
+    # formula <- Sales~DayOfWeek+Promo
+    # suppressPackageStartupMessages(require(hydroGOF))
+    all_stores <- unique(train_set$Store)
+    cat("store count: ")
+    print(length(all_stores))
+    best_choices <- data.frame(Store=all_stores, formula =deparse(formula),
+        method1=NA, mean1=NA, method2=NA, mean2=NA, method3=NA, mean3=NA,
+        range=NA)
+    for(store_id in best_choices$Store){
+        cat("store: ")
+        print(store_id)
+        train_set_by_store <- train_set[train_set$Store==store_id,]
+        # train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
+        test_set_by_store  <- test_set[test_set$Store==store_id,]
+        # test_set_by_store <- remove_outlies(test_set_by_store, 'Sales')
+        limited_method_names <- method_names
+        if(length(all.vars(formula))<=2){
+            limited_method_names <- method_names[!method_names %in% c("boosting_cv")]
+        }else if("Year" %in% all.vars(formula)){
+            limited_method_names <- method_names[!method_names %in% c("rubost_regression","log_regression")]
+        }
+        score_matrix <- sapply(limited_method_names, function(method_name){
+            print(method_name)
+            perdicts <- round(do.call(paste0("perdict_with_",
+                    method_name),list(formula,
+                    train_set_by_store, test_set_by_store)),0)
+            # root mean square percentage
+            # cur_summary <- cal_summary_residuals(
+            #          test_set_by_store$Sales, perdicts)
+            cur_score <- cal_score(perdicts,
+                     test_set_by_store$Sales)
+        })
+        # sorted_mean_row <- sort(summary_matrix["Mean",])
+        sorted_mean_row <- sort(score_matrix)
+
+        for(i in c(1:3)){
+            best_choices[best_choices$Store==store_id,paste0("method",i)] <- names(sorted_mean_row)[i]
+            best_choices[best_choices$Store==store_id,paste0("mean",i)] <- sorted_mean_row[i]
+        }
+        cur_range <- range(train_set_by_store$Sales)
+        range_differences <- cur_range[2]-cur_range[1]
+        best_choices[best_choices$Store==store_id,"range"] = range_differences
+        # best_choices[best_choices$Store==store_id,"mean2range"] = round(best_choices[best_choices$Store==store_id,"mean1"] / range_differences, 3)
+
+    }
+    best_choices
+}
+
+evaluate_all_by_store <- function(train_set, test_set, method_names, formula){
+    # formula <- Sales~DayOfWeek+Promo
     perdict_matrix <- sapply(unique(train_set$Store), function(store_id){
         train_set_by_store <- train_set[train_set$Store==store_id,]
         # train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
@@ -231,18 +291,23 @@ evaluate_all_ignoring_store <- function(train_set, test_set, method_names){
 }
 
 
-perdict_all <- function(train_set, test_set, best_choices){
-    formula <- Sales~DayOfWeek+Promo
+predict_all <- function(train_set, test_set, best_choices){
+    # formula <- Sales~DayOfWeek+Promo
     all_stores <- unique(train_set$Store)
     cat("store count: ")
     print(length(all_stores))
     # perdict_matrix <- sapply(all_stores, function(store_id){
     for(store_id in all_stores){
         train_set_by_store <- train_set[train_set$Store==store_id,]
+        # train_set_by_store <- remove_outlies(train_set_by_store, 'Sales')
         test_set_by_store  <- test_set[test_set$Store==store_id,]
         cat("store: ")
         print(store_id)
-        method_name <- method_name <- as.character(best_choices[best_choices$Store==store_id,][1,1])
+        best_row = best_choices[best_choices$Store==store_id,]
+        # print(best_row)
+        # print(class(best_row[1,'formula']))
+        method_name <- as.character(best_row[1,'method1'])
+        formula <- as.formula(as.character(best_row[1,'formula']))
         print(method_name)
         perdicts <- do.call(paste0("perdict_with_",
                 method_name),list(formula,
@@ -328,4 +393,13 @@ get_range_difference <- function(train_set){
 remove_outlies <- function(train_set, column_name){
     train_set[!train_set[,c(column_name)] %in%
             boxplot.stats(train_set[,c(column_name)])$out,]
+}
+
+add_columns <- function(data_frame){
+    data_frame$Date <- as.Date(data_frame$Date)
+    data_frame$Month <- as.integer(format(data_frame$Date, "%m"))
+    data_frame$Week <- as.integer(format(data_frame$Date, "%U"))
+    data_frame$DateInt <- as.integer(data_frame$Date)
+    data_frame$Year <- as.integer(format(data_frame$Date, "%Y"))
+    data_frame
 }
