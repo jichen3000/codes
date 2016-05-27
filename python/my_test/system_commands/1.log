@@ -12,14 +12,14 @@ start 0
 3
 4
 ok
-start 8
+start 2
 0
 1
 2
 3
 4
 ok
-start 2
+start 8
 0
 1
 2
@@ -33,6 +33,13 @@ start 7
 3
 4
 ok
+start 5
+0
+1
+2
+3
+4
+ok
 start 4
 0
 1
@@ -40,7 +47,7 @@ start 4
 3
 4
 ok
-start 5
+start 3
 0
 1
 2
@@ -55,13 +62,6 @@ start 6
 4
 ok
 start 9
-0
-1
-2
-3
-4
-ok
-start 3
 0
 1
 2

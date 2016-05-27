@@ -10,6 +10,9 @@ as.Date("12/31/2010", format="%m/%d/%Y")
 format(Sys.Date())
 as.character(Sys.Date())
 format(Sys.Date(), format="%m/%d/%Y")
+as.integer(format(Sys.Date(), "%m"))
+as.integer(format(as.Date("2010-01-08"), "%U"))
+as.integer(Sys.Date())
 
 "help strftime"
 # help(strftime)
@@ -30,6 +33,7 @@ as.integer(d)
 julian(d)
 as.integer(as.Date("1970-01-01"))
 as.integer(as.Date("1969-12-21"))
+as.POSIXlt(Sys.Date())$yday
 
 "get year, day"
 d <- as.Date("2010-03-15") 

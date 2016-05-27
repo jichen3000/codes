@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html data-ng-app>
+<head>
+    <title>(HTML5) Desktop Notifications</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body data-ng-controller="NotifyDemo">
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <a class="brand" href="#">(HTML5) Desktop Notifications Demo Page</a>
+        </div>
+    </div>
+    
+    <div class="{{status}}" data-ng-hide="permissionsGranted" data-ng-bind-html-unsafe="message" data-ng-click="requestPermission()"></div>
+    
+    <form name="notificationForm"">
+        <input type="text" data-ng-model="notification.title" data-ng-required="true" data-ng-disabled="!permissionsGranted" placeholder="Notification Title" />
+        <input type="text" data-ng-model="notification.body" data-ng-disabled="!permissionsGranted" placeholder="Notification body" />
+        <input type="text" data-ng-model="notification.icon" data-ng-disabled="true" placeholder="Icon" />
+        <button class="btn btn-primary" data-ng-disabled="!notification.title || !permissionsGranted" data-ng-click="showNotification()">Display Notification</button>
+    </form>
+
+    
+    <script src="argular.min.js"></script>
+    <script src="desktop-notify.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+https://www.binpress.com/tutorial/building-useful-notifications-with-html5-apis/163

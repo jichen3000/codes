@@ -14,6 +14,7 @@ def ormap_list(fun, *iter):
 def l2(i):
     # print i
     return i > 2
+
 def l3(i,j):
     # print i,j
     return i > 2 and j > 2

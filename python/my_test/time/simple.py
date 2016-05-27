@@ -15,6 +15,7 @@ if __name__ == '__main__':
     with test(time.strptime):
         struct_time = time.strptime("2014-09-16 14:30:35", "%Y-%m-%d %H:%M:%S")
         time.strftime("%Y-%m-%d %H:%M:%S", struct_time).must_equal("2014-09-16 14:30:35")
+        time.strftime("%Y%m%d_%H%M%S", struct_time).must_equal("20140916_143035")
         # real_time = time.mktime(struct_time)
         # real_time.strftime("%Y-%m-%d %H:%M:%S").p()
 

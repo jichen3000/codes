@@ -2,7 +2,10 @@
 emacs ~/.Rprofile
 \#chooseCRANmirror(ind=89)
 options(repos=structure(c(CRAN="http://cran.cnr.Berkeley.edu/")))
-
+wideScreen <- function(howWide=Sys.getenv("COLUMNS")) {
+  options(width=as.integer(howWide))
+}
+wideScreen(180)
 
 require(tseries)
 \#bypass the warn message
@@ -34,3 +37,24 @@ install X11 for mac, XQuartz
 then 
 locate libSM.6.dylib
 sudo ln -s /opt/X11 /usr/X11  
+
+## install on linux
+yum install readline-devel
+yum install libXt-devel
+
+./configure
+make
+make install
+
+## 
+http://www.rdocumentation.org
+
+## centos
+install.packages("rJava")
+which java
+ls -l /usr/bin/java
+ls -l /etc/alternatives/java
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.75-2.5.4.2.el7_0.x86_64
+export PATH=$PATH:$JAVA_HOME/bin
+R CMD javareconf
+yum install java-1.7.0-openjdk-devel

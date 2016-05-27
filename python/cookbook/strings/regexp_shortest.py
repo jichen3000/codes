@@ -21,3 +21,5 @@ if __name__ == '__main__':
         text3 = ' ((1 + 2) * 3 + 1) * (1+3)' 
         str_pat.findall(text3).must_equal(
                 ['no.', 'yes.'])
+
+

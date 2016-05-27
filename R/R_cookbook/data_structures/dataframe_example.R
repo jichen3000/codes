@@ -61,3 +61,4 @@ patientdata
 
 ""
 data.frame(matrix(NA, nrow = 2, ncol = 3))
+e1 <- data.frame(matrix(NA, nrow = 0, ncol = 3))

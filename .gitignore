@@ -18,3 +18,5 @@ build
 dist
 *.RData
 *.Rhistory
+R/rossmann_store_sales/result*
+*.seq
