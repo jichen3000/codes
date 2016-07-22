@@ -25,9 +25,9 @@ int main() {
     double dValue = 5.5;
     cout << sizeof(dValue) << endl;
 
-    wchar_t* wideString = L"this is a wide string";
-    cout << *wideString << endl;
+    // wchar_t* wideString = L"this is a wide string";
+    // cout << *wideString << endl;
 
     auto var2 = 2.0;
-    cout << var2
+    cout << var2;
 }
