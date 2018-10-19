@@ -1,0 +1,205 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+</head>
+<body> 
+
+<div id="select_one">
+  <label class="typo__label">Select with search</label>
+  <multiselect v-model="value" :options="options" :custom-label="nameWithLang" placeholder="Select one" label="name" track-by="name"></multiselect>
+  <pre class="language-json"><code>{{ value  }}</code></pre>
+</div>
+
+
+<div id="multiselect_beautiful">
+  <label class="typo__label">Simple select / dropdown</label>
+  <multiselect v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
+  </multiselect>
+  <pre class="language-json"><code>{{ value  }}</code></pre>
+</div>
+
+<div id="multiselect_tag">
+  <label class="typo__label">Simple select / dropdown</label>
+  <multiselect v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
+    <template slot="tag" slot-scope="props"><span class="custom__tag"><span>{{ props.option.language }}</span><span class="custom__remove" @click="props.remove(props.option)">❌</span></span></template>
+  </multiselect>
+  <pre class="language-json"><code>{{ value  }}</code></pre>
+</div>
+
+<div id="app">
+  <multiselect :options="options" :value="optionsProxy" @input="updateSelected" @search-change="searchQuery" :multiple="true" :searchable="true" :close-on-select="true" placeholder="Search" :custom-label="customLabel" :loading="showLoadingSpinner"></multiselect>
+
+  <ul class="resources-list">
+    <template v-for="(resource, index) in selectedResources">
+      <li class="resource-item" :data-index="index">
+        <div class="resource-info">
+          <div class="resource-title" :id="index">
+            <span>{{ resource.name }}</span>
+            <span class="version">{{resource.version}}</span>
+          </div>
+          <div class="resource-description">
+            <span>{{ resource.description }}</span>
+          </div>
+          <div class="resource-url">
+            <a :href="resource.latest" target="_blank">{{ resource.latest }}</a>
+          </div>
+        </div>
+        <div class="delete-controls" v-on:click.prevent="removeDependency(index)">
+          <i class="fa fa-times fa-fw"></i>
+        </div>
+      </li>
+    </template>
+  </ul>
+</div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+  <script src='https://code.jquery.com/jquery-1.12.4.js' type='text/javascript'></script>
+  <script> 
+
+new Vue({
+  components: {
+    Multiselect: window.VueMultiselect.default
+  },
+  data: {
+    options: [
+      
+    ],
+    optionsProxy: [],
+    selectedResources: [],
+    showLoadingSpinner: false
+  },
+  methods: {
+    customLabel (option) {
+      return `${option.name} - ${option.version}`
+    },
+    updateSelected(value) {
+      value.forEach((resource) => {
+        // Adds selected resources to array
+        this.selectedResources.push(resource)
+      })
+      // Clears selected array
+      // This prevents the tags from being displayed
+      this.optionsProxy = []
+    },
+    cdnRequest(value) {
+      var url = `https://api.cdnjs.com/libraries?search=${value}&fields=version,description`;
+      console.log("url::"+url);
+      // this.$http.get(url).then((response) => {
+      //   // get body data
+      //   this.options = []
+      //   response.body.results.forEach((object) => {
+      //     this.options.push(object)
+      //   });
+      //   this.showLoadingSpinner = false
+      // }, (response) => {
+      //   // error callback
+      // })
+      $.ajax({
+          url: url,
+          type: 'GET',
+          success: (data)=>{
+              this.options = []
+              console.log(data)
+              data.results.forEach((object) => {
+                this.options.push(object)
+              });
+              // this.testcase_names = data["data"];
+          },
+          error: (data)=>{}
+      });  
+    },
+    searchQuery(value) {
+      this.showLoadingSpinner = true
+      // GET
+      this.cdnRequest(value)
+    },
+    removeDependency(index) {
+      this.selectedResources.splice(index, 1)
+    }
+  },
+  created() {
+    const value = ''
+    this.cdnRequest(value)
+  }
+}).$mount('#app')
+
+    // Vue.component('vue-multiselect', window.VueMultiselect.default)
+    // https://vuejs.org/v2/guide/class-and-style.html
+    var vm1 = new Vue({
+      el: '#multiselect_tag',
+      components: {
+        Multiselect: window.VueMultiselect.default
+      },
+      data () {
+        return {
+          value: [],
+          options: [
+            { name: 'Vue.js', language: 'JavaScript' },
+            { name: 'Adonis', language: 'JavaScript' },
+            { name: 'Rails', language: 'Ruby' },
+            { name: 'Sinatra', language: 'Ruby' },
+            { name: 'Laravel', language: 'PHP' },
+            { name: 'Phoenix', language: 'Elixir' }
+          ]
+        }
+      }
+    }) 
+
+  var vm2 = new Vue({
+    el: '#select_one',
+    components: {
+      Multiselect: window.VueMultiselect.default
+    },
+    data () {
+      return {
+        value: { name: 'Vue.js', language: 'JavaScript' },
+        options: [
+          { name: 'Vue.js', language: 'JavaScript' },
+          { name: 'Rails', language: 'Ruby' },
+          { name: 'Sinatra', language: 'Ruby' },
+          { name: 'Laravel', language: 'PHP' },
+          { name: 'Phoenix', language: 'Elixir' }
+        ]
+      }
+    },
+    methods: {
+      nameWithLang ({ name, language }) {
+        return `${name} — [${language}]`
+      }
+    }
+  })     
+
+  var vm3 = new Vue({
+    el: '#multiselect_beautiful',
+    components: {
+      Multiselect: window.VueMultiselect.default
+    },
+    data () {
+      return {
+        value: { name: 'Vue.js', language: 'JavaScript' },
+        options: [
+          { name: 'Vue.js', language: 'JavaScript' },
+          { name: 'Rails', language: 'Ruby' },
+          { name: 'Sinatra', language: 'Ruby' },
+          { name: 'Laravel', language: 'PHP' },
+          { name: 'Phoenix', language: 'Elixir' }
+        ]
+      }
+    },
+    methods: {
+      nameWithLang ({ name, language }) {
+        return `${name} — [${language}]`
+      }
+    }
+  })     
+
+
+
+
+  </script> 
+</body> 
+</html>
+
+

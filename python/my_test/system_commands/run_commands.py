@@ -15,25 +15,25 @@ if __name__ == '__main__':
 
     with test(subprocess.check_output):
         subprocess.check_output(["echo", "Hello"]).must_equal(
-            "Hello\n")
+            b"Hello\n")
         subprocess.check_output("echo Hello".split(" ")).must_equal(
-            "Hello\n")
+            b"Hello\n")
         (lambda : subprocess.check_output("ls some".split(" "))).must_raise(
-            subprocess.CalledProcessError,"Command '['ls', 'some']' returned non-zero exit status 1")
+            subprocess.CalledProcessError,"Command '['ls', 'some']' returned non-zero exit status 1.")
         
         # shell=True, will cause command injection
         subprocess.check_output(
                 "ls non_existent_file; exit 0",
                 stderr=subprocess.STDOUT,
                 shell=True).must_equal(
-                "ls: non_existent_file: No such file or directory\n")
+                b"ls: non_existent_file: No such file or directory\n")
 
         # best practice
         try:
             subprocess.check_output("ls some".split(" "),stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
+        except subprocess.CalledProcessError as e:
             e.returncode.must_equal(1)
-            e.output.must_equal("ls: some: No such file or directory\n")        
+            e.output.must_equal(b"ls: some: No such file or directory\n")        
         # result.p()
         # subprocess.check_output
         # subprocess.check_output("sudo iwconfig wlan0 rate 12Mb".split(" "))

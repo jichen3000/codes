@@ -1,8 +1,11 @@
 def func(n):
     return n + 10
 
-func("234")
+a = 10
 import ipdb; ipdb.set_trace()
+
+a = func(23)
+print a
 
 # import pdb
 # pdb.pm()

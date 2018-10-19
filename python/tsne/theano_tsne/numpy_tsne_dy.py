@@ -52,7 +52,7 @@ def x2p(X = numpy.array([]), tol = 1e-5, perplexity = 30.0):
     (n, d) = X.shape;
     # sum_X = numpy.sum(numpy.square(X), 1);
     # D is matrix of distance numpy.add(numpy.add(-2 * numpy.dot(cc, cc.T), sum_cc).T, sum_cc)
-    # d12, means, the distance between X1 and X2, d11 will be 0. 
+    # d12, means, the distance between X1 and X2, d11 will be 0.
     # D = numpy.add(numpy.add(-2 * numpy.dot(X, X.T), sum_X).T, sum_X);
     D = cal_distance_matrix(X)
     P = numpy.zeros((n, n));
@@ -69,6 +69,7 @@ def x2p(X = numpy.array([]), tol = 1e-5, perplexity = 30.0):
         # Compute the Gaussian kernel and entropy for the current precision
         betamin = -numpy.inf;
         betamax =  numpy.inf;
+        # remove the a[i,i]
         Di = D[i, numpy.concatenate((numpy.r_[0:i], numpy.r_[i+1:n]))];
         (H, thisP) = Hbeta(Di, beta[i]);
 
@@ -127,7 +128,7 @@ def compute_p(X, perplexity):
     # Compute P-values
     # P = x2p(X, 1e-5, perplexity)
     # P = P + numpy.transpose(P)
-    # P = P / numpy.sum(P)
+    # P = P / numpy.sum(P) # Symmetrize input similarities
     # P = P * 4                                  # early exaggeration
     # P = numpy.maximum(P, 1e-12)
     # numpy.savetxt('p.txt',P)
@@ -148,7 +149,7 @@ def compute_y(P, no_dims, max_iter):
     numpy.random.seed(2)
     Y = numpy.random.randn(n, no_dims);
     # print Y[0,:]
-    # print Y[1,:]    
+    # print Y[1,:]
     dY = numpy.zeros((n, no_dims));
     iY = numpy.zeros((n, no_dims));
     gains = numpy.ones((n, no_dims));
@@ -212,6 +213,8 @@ def tsne(X = numpy.array([]), max_iter=1000, no_dims = 2, initial_dims = 50, per
 
     # X = pca(X, initial_dims).real
     X = None
+    # compute_p, using perplexity value to corrcet the pca model,
+    # let the data is more suiable for gaussian function.
     P = compute_p(X, perplexity)
     Y = compute_y(P, no_dims, max_iter)
     return Y

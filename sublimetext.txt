@@ -241,3 +241,11 @@ http://thunderboltlabs.com/blog/2013/11/19/efficiency-with-sublime-text-and-ruby
 
 ## for c++ build, add .exe suffix
 http://stackoverflow.com/questions/23789410/how-to-edit-sublime-text-build-settings
+
+
+## Julia
+add Julia.sublime-build
+{
+    "cmd": ["/Applications/Julia-0.5.app/Contents/Resources/julia/bin/julia", "$file"],
+    "selector": "source.julia"
+}

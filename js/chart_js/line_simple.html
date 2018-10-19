@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>example</title>
+    <script src="./Chart.bundle.v2.3.0.min.js"></script>
+    <style>
+    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+</head>
+
+<body>
+<div width="400px" height="800px">
+<canvas id="chart_0" class="data-chart" width="400px" height="400px"></canvas>
+</div>
+<button id="b1" onclick="display_element(this,'table_1',true)">show the table</button>
+<div id="div_table_1">
+<table style="display:none" class="table table-striped margin_1" id="table_1">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Application Concurrent Flows</th>
+              </tr>
+              <tr>
+                <th class="small">Seconds</th>
+                <th class="small">Flows</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0.0</td>
+                <td>0.0</td>
+              </tr>
+              <tr>
+                <td>0.991</td>
+                <td>0.0</td>
+              </tr>
+              <tr>
+                <td>2.991</td>
+                <td>2.0</td>
+              </tr>
+            </tbody>
+          </table>
+</div>
+<div width="400" height="800">
+<canvas id="chart_1" class="data-chart" width="400" height="400"></canvas>
+</div>
+
+<script>
+var display_element = function(itself,element_name,is_show){
+    the_ele = document.getElementById(element_name);
+    console.log(itself);
+    if (the_ele.style.display=="none"){
+        the_ele.style.display="block";
+        itself.innerHTML = "hide the table";
+    }else{
+        the_ele.style.display="none";
+        itself.innerHTML = "show the table";
+    }
+
+}
+var randomColorFactor = function() {
+    return Math.round(Math.random() * 255);
+};
+var randomColor = function(opacity) {
+    return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.7') + ')';
+};
+
+var column_colors = [
+    'rgba(54, 162, 235,0.7)',
+    'rgba(255, 206, 86,0.7)',
+    'rgba(255,99,132,0.7)'
+]
+var chart_infos = [{
+        title: "example1",
+        type: "line",
+        x_label: "Timestamp",
+        y_label: "Value",
+        columns: [{
+            label: "c 1",
+            data: [{x:0.78,y:87},{x:1.73,y:34},{x:2.71,y:78},{x:3.0,y:46},{x:4.37,y:26},{x:5.57,y:59},{x:6.45,y:51},{x:7.86,y:66},{x:8.5,y:53},{x:9.56,y:32},{x:10.82,y:92},{x:11.61,y:56},{x:12.11,y:43},{x:13.07,y:57},{x:14.8,y:18},{x:15.27,y:82},{x:16.84,y:5},{x:17.23,y:57},{x:18.73,y:58},{x:19.07,y:33},{x:20.68,y:87},{x:21.94,y:7},{x:22.0,y:74},{x:23.94,y:73},{x:24.6,y:60},{x:25.78,y:36},{x:26.61,y:98},{x:27.57,y:7},{x:28.14,y:8},{x:29.06,y:24},{x:30.87,y:55},{x:31.76,y:52},{x:32.43,y:93},{x:33.08,y:69},{x:34.6,y:68},{x:35.78,y:11},{x:36.73,y:47},{x:37.33,y:13},{x:38.8,y:27},{x:39.55,y:52},{x:40.59,y:38},{x:41.72,y:30},{x:42.19,y:31},{x:43.82,y:92},{x:44.97,y:0},{x:45.23,y:58},{x:46.02,y:73},{x:47.17,y:45},{x:48.42,y:80},{x:49.71,y:19},{x:50.31,y:53},{x:51.69,y:89},{x:52.21,y:4},{x:53.93,y:51},{x:54.02,y:72},{x:55.12,y:98},{x:56.22,y:20},{x:57.96,y:3},{x:58.47,y:14},{x:59.52,y:96},{x:60.52,y:89},{x:61.83,y:55},{x:62.83,y:23},{x:63.43,y:12},{x:64.17,y:62},{x:65.03,y:84},{x:66.24,y:92},{x:67.08,y:53},{x:68.43,y:1},{x:69.93,y:42},{x:70.27,y:18},{x:71.48,y:18},{x:72.01,y:40},{x:73.85,y:76},{x:74.25,y:31},{x:75.07,y:77},{x:76.73,y:78},{x:77.46,y:66},{x:78.35,y:87},{x:79.04,y:71},{x:80.06,y:86},{x:81.67,y:11},{x:82.25,y:92},{x:83.65,y:48},{x:84.21,y:15},{x:85.71,y:44},{x:86.56,y:25},{x:87.76,y:27},{x:88.18,y:89},{x:89.29,y:54},{x:90.89,y:39},{x:91.57,y:32},{x:92.29,y:56},{x:93.85,y:10},{x:94.03,y:44},{x:95.65,y:3},{x:96.48,y:74},{x:97.62,y:44},{x:98.88,y:54},{x:99.83,y:26}]
+        },{
+            label: 'Scatter Dataset2',
+            data: [{x:0.78,y:21},{x:1.73,y:58},{x:2.71,y:35},{x:3.0,y:88},{x:4.37,y:60},{x:5.57,y:58},{x:6.45,y:75},{x:7.86,y:10},{x:8.5,y:32},{x:9.56,y:50},{x:10.82,y:66},{x:11.61,y:35},{x:12.11,y:34},{x:13.07,y:53},{x:14.8,y:36},{x:15.27,y:34},{x:16.84,y:3},{x:17.23,y:32},{x:18.73,y:27},{x:19.07,y:19},{x:20.68,y:10},{x:21.94,y:87},{x:22.0,y:45},{x:23.94,y:53},{x:24.6,y:62},{x:25.78,y:10},{x:26.61,y:56},{x:27.57,y:96},{x:28.14,y:52},{x:29.06,y:82},{x:30.87,y:83},{x:31.76,y:59},{x:32.43,y:4},{x:33.08,y:87},{x:34.6,y:80},{x:35.78,y:52},{x:36.73,y:31},{x:37.33,y:87},{x:38.8,y:13},{x:39.55,y:51},{x:40.59,y:58},{x:41.72,y:39},{x:42.19,y:41},{x:43.82,y:57},{x:44.97,y:22},{x:45.23,y:68},{x:46.02,y:19},{x:47.17,y:87},{x:48.42,y:67},{x:49.71,y:45},{x:50.31,y:3},{x:51.69,y:95},{x:52.21,y:92},{x:53.93,y:74},{x:54.02,y:57},{x:55.12,y:87},{x:56.22,y:61},{x:57.96,y:15},{x:58.47,y:69},{x:59.52,y:34},{x:60.52,y:86},{x:61.83,y:98},{x:62.83,y:0},{x:63.43,y:29},{x:64.17,y:82},{x:65.03,y:69},{x:66.24,y:52},{x:67.08,y:2},{x:68.43,y:93},{x:69.93,y:85},{x:70.27,y:8},{x:71.48,y:1},{x:72.01,y:66},{x:73.85,y:63},{x:74.25,y:65},{x:75.07,y:99},{x:76.73,y:66},{x:77.46,y:19},{x:78.35,y:20},{x:79.04,y:1},{x:80.06,y:2},{x:81.67,y:40},{x:82.25,y:96},{x:83.65,y:78},{x:84.21,y:59},{x:85.71,y:37},{x:86.56,y:97},{x:87.76,y:1},{x:88.18,y:32},{x:89.29,y:50},{x:90.89,y:22},{x:91.57,y:26},{x:92.29,y:3},{x:93.85,y:82},{x:94.03,y:49},{x:95.65,y:41},{x:96.48,y:80},{x:97.62,y:61},{x:98.88,y:47},{x:99.83,y:50}]
+        }]
+    },{
+        title: "example2",
+        type: "line",
+        x_label: "Timestamp",
+        y_label: "Value",
+        columns: [{
+            label: "c 1",
+            data: [{x:0.78,y:87},{x:1.73,y:34},{x:2.71,y:78},{x:3.0,y:46},{x:4.37,y:26},{x:5.57,y:59},{x:6.45,y:51},{x:7.86,y:66},{x:8.5,y:53},{x:9.56,y:32},{x:10.82,y:92},{x:11.61,y:56},{x:12.11,y:43},{x:13.07,y:57},{x:14.8,y:18},{x:15.27,y:82},{x:16.84,y:5},{x:17.23,y:57},{x:18.73,y:58},{x:19.07,y:33},{x:20.68,y:87},{x:21.94,y:7},{x:22.0,y:74},{x:23.94,y:73},{x:24.6,y:60},{x:25.78,y:36},{x:26.61,y:98},{x:27.57,y:7},{x:28.14,y:8},{x:29.06,y:24},{x:30.87,y:55},{x:31.76,y:52},{x:32.43,y:93},{x:33.08,y:69},{x:34.6,y:68},{x:35.78,y:11},{x:36.73,y:47},{x:37.33,y:13},{x:38.8,y:27},{x:39.55,y:52},{x:40.59,y:38},{x:41.72,y:30},{x:42.19,y:31},{x:43.82,y:92},{x:44.97,y:0},{x:45.23,y:58},{x:46.02,y:73},{x:47.17,y:45},{x:48.42,y:80},{x:49.71,y:19},{x:50.31,y:53},{x:51.69,y:89},{x:52.21,y:4},{x:53.93,y:51},{x:54.02,y:72},{x:55.12,y:98},{x:56.22,y:20},{x:57.96,y:3},{x:58.47,y:14},{x:59.52,y:96},{x:60.52,y:89},{x:61.83,y:55},{x:62.83,y:23},{x:63.43,y:12},{x:64.17,y:62},{x:65.03,y:84},{x:66.24,y:92},{x:67.08,y:53},{x:68.43,y:1},{x:69.93,y:42},{x:70.27,y:18},{x:71.48,y:18},{x:72.01,y:40},{x:73.85,y:76},{x:74.25,y:31},{x:75.07,y:77},{x:76.73,y:78},{x:77.46,y:66},{x:78.35,y:87},{x:79.04,y:71},{x:80.06,y:86},{x:81.67,y:11},{x:82.25,y:92},{x:83.65,y:48},{x:84.21,y:15},{x:85.71,y:44},{x:86.56,y:25},{x:87.76,y:27},{x:88.18,y:89},{x:89.29,y:54},{x:90.89,y:39},{x:91.57,y:32},{x:92.29,y:56},{x:93.85,y:10},{x:94.03,y:44},{x:95.65,y:3},{x:96.48,y:74},{x:97.62,y:44},{x:98.88,y:54},{x:99.83,y:26}]
+        },{
+            label: 'Scatter Dataset2',
+            data: [{x:0.78,y:21},{x:1.73,y:58},{x:2.71,y:35},{x:3.0,y:88},{x:4.37,y:60},{x:5.57,y:58},{x:6.45,y:75},{x:7.86,y:10},{x:8.5,y:32},{x:9.56,y:50},{x:10.82,y:66},{x:11.61,y:35},{x:12.11,y:34},{x:13.07,y:53},{x:14.8,y:36},{x:15.27,y:34},{x:16.84,y:3},{x:17.23,y:32},{x:18.73,y:27},{x:19.07,y:19},{x:20.68,y:10},{x:21.94,y:87},{x:22.0,y:45},{x:23.94,y:53},{x:24.6,y:62},{x:25.78,y:10},{x:26.61,y:56},{x:27.57,y:96},{x:28.14,y:52},{x:29.06,y:82},{x:30.87,y:83},{x:31.76,y:59},{x:32.43,y:4},{x:33.08,y:87},{x:34.6,y:80},{x:35.78,y:52},{x:36.73,y:31},{x:37.33,y:87},{x:38.8,y:13},{x:39.55,y:51},{x:40.59,y:58},{x:41.72,y:39},{x:42.19,y:41},{x:43.82,y:57},{x:44.97,y:22},{x:45.23,y:68},{x:46.02,y:19},{x:47.17,y:87},{x:48.42,y:67},{x:49.71,y:45},{x:50.31,y:3},{x:51.69,y:95},{x:52.21,y:92},{x:53.93,y:74},{x:54.02,y:57},{x:55.12,y:87},{x:56.22,y:61},{x:57.96,y:15},{x:58.47,y:69},{x:59.52,y:34},{x:60.52,y:86},{x:61.83,y:98},{x:62.83,y:0},{x:63.43,y:29},{x:64.17,y:82},{x:65.03,y:69},{x:66.24,y:52},{x:67.08,y:2},{x:68.43,y:93},{x:69.93,y:85},{x:70.27,y:8},{x:71.48,y:1},{x:72.01,y:66},{x:73.85,y:63},{x:74.25,y:65},{x:75.07,y:99},{x:76.73,y:66},{x:77.46,y:19},{x:78.35,y:20},{x:79.04,y:1},{x:80.06,y:2},{x:81.67,y:40},{x:82.25,y:96},{x:83.65,y:78},{x:84.21,y:59},{x:85.71,y:37},{x:86.56,y:97},{x:87.76,y:1},{x:88.18,y:32},{x:89.29,y:50},{x:90.89,y:22},{x:91.57,y:26},{x:92.29,y:3},{x:93.85,y:82},{x:94.03,y:49},{x:95.65,y:41},{x:96.48,y:80},{x:97.62,y:61},{x:98.88,y:47},{x:99.83,y:50}]
+        }]
+
+    }
+];
+
+var load_function = function(){
+    var chart_elements = document.getElementsByClassName("data-chart");
+    chart_infos.forEach(function (chart_info, index){
+        chart_info["columns"].forEach(function (column_info, c_index){
+            column_info["fill"] = false;
+            if (c_index > column_colors.length-1){
+                column_info["borderColor"] = randomColor(0.7);
+            }else{
+                column_info["borderColor"] = column_colors[c_index];
+            }
+        });
+        var cur_chart = new Chart(chart_elements[index],{
+            type: 'line',
+            data: {datasets: chart_info["columns"]},
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title:{
+                    display:true,
+                    text: chart_info["title"]
+                },
+                tooltips: {
+                    mode: 'label',
+                    callbacks: {
+                    }
+                },
+                hover: {
+                    mode: 'dataset'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom',
+                        scaleLabel: {
+                            display: true,
+                            labelString: chart_info["x_label"]
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: chart_info["y_label"]
+                        }
+                    }]
+                }
+            }
+
+        })
+    });
+}
+load_function();
+</script>
+</body>
+
+</html>

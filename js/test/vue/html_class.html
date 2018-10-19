@@ -1,0 +1,64 @@
+<!DOCTYPE html> 
+<html> 
+<body> 
+
+
+
+<div id="simple" v-bind:class="{ active: isActive }">
+  simple
+</div>
+<div id="multiple" class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+  multiple
+</div>
+<div id="object" v-bind:class="classObject">
+  object
+</div>
+<div id="object-computed" v-bind:class="classObject">
+  object-computed
+</div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script> 
+    // https://vuejs.org/v2/guide/class-and-style.html
+    var vm1 = new Vue({
+      el: '#simple',
+      data: {
+        isActive: true
+      }
+    })
+    var vm2 = new Vue({
+      el: '#multiple',
+      data: {
+        isActive: true,
+        hasError: false
+      }
+    })
+    var vm3 = new Vue({
+      el: '#object',
+      data: {
+        classObject: {
+          active: true,
+          'text-danger': false
+        }
+      }
+    })
+    var vm4 = new Vue({
+      el: '#object-computed',
+      data: {
+        isActive: true,
+        error: null
+      },
+      computed: {
+        classObject: function () {
+          return {
+            active: this.isActive && !this.error,
+            'text-danger': this.error && this.error.type === 'fatal'
+          }
+        }
+      }
+    })
+  </script> 
+</body> 
+</html>
+
+

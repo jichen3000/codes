@@ -1,0 +1,124 @@
+<!DOCTYPE html> 
+<html> 
+<body> 
+
+
+
+
+  <div id="show-message">
+    <p>{{ message }}</p>
+  </div>
+
+  <div id="show-directive">
+    <span v-bind:title="message">
+      Hover your mouse over me for a few seconds
+      to see my dynamically bound title!
+    </span>
+  </div>
+
+  <div id="show-condition">
+    <span v-if="seen">
+      Now you see it!
+    </span>
+  </div>
+  <div id="show-loop">
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+  </div>
+  <div id="show-user-input">
+    <p>{{ message }}</p>
+    <button v-on:click="reverse_message">Reverse Message</button>
+  </div>  
+  <div id="show-input-binding">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>  
+  <div id="show-component">
+    <ol>
+      <!--
+        Now we provide each todo-item with the todo object
+        it's representing, so that its content can be dynamic.
+        We also need to provide each component with a "key",
+        which will be explained later.
+      -->
+      <todo-item
+        v-for="item in grocery_list"
+        v-bind:todo="item"
+        v-bind:key="item.id">
+      </todo-item>
+    </ol>
+  </div>
+  <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+  <script> 
+    var app1 = new Vue({
+      el: '#show-message',
+      data: {
+        message: 'Hello some.js!'
+      }
+    });
+    var app2 = new Vue({
+      el: '#show-directive',
+      data: {
+        message: 'You loaded this page on ' + new Date().toLocaleString()
+      }
+    }) 
+    var app3 = new Vue({
+      el: '#show-condition',
+      data: {
+        seen: true
+      }
+    })   
+    // run on console, div will dispear.
+    // app3.seen = false
+    var app4 = new Vue({
+      el: '#show-loop',
+      data: {
+        todos: [
+          {text: "first"},
+          {text: "second"},
+          {text: "third"}
+        ]
+      }
+    })
+    // vee-validate
+    // console
+    // app4.todos.push({ text: 'New item' })
+    var app5 = new Vue({
+      el: '#show-user-input',
+      data: {
+        message: "heelo ooo"
+      },
+      methods: {
+        reverse_message: function(){
+          this.message = this.message.split("").reverse().join("");
+        }
+      }
+    })
+    var app6 = new Vue({
+      el: '#show-input-binding',
+      data: {
+        message: "input binding"
+      }
+    })
+    Vue.component("todo-item",{
+      props: ["todo"],
+      template: "<li>{{ todo.text }}</li>"
+    })
+    var app7 = new Vue({
+      el: '#show-component',
+      data: {
+        grocery_list:[
+          {id:0, text:"Vegetables"},
+          {id:1, text:"Cheese"},
+          {id:2, text:"Meat"}
+        ]
+      }
+    })
+  </script> 
+</body> 
+</html>
+
+

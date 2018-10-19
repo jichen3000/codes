@@ -1,0 +1,38 @@
+<!DOCTYPE html> 
+<html> 
+<body> 
+
+
+
+  <div id="show-date">
+    <span>
+      How to get date!
+    </span>
+    <vuejs-datepicker v-model="start_time" name="uniquename" :format="custom_formatter"></vuejs-datepicker>
+  </div>
+
+
+  <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuejs-datepicker"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+  <script> 
+// notice using vuejs-datepicker as html tag
+const app = new Vue({
+  el: '#show-date',
+  components: {
+    vuejsDatepicker
+  },
+  methods: {
+    custom_formatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    }
+  },
+  data: {
+    start_time: null,
+  }
+})
+  </script> 
+</body> 
+</html>
+
+

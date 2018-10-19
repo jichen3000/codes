@@ -1,0 +1,74 @@
+<html>
+<head>
+  <title>Flask-SSE Quickstart</title>
+</head>
+<body>
+  <h1>Flask-SSE Quickstart</h1>
+  <div>
+      <button id="start"> Start </button>
+      <button id="stop"> Stop </button>      
+  </div>
+  <pre id="results">
+
+  </pre>
+  <script src='https://code.jquery.com/jquery-1.12.4.js' type='text/javascript'></script>
+  <script>
+    $("#start").click(function(event) {
+        var results_ele = $("#results");
+        results_ele.append("start...\n");
+        // var src = new EventSource("{{ url_for('sse.stream') }}");
+        var src = new EventSource("/stream");
+        // src.onmessage = function(e) {
+        //     console.log(e);
+        // }
+        //     // console.log(e)
+        //     if ( e.data === '.'){
+        //         results_ele.append(e.data);
+        //     } else  {
+        //         results_ele.append("\n" + e.data);
+        //     }
+        //     console.log("(("+e.data+"))")
+        //     // results_ele.append(e.data);
+        //     if ( e.data.includes("<data") ) {
+        //         handle_message_value(e.data);
+        //     }
+        //     window.scrollTo(0,results_ele.position()["top"]+results_ele.height()-350);
+        //     // window.scrollTo(0,document.body.scrollHeight);
+        //     if ( e.data.startsWith('!!!end') ) {
+        //         src.close();
+        //         show_status("none");
+        //     }
+        // };
+
+
+        // var source = new EventSource("{{ url_for('sse.stream') }}");
+        src.addEventListener('result', function(e) {
+            results_ele.append(JSON.parse(e.data).msg);
+            // var data = JSON.parse(event.data);
+            // alert("The server says " + data.message);
+        }, false);
+        src.addEventListener('close', function(e) {
+            // alert("Failed to connect to event stream. Is Redis running?");
+            results_ele.append("close");
+            src.close();
+        }, false);
+        $.ajax({
+            url: '/command_worker/run/'+'1',
+            type: 'GET',
+            success: function(){},
+            error: function(){}
+        });        
+    });
+    $("#stop").click(function(event) {
+        var results_ele = $("#results");
+        $.ajax({
+            url: '/command_worker/stop/'+'1',
+            type: 'GET',
+            success: function(){},
+            error: function(){}
+        });        
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,1697 @@
+
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  0
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=0)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  0
+  node->threshold:  6.7082
+  dist < node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  4.47214
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=1, dist=4.47214)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  4.47214
+    node->threshold:  6.7082
+    dist < node->threshold
+    node->threshold:  6.7082
+    _tau:  1.79769e+308
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=1, dist=4.47214)
+      heap.size():  3
+      end search. no child
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  3
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=1, dist=4.47214)
+      heap.size():  4
+      check dist < node->threshold, this is the whole key of search:
+      dist:  2.23607
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  4.47214
+        dist < _tau
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=1, dist=4.47214)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  4.47214
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  end search. last line
+0
+0 : DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+1 : DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+2 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+3 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+4 : DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 4.47214
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  13.4164
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=13.4164)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  13.4164
+  node->threshold:  6.7082
+  dist >= node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  4.47214
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=0, dist=13.4164)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  4.47214
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  1.79769e+308
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=13.4164)
+      heap.size():  3
+      check dist < node->threshold, this is the whole key of search:
+      dist:  2.23607
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  0
+        dist < _tau
+        heap.size():  3
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=0, dist=13.4164)
+        heap.size():  4
+        check dist < node->threshold, this is the whole key of search:
+        dist:  0
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  1.79769e+308
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        dist + _tau >= node->threshold
+        going search node->right
+          start search:
+          node->index:  9
+          item:  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+          dist:  20.1246
+          dist < _tau
+          heap.size():  4
+          heap.push(HeapItem(node->index, dist))
+          heap.top() HeapItem(index=9, dist=20.1246)
+          heap.size():  5
+          heap.size() == k
+          _tau = heap.top().dist
+          _tau:  20.1246
+          end search. no child
+        end search. last line
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  6.7082
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=13.4164)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  13.4164
+      end search. no child
+    end search. last line
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  17.8885
+    check dist < node->threshold, this is the whole key of search:
+    dist:  17.8885
+    node->threshold:  6.7082
+    dist >= node->threshold
+    node->threshold:  6.7082
+    _tau:  13.4164
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  11.1803
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=3, dist=11.1803)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  11.1803
+      check dist < node->threshold, this is the whole key of search:
+      dist:  11.1803
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  11.1803
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  8.94427
+        dist < _tau
+        heap.size():  5
+        heap.size() == k
+        heap.pop()
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=4, dist=8.94427)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  8.94427
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  end search. last line
+1
+0 : DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+1 : DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+2 : DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+3 : DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+4 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 4.47214
+3 : 6.7082
+4 : 8.94427
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  6.7082
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=6.7082)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  6.7082
+  node->threshold:  6.7082
+  dist >= node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  2.23607
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=0, dist=6.7082)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  2.23607
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  1.79769e+308
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=6.7082)
+      heap.size():  3
+      check dist < node->threshold, this is the whole key of search:
+      dist:  4.47214
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  6.7082
+        dist < _tau
+        heap.size():  3
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=0, dist=6.7082)
+        heap.size():  4
+        check dist < node->threshold, this is the whole key of search:
+        dist:  6.7082
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  1.79769e+308
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        dist + _tau >= node->threshold
+        going search node->right
+          start search:
+          node->index:  9
+          item:  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+          dist:  13.4164
+          dist < _tau
+          heap.size():  4
+          heap.push(HeapItem(node->index, dist))
+          heap.top() HeapItem(index=9, dist=13.4164)
+          heap.size():  5
+          heap.size() == k
+          _tau = heap.top().dist
+          _tau:  13.4164
+          end search. no child
+        end search. last line
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  0
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=6.7082)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  6.7082
+      end search. no child
+    end search. last line
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  11.1803
+    check dist < node->threshold, this is the whole key of search:
+    dist:  11.1803
+    node->threshold:  6.7082
+    dist >= node->threshold
+    node->threshold:  6.7082
+    _tau:  6.7082
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=8, dist=6.7082)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  6.7082
+      check dist < node->threshold, this is the whole key of search:
+      dist:  4.47214
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  6.7082
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  2.23607
+        dist < _tau
+        heap.size():  5
+        heap.size() == k
+        heap.pop()
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=3, dist=4.47214)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  4.47214
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  8.94427
+      end search. no child
+    end search. last line
+  end search. last line
+2
+0 : DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+1 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+2 : DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+3 : DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+4 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 4.47214
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  2.23607
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=2.23607)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  2.23607
+  node->threshold:  6.7082
+  dist < node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  6.7082
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=1, dist=6.7082)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  6.7082
+    node->threshold:  6.7082
+    dist >= node->threshold
+    node->threshold:  6.7082
+    _tau:  1.79769e+308
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  0
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=1, dist=6.7082)
+      heap.size():  3
+      check dist < node->threshold, this is the whole key of search:
+      dist:  0
+      node->threshold:  2.23607
+      dist < node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  2.23607
+        dist < _tau
+        heap.size():  3
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=1, dist=6.7082)
+        heap.size():  4
+        end search. no child
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=1, dist=6.7082)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  6.7082
+      end search. no child
+    end search. last line
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  6.7082
+    check dist < node->threshold, this is the whole key of search:
+    dist:  6.7082
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  6.7082
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  8.94427
+      check dist < node->threshold, this is the whole key of search:
+      dist:  8.94427
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  6.7082
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  11.1803
+        check dist < node->threshold, this is the whole key of search:
+        dist:  11.1803
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  6.7082
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        end search. last line
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=2, dist=4.47214)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  4.47214
+      end search. no child
+    end search. last line
+  end search. last line
+3
+0 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+1 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+2 : DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+3 : DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+4 : DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 4.47214
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  2.23607
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=2.23607)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  2.23607
+  node->threshold:  6.7082
+  dist < node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  2.23607
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=0, dist=2.23607)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  2.23607
+    node->threshold:  6.7082
+    dist < node->threshold
+    node->threshold:  6.7082
+    _tau:  1.79769e+308
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  0
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=2.23607)
+      heap.size():  3
+      end search. no child
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  3
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=3, dist=4.47214)
+      heap.size():  4
+      check dist < node->threshold, this is the whole key of search:
+      dist:  4.47214
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  6.7082
+        dist < _tau
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=4, dist=6.7082)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  6.7082
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  11.1803
+    check dist < node->threshold, this is the whole key of search:
+    dist:  11.1803
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  6.7082
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  13.4164
+      check dist < node->threshold, this is the whole key of search:
+      dist:  13.4164
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  6.7082
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  15.6525
+        check dist < node->threshold, this is the whole key of search:
+        dist:  15.6525
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  6.7082
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        dist + _tau >= node->threshold
+        going search node->right
+          start search:
+          node->index:  9
+          item:  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+          dist:  4.47214
+          dist < _tau
+          heap.size():  5
+          heap.size() == k
+          heap.pop()
+          heap.size():  4
+          heap.push(HeapItem(node->index, dist))
+          heap.top() HeapItem(index=3, dist=4.47214)
+          heap.size():  5
+          heap.size() == k
+          _tau = heap.top().dist
+          _tau:  4.47214
+          end search. no child
+        end search. last line
+      end search. last line
+    end search. last line
+  end search. last line
+4
+0 : DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+1 : DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+2 : DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+3 : DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+4 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 4.47214
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  4.47214
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=4.47214)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  4.47214
+  node->threshold:  6.7082
+  dist < node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  0
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=0, dist=4.47214)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  0
+    node->threshold:  6.7082
+    dist < node->threshold
+    node->threshold:  6.7082
+    _tau:  1.79769e+308
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=4.47214)
+      heap.size():  3
+      end search. no child
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  6.7082
+      dist < _tau
+      heap.size():  3
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=3, dist=6.7082)
+      heap.size():  4
+      check dist < node->threshold, this is the whole key of search:
+      dist:  6.7082
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  8.94427
+        dist < _tau
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=4, dist=8.94427)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  8.94427
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  13.4164
+    check dist < node->threshold, this is the whole key of search:
+    dist:  13.4164
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  8.94427
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  15.6525
+      check dist < node->threshold, this is the whole key of search:
+      dist:  15.6525
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  8.94427
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  17.8885
+        check dist < node->threshold, this is the whole key of search:
+        dist:  17.8885
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  8.94427
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        dist + _tau >= node->threshold
+        going search node->right
+          start search:
+          node->index:  9
+          item:  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+          dist:  2.23607
+          dist < _tau
+          heap.size():  5
+          heap.size() == k
+          heap.pop()
+          heap.size():  4
+          heap.push(HeapItem(node->index, dist))
+          heap.top() HeapItem(index=3, dist=6.7082)
+          heap.size():  5
+          heap.size() == k
+          _tau = heap.top().dist
+          _tau:  6.7082
+          end search. no child
+        end search. last line
+      end search. last line
+    end search. last line
+  end search. last line
+5
+0 : DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+1 : DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+2 : DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+3 : DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+4 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 6.7082
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  4.47214
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=4.47214)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  4.47214
+  node->threshold:  6.7082
+  dist < node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  8.94427
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=1, dist=8.94427)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  8.94427
+    node->threshold:  6.7082
+    dist >= node->threshold
+    node->threshold:  6.7082
+    _tau:  1.79769e+308
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=1, dist=8.94427)
+      heap.size():  3
+      check dist < node->threshold, this is the whole key of search:
+      dist:  2.23607
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  0
+        dist < _tau
+        heap.size():  3
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=1, dist=8.94427)
+        heap.size():  4
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  6.7082
+      dist < _tau
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=1, dist=8.94427)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  8.94427
+      end search. no child
+    end search. last line
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  4.47214
+    dist < _tau
+    heap.size():  5
+    heap.size() == k
+    heap.pop()
+    heap.size():  4
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=2, dist=6.7082)
+    heap.size():  5
+    heap.size() == k
+    _tau = heap.top().dist
+    _tau:  6.7082
+    check dist < node->threshold, this is the whole key of search:
+    dist:  4.47214
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  6.7082
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  6.7082
+      check dist < node->threshold, this is the whole key of search:
+      dist:  6.7082
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  6.7082
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  8.94427
+        check dist < node->threshold, this is the whole key of search:
+        dist:  8.94427
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  6.7082
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        end search. last line
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=4.47214)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  4.47214
+      end search. no child
+    end search. last line
+  end search. last line
+6
+0 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+1 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+2 : DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+3 : DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+4 : DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 4.47214
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  11.1803
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=11.1803)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  11.1803
+  node->threshold:  6.7082
+  dist >= node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  2.23607
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=0, dist=11.1803)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  2.23607
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  1.79769e+308
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  0
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=11.1803)
+      heap.size():  3
+      check dist < node->threshold, this is the whole key of search:
+      dist:  0
+      node->threshold:  2.23607
+      dist < node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  2.23607
+        dist < _tau
+        heap.size():  3
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=0, dist=11.1803)
+        heap.size():  4
+        check dist < node->threshold, this is the whole key of search:
+        dist:  2.23607
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  1.79769e+308
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        dist + _tau >= node->threshold
+        going search node->right
+          start search:
+          node->index:  9
+          item:  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+          dist:  17.8885
+          dist < _tau
+          heap.size():  4
+          heap.push(HeapItem(node->index, dist))
+          heap.top() HeapItem(index=9, dist=17.8885)
+          heap.size():  5
+          heap.size() == k
+          _tau = heap.top().dist
+          _tau:  17.8885
+          end search. no child
+        end search. last line
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=11.1803)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  11.1803
+      end search. no child
+    end search. last line
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  15.6525
+    check dist < node->threshold, this is the whole key of search:
+    dist:  15.6525
+    node->threshold:  6.7082
+    dist >= node->threshold
+    node->threshold:  6.7082
+    _tau:  11.1803
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  8.94427
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=3, dist=8.94427)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  8.94427
+      check dist < node->threshold, this is the whole key of search:
+      dist:  8.94427
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  8.94427
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  6.7082
+        dist < _tau
+        heap.size():  5
+        heap.size() == k
+        heap.pop()
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=4, dist=6.7082)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  6.7082
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  end search. last line
+7
+0 : DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+1 : DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+2 : DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+3 : DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+4 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 6.7082
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  8.94427
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=8.94427)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  8.94427
+  node->threshold:  6.7082
+  dist >= node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  0
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=0, dist=8.94427)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  0
+    node->threshold:  2.23607
+    dist < node->threshold
+    node->threshold:  2.23607
+    _tau:  1.79769e+308
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=8.94427)
+      heap.size():  3
+      end search. no child
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  2.23607
+      dist < _tau
+      heap.size():  3
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=0, dist=8.94427)
+      heap.size():  4
+      check dist < node->threshold, this is the whole key of search:
+      dist:  2.23607
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  4.47214
+        dist < _tau
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=0, dist=8.94427)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  8.94427
+        check dist < node->threshold, this is the whole key of search:
+        dist:  4.47214
+        node->threshold:  20.1246
+        dist < node->threshold
+        node->threshold:  20.1246
+        _tau:  8.94427
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        end search. last line
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  13.4164
+    check dist < node->threshold, this is the whole key of search:
+    dist:  13.4164
+    node->threshold:  6.7082
+    dist >= node->threshold
+    node->threshold:  6.7082
+    _tau:  8.94427
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  6.7082
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=3, dist=6.7082)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  6.7082
+      check dist < node->threshold, this is the whole key of search:
+      dist:  6.7082
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  6.7082
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  4.47214
+        dist < _tau
+        heap.size():  5
+        heap.size() == k
+        heap.pop()
+        heap.size():  4
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=8, dist=4.47214)
+        heap.size():  5
+        heap.size() == k
+        _tau = heap.top().dist
+        _tau:  4.47214
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  end search. last line
+8
+0 : DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+1 : DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+2 : DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+3 : DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+4 : DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 2.23607
+3 : 4.47214
+4 : 4.47214
+vector finished!
+search in _root, _root->index :  0 DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+target :  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+k :  5
+  start search:
+  node->index:  0
+  item:  DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+  dist:  6.7082
+  dist < _tau
+  heap.size():  0
+  heap.push(HeapItem(node->index, dist))
+  heap.top() HeapItem(index=0, dist=6.7082)
+  heap.size():  1
+  check dist < node->threshold, this is the whole key of search:
+  dist:  6.7082
+  node->threshold:  6.7082
+  dist >= node->threshold
+  node->threshold:  6.7082
+  _tau:  1.79769e+308
+  dist + _tau >= node->threshold
+  going search node->right
+    start search:
+    node->index:  5
+    item:  DataPoint(dimensionality=5, index=2, content=2, 2 ... 2, 2, )
+    dist:  15.6525
+    dist < _tau
+    heap.size():  1
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=5, dist=15.6525)
+    heap.size():  2
+    check dist < node->threshold, this is the whole key of search:
+    dist:  15.6525
+    node->threshold:  2.23607
+    dist >= node->threshold
+    node->threshold:  2.23607
+    _tau:  1.79769e+308
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  7
+      item:  DataPoint(dimensionality=5, index=1, content=1, 1 ... 1, 1, )
+      dist:  17.8885
+      dist < _tau
+      heap.size():  2
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=7, dist=17.8885)
+      heap.size():  3
+      check dist < node->threshold, this is the whole key of search:
+      dist:  17.8885
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  1.79769e+308
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  8
+        item:  DataPoint(dimensionality=5, index=0, content=0, 0 ... 0, 0, )
+        dist:  20.1246
+        dist < _tau
+        heap.size():  3
+        heap.push(HeapItem(node->index, dist))
+        heap.top() HeapItem(index=8, dist=20.1246)
+        heap.size():  4
+        check dist < node->threshold, this is the whole key of search:
+        dist:  20.1246
+        node->threshold:  20.1246
+        dist >= node->threshold
+        node->threshold:  20.1246
+        _tau:  1.79769e+308
+        dist + _tau >= node->threshold
+        going search node->right
+          start search:
+          node->index:  9
+          item:  DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+          dist:  0
+          dist < _tau
+          heap.size():  4
+          heap.push(HeapItem(node->index, dist))
+          heap.top() HeapItem(index=8, dist=20.1246)
+          heap.size():  5
+          heap.size() == k
+          _tau = heap.top().dist
+          _tau:  20.1246
+          end search. no child
+        dist - _tau <= node->threshold
+        going search node->left
+          start search:
+          end search. null
+        end search. last line
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  6
+      item:  DataPoint(dimensionality=5, index=3, content=3, 3 ... 3, 3, )
+      dist:  13.4164
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=7, dist=17.8885)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  17.8885
+      end search. no child
+    end search. last line
+  dist - _tau <= node->threshold
+  going search node->left
+    start search:
+    node->index:  1
+    item:  DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+    dist:  2.23607
+    dist < _tau
+    heap.size():  5
+    heap.size() == k
+    heap.pop()
+    heap.size():  4
+    heap.push(HeapItem(node->index, dist))
+    heap.top() HeapItem(index=5, dist=15.6525)
+    heap.size():  5
+    heap.size() == k
+    _tau = heap.top().dist
+    _tau:  15.6525
+    check dist < node->threshold, this is the whole key of search:
+    dist:  2.23607
+    node->threshold:  6.7082
+    dist < node->threshold
+    node->threshold:  6.7082
+    _tau:  15.6525
+    dist - _tau <= node->threshold
+    going search node->left
+      start search:
+      node->index:  2
+      item:  DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+      dist:  4.47214
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=6, dist=13.4164)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  13.4164
+      end search. no child
+    dist + _tau >= node->threshold
+    going search node->right
+      start search:
+      node->index:  3
+      item:  DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+      dist:  8.94427
+      dist < _tau
+      heap.size():  5
+      heap.size() == k
+      heap.pop()
+      heap.size():  4
+      heap.push(HeapItem(node->index, dist))
+      heap.top() HeapItem(index=3, dist=8.94427)
+      heap.size():  5
+      heap.size() == k
+      _tau = heap.top().dist
+      _tau:  8.94427
+      check dist < node->threshold, this is the whole key of search:
+      dist:  8.94427
+      node->threshold:  2.23607
+      dist >= node->threshold
+      node->threshold:  2.23607
+      _tau:  8.94427
+      dist + _tau >= node->threshold
+      going search node->right
+        start search:
+        node->index:  4
+        item:  DataPoint(dimensionality=5, index=4, content=4, 4 ... 4, 4, )
+        dist:  11.1803
+        end search. no child
+      dist - _tau <= node->threshold
+      going search node->left
+        start search:
+        end search. null
+      end search. last line
+    end search. last line
+  end search. last line
+9
+0 : DataPoint(dimensionality=5, index=9, content=9, 9 ... 9, 9, )
+1 : DataPoint(dimensionality=5, index=8, content=8, 8 ... 8, 8, )
+2 : DataPoint(dimensionality=5, index=7, content=7, 7 ... 7, 7, )
+3 : DataPoint(dimensionality=5, index=6, content=6, 6 ... 6, 6, )
+4 : DataPoint(dimensionality=5, index=5, content=5, 5 ... 5, 5, )
+vector finished!
+0 : 0
+1 : 2.23607
+2 : 4.47214
+3 : 6.7082
+4 : 8.94427
+vector finished!
+[Finished in 2.698s]

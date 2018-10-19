@@ -1,0 +1,6 @@
+. /home/colin/work/neon/.venv/bin/activate
+
+backend='gpu', batch_size=128, caffe=False, callback_args=12, compat_mode=None, config=None, data_dir='/home/colin/nervana/data', datatype=<type 'numpy.float32'>, deterministic=False, device_id=0, epochs=10, eval_freq=None, history=1, log_thresh=30, log_token='', logfile=None, manifest=None, manifest_root=None, max_devices=1, model_file=None, no_progress_bar=False, output_file=None, progress_bar=True, rng_seed=None, rounding=False, save_path=None, serialize=0, verbose=1
+
+
+callback_args={'serialize': 0, 'eval_freq': None, 'progress_bar': True, 'model_file': None, 'output_file': None, 'save_path': None, 'log_token': '', 'history': 1}

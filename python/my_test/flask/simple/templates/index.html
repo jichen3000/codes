@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web SSH Commands</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
+    <style>
+      .margin-20 {
+        margin-bottom: 20pt;
+      }
+      .margin-left-50 {
+        margin-left: 50pt;
+      }
+      .margin-header-link {
+        margin-top: 20pt;
+      }
+      #loader {
+        border: 5px solid #f3f3f3; /* Light grey */
+        border-top: 5px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 2s linear infinite;
+      }   
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .display-none {
+        display: none;
+      }
+      #back-to-top {
+        display: none; /* Hidden by default */
+        position: fixed; /* Fixed/sticky position */
+        bottom: 20px; /* Place the button at the bottom of the page */
+        right: 30px; /* Place the button 30px from the right */
+        z-index: 99; /* Make sure it does not overlap */
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <header class='margin-20'>
+        <div class="row">
+          <div class="col-sm-1 margin-header-link">
+            <a class="btn btn-link" id="portal-link" href="http://10.160.10.10">QA Portal</a>
+          </div>
+          <div class="col-sm-8">
+            <h1 class='text-center h1'>Web SSH Commands</h1>
+          </div>
+          <div class="col-sm-1 margin-header-link">
+            <a class="btn btn-link" id="help" href="/help">Help</a>
+          </div>
+          <div class="col-sm-2" id="version-info">
+            Version:2.0.4 by Colin Ji
+          </div>
+        </div>
+      </header>
+      <form>
+        <input type="hidden" id="input-id" value="-1">
+        <div class="form-group row">
+          <label for="input-ip" class="col-sm-1 col-form-label">IP</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="input-ip" placeholder="IP" value="{{config['ip']}}">
+          </div>
+          <label for="input-port" class="col-sm-1 col-form-label">Port</label>
+          <div class="col-sm-1">
+            <input type="text" class="form-control" id="input-port" value="22">
+          </div>
+          <label for="input-username" class="col-sm-1 col-form-label">Username</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="input-username" value="admin">
+          </div>
+          <label for="input-password" class="col-sm-1 col-form-label">Password</label>
+          <div class="col-sm-2">
+            <input type="password" class="form-control" id="input-password" value="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="input-repeat-times" class="col-sm-1 col-form-label">Repeat</label>
+          <div class="col-sm-2">
+            <input type="number" class="form-control" id="input-repeat-times" value="1">
+          </div>
+          <label for="input-sleep" class="col-sm-1 col-form-label">Interval Seconds</label>
+          <div class="col-sm-1">
+            <input type="number" class="form-control" id="input-sleep" value="1">
+          </div>
+          <label for="input-config-comment" class="col-sm-1 col-form-label">Comment</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="input-config-comment" >
+          </div>
+        </div>
+        <div id="tip-info" class="alert alert-info" role="alert">
+          <p>Tip1: Supports !sleep some_seconds to sleep and !relogin to login again.</p>
+          <p>Tip2: Supports !reboot on Fortigate.</p>
+        </div>
+        <fieldset class="form-group">
+          <label for="input-commands" class="col-form-label">Commands</label>
+          <textarea class="form-control" type="textarea" id="input-commands" rows="10">!sleep 1</textarea>
+        </fieldset>
+        <div class="form-group row">
+          <label for="input-delay-minutes" class="col-sm-1 col-form-label">Delay Minutes</label>
+          <div class="col-sm-1">
+            <input type="number" class="form-control" id="input-delay-minutes" value="0">
+          </div>
+          <div class="offset-sm-2 col-sm-10">
+            <button id="button-execute" class="btn btn-primary">Start</button>
+          </div>
+        </div>
+      </form>
+      <div id="alert-info" class="alert alert-info display-none" role="alert">
+        <p>Setting restored.</p>
+      </div>
+      <legend class="col-form-legend">Results</legend>
+      <pre id="results">
+        
+
+
+      </pre>
+      <div id="loader" class="display-none"></div>
+      <div>
+        <button id="button-stop" class="btn btn-danger display-none">Stop</button>
+        <button id="button-download" class="btn btn-info display-none">Download</button>
+      </div>
+      <legend class="col-form-legend">Commands History</legend>
+      <div>
+        <table id="command-history" class="table table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th>Time</th>
+              <th>IP</th> 
+              <th>Username</th>
+              <th>Repeat</th>
+              <th>Setting</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <button onclick="topFunction()" class="btn btn-primary" id="back-to-top" title="Go to top">Top</button>
+  </body>
+  <script src='https://code.jquery.com/jquery-1.12.4.js' type='text/javascript'></script>
+  <script src='javascripts/main.js' type='text/javascript'></script>
+  <script src='javascripts/back_to_top.js' type='text/javascript'></script>
+  <script src='javascripts/download.js' type='text/javascript'></script>
+</html>

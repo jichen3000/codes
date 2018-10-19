@@ -1,0 +1,110 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+</head>
+<body> 
+
+
+<div id="app">
+  <multiselect :options="options" :value="optionsProxy" @input="updateSelected" @search-change="searchQuery" :multiple="true" :searchable="true" :close-on-select="true" placeholder="Search" :custom-label="customLabel" :loading="showLoadingSpinner"></multiselect>
+
+  <ul class="resources-list">
+    <template v-for="(resource, index) in selectedResources">
+      <li class="resource-item" :data-index="index">
+        <div class="resource-info">
+          <div class="resource-title" :id="index">
+            <span>{{ resource }}</span>
+          </div>
+          <button v-on:click.prevent="removeDependency(index)"> del </button>
+        </div>
+      </li>
+    </template>
+  </ul>
+</div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+  <script src='https://code.jquery.com/jquery-1.12.4.js' type='text/javascript'></script>
+  <script> 
+
+var app = new Vue({
+  el: '#app',
+  components: {
+    Multiselect: window.VueMultiselect.default
+  },
+  data: {
+    options: [
+        'Vue.js',
+        'Rails',
+        'Sinatra',
+        'Laravel',
+        'Phoenix',
+    ],
+    optionsProxy: [
+    ],
+    selectedResources: [],
+    showLoadingSpinner: false
+  },
+  methods: {
+    customLabel (option) {
+      // return `${option.name} - ${option.version}`
+      return option
+    },
+    updateSelected(value) {
+      value.forEach((resource) => {
+        // Adds selected resources to array
+        this.selectedResources.push(resource)
+      })
+      // Clears selected array
+      // This prevents the tags from being displayed
+      this.optionsProxy = []
+    },
+    cdnRequest(value) {
+      // var url = `https://api.cdnjs.com/libraries?search=${value}&fields=version,description`;
+      // console.log("url::"+url);
+      // // this.$http.get(url).then((response) => {
+      // //   // get body data
+      // //   this.options = []
+      // //   response.body.results.forEach((object) => {
+      // //     this.options.push(object)
+      // //   });
+      // //   this.showLoadingSpinner = false
+      // // }, (response) => {
+      // //   // error callback
+      // // })
+      // $.ajax({
+      //     url: url,
+      //     type: 'GET',
+      //     success: (data)=>{
+      //         this.options = []
+      //         console.log(data)
+      //         data.results.forEach((object) => {
+      //           this.options.push(object)
+      //         });
+      //         // this.testcase_names = data["data"];
+      //     },
+      //     error: (data)=>{}
+      // });  
+    },
+    searchQuery(value) {
+      // this.showLoadingSpinner = true
+      // // GET
+      // this.cdnRequest(value)
+    },
+    removeDependency(index) {
+      this.selectedResources.splice(index, 1)
+    }
+  },
+  created() {
+    const value = ''
+    this.cdnRequest(value)
+  }
+})
+
+
+  </script> 
+</body> 
+</html>
+
+

@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import *
-
+from dateutil import parser
 if __name__ == '__main__':
     from minitest import *
 
@@ -31,3 +31,9 @@ if __name__ == '__main__':
         last_friday = datetime.today() + relativedelta(weekday=FR(-1))
         last_friday.p()
         pass
+
+
+        dt = parser.parse('2018-06-04T20:48:53.945-07:00')
+        now_time = datetime.now()
+        now = datetime(*now_time.date())
+        pre = dt + relativedelta(days=-7)

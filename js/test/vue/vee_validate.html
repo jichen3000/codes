@@ -1,0 +1,172 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <style type="text/css">
+.help.is-danger {
+    color: #ff3860;
+}
+.input.is-danger, .textarea.is-danger {
+    border-color: #ff3860;
+}
+.help {
+    display: block;
+    margin-top: 5px;
+}    
+  </style>
+</head>
+<body> 
+
+<div id="show-delay" class="columns is-multiline">
+    <div class="column is-12">
+        <label class="label">Email (1s delay)</label>
+        <p class="control has-icon has-icon-right">
+            <input name="email" v-validate="'required|email'" data-vv-delay="1000" :class="{'input': true, 'is-danger': errors.has('email') }" type="text" placeholder="Email">
+            <i v-show="errors.has('email')" class="fa fa-warning"></i>
+            <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+        </p>
+    </div>
+    <div class="column is-12">
+        <label class="label">Name (0.5s delay)</label>
+        <p class="control has-icon has-icon-right">
+            <input name="name" v-validate="'required|alpha'" data-vv-delay="500" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="Name">
+            <i v-show="errors.has('name')" class="fa fa-warning"></i>
+            <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+        </p>
+    </div>
+  <button @click="submit">
+    submit
+  </button>
+</div>
+
+<div id="show-checkbox">
+  <div v-for="item in items">
+    <label>
+      <input v-bind:name="checkbox_name" type="checkbox" v-validate="{required:true, check_count:[2,3,choosed]}" data-vv-delay="500" v-model="choosed" v-bind:value="item" :class="{'input':true, 'is-danger':errors.has(checkbox_name) }">
+      {{ item }}
+    </label>
+  </div>
+  <span class="help is-danger" v-show="errors.has(checkbox_name)">{{ errors.first(checkbox_name) }}</span>
+
+  <div>
+    <p> {{choosed}}
+  </div>
+  <button @click="submit">
+    submit
+  </button>
+</div>
+
+<div id="show-select">
+  <select name="my-select" v-model="choosed" v-validate="{required:true,min:2,max:3}" data-vv-as="MY SElect" :class="{'input': true, 'is-danger': errors.has('my-select') }">
+    <option disabled="disabled" selected="selected" value=""></option>
+    <option v-for="item in items">{{item}}</option>
+  </select>
+  <span class="help is-danger" v-show="errors.has('my-select')">{{ errors.first('my-select') }}</span>
+
+  <div>
+    <p> {{choosed}}
+  </div>
+  <button @click="submit">
+    submit
+  </button>
+</div>
+
+  <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vee-validate@2.0.6/dist/vee-validate.js"></script>
+  <script> 
+    // export default {
+    //   name: 'delay-example'
+    // };
+    const check_count = {
+      getMessage(field, args, data) {
+        // will be added to default English messages.
+        // Returns a message.
+        var [min, max, values] = args;
+        return "Please choose " + min + " to " + max + " values";
+      },
+      validate(value, args) {
+        // Returns a Boolean or a Promise.
+        console.log("check_count validate");
+        var [min, max, values] = args;
+        return min <= values.length && values.length <= max
+      }
+    };
+    VeeValidate.Validator.extend('check_count', check_count);    
+    Vue.use(VeeValidate);
+    var app1 = new Vue({
+      el: '#show-delay',
+      data: {
+        email: '',
+        name: '',
+      },
+      methods: {
+        submit: function() {
+          this.$validator.validateAll().then((result) => {
+            if(!result){
+              console.log(result);
+              console.log('error');
+              return;
+            }
+            console.log('success');
+          }).catch(() => {
+          });
+        }
+      }
+    });
+    var app2 = new Vue({
+      el: '#show-checkbox',
+      data: {
+        items: ["a","b","c","e","f"],
+        choosed: [],
+        checkbox_name: "mm[]"
+      },
+      // created: function() {
+      //   this.$validator.extend('check_count', check_count);
+      // },
+      methods: {
+        submit: function() {
+          // cannot use this one, result is a Promise
+          // var result = this.$validator.validateAll();
+          // console.log(result);
+          this.$validator.validateAll().then((result) => {
+            if(!result){
+              console.log(result);
+              console.log('error');
+              return;
+            }
+            console.log('success');
+          }).catch(() => {
+          });
+        }
+      }
+    })
+    var app3 = new Vue({
+      el: '#show-select',
+      data: {
+        items: ["a","b","c","e","f"],
+        choosed: [],
+      },
+      // created: function() {
+      //   this.$validator.extend('check_count', check_count);
+      // },
+      methods: {
+        submit: function() {
+          // cannot use this one, result is a Promise
+          // var result = this.$validator.validateAll();
+          // console.log(result);
+          this.$validator.validateAll().then((result) => {
+            if(!result){
+              console.log(result);
+              console.log('error');
+              return;
+            }
+            console.log('success');
+          }).catch(() => {
+          });
+        }
+      }
+    })
+  </script> 
+</body> 
+</html>
+
+

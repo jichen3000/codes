@@ -19,3 +19,5 @@ if __name__ == '__main__':
         with patch('__main__.my_func') as mock_func:
             my_func(1)
             mock_func.assert_called_with(1)
+
+

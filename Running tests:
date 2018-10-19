@@ -1,0 +1,23 @@
+Running tests:
+
+key : ((2, 2, 2, 1), (3, 3, 1))
+points :
+{(21, 4), (20, 6), (21, 3), (20, 5), (21, 6), (20, 4), (19, 5)}
+key : ((2, 2, 2, 1), (3, 3, 1))
+points :
+{(24, 30), (23, 32), (23, 31), (25, 30), (23, 33), (24, 32), (24, 31)}
+key : ((2, 2, 1), (2, 2, 1))
+points :
+{(30, 3), (30, 4), (31, 3), (32, 2), (31, 2)}
+F
+
+Finished tests in 0.041705s.
+
+1) Failure:
+File "/Users/colin/work/GoogleDrive/codes/python/leetcode/tests/temp2.py", line 73, in <module>:
+EXPECTED: 69
+  ACTUAL: 68
+
+
+1 tests, 1 assertions, 1 failures, 0 errors.
+[Finished in 0.9s]

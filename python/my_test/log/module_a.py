@@ -1,7 +1,8 @@
 import logging
 
+LOGGER = logging.getLogger(__name__)
 def test_m():
-    logging.info("I'm in test_m")
+    LOGGER.info("I'm in test_m")
 
 
 if __name__ == '__main__':

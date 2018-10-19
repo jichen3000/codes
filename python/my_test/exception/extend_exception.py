@@ -15,7 +15,7 @@ def raise_key_error_with_original_info():
         When coding, I should follow this way.
     '''
     the_dict = {}
-    try:    
+    try:
         the_dict['mm']
     except KeyError, e:
         # raise MyError(e)
@@ -23,7 +23,7 @@ def raise_key_error_with_original_info():
 
 def raise_key_error_without_original_info():
     the_dict = {}
-    try:    
+    try:
         the_dict['mm']
     except KeyError, e:
         raise MyError(e)
@@ -52,3 +52,4 @@ if __name__ == '__main__':
             print e.__class__
             print e.__class__.__bases__
 
+        raise_key_error_with_original_info()

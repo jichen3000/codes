@@ -28,7 +28,7 @@ if __name__ == '__main__':
     with test(invert_recursively_and_change_self):
         TREE_EXAMPLE.breadth_first_list().must_equal(
             ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'])
-        TREE_EXAMPLE.invert_recursively_and_change_self()
+        TREE_EXAMPLE.invert_recursively_and_change_self().pp()
         TREE_EXAMPLE.breadth_first_list().must_equal(
             ['a', 'c', 'b', 'g', 'f', 'e', 'd', 'k', 'j', 'i', 'h', 'm', 'l'])
 

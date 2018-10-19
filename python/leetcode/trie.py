@@ -1,3 +1,18 @@
+# easy one
+# from collections import defaultdict
+# class TrieNode:
+#     def __init__(self):
+#         self.children = defaultdict(dict)
+#         self.word = None
+#     def add(self, word):
+#         cur = self
+#         for c in word:
+#             # print(c, cur.children)
+#             if c not in cur.children:
+#                 cur.children[c] = TrieNode()
+#             cur = cur.children[c]
+#         cur.word = word
+
 class TrieNode(object):
     def __init__(self, value):
         self.children = []

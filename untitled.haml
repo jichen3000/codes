@@ -1,0 +1,165 @@
+-content_for :title do
+  Survey Edit
+-content_for :css_block do
+  :css
+    .margin-left-20 {
+      margin-left: 20pt;
+    }
+    .margin-bottom-20 {
+      margin-bottom: 20pt;
+    }
+    .margin-bottom-10 {
+      margin-bottom: 10pt;
+    }
+    .margin-bottom-0 {
+      margin-bottom: 0pt;
+    }
+    .display-none {
+      display: none;
+    }
+    .control-label.text-left{
+      text-align: left;
+    }
+    #loader {
+      border: 5px solid #f3f3f3; /* Light grey */
+      border-top: 5px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+    }   
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .modal-header, h4, .close {
+      text-align: center;
+      font-size: 30px;
+    }
+    .modal-header {
+      padding:35px 50px;
+    }
+    .modal-body {
+      padding:40px 50px;
+    }
+    .modal-footer {
+    }
+.container.data_constants{:"data-constants"=>@constants.to_json}
+  %header
+    %h1.text-center.h1.margin-bottom-20 Survey Edit
+  %form.form-horizontal#survey-form
+    %fieldset
+      %div.form-group.validation-parent
+        %input#input-survey-id.text{:name=>"survey_id",:type=>"hidden", :value=>@survey_form.survey_id}
+        %input#input-code.text{:name=>"code",:type=>"hidden", :value=>@survey_form.code}
+        %label.col-sm-2.control-label{:for=>"input-topic"} Survey topic
+        .col-sm-4.form-group
+          %input#input-topic.form-control{:name=>"topic",:type=>"text",:value=>@survey_form.topic,:minlength=>"7",:required=>""}
+      %div.form-group.margin-bottom-20
+        %label.col-sm-2.control-label{:for=>"input-creator-name"} Creator name
+        .col-sm-4.form-group
+          %input#input-creator-name.form-control{:name=>"creator_name",:type=>"text",:readonly=>"readonly",:value=>@survey_form.creator["name"]}
+        %label.col-sm-2.control-label{:for=>"input-creator-email"} Creator email
+        .col-sm-4.form-group.validation-parent
+          %input#input-creator-email.form-control{:name=>"creator_email",:type=>"text",:readonly=>"readonly",:value=>@survey_form.creator["email"]}
+      %div.form-group.margin-bottom-20
+        %label.col-sm-2.control-label{:for=>"input-access-type"} Access type
+        .col-sm-2.form-group
+          %select#input-access-type.form-control{:name=>"access_type"}
+            %option{:value=>@constants["ACCESS_PUBLIC"], :selected=>@survey_form.access_type==@constants["ACCESS_PUBLIC"]} Public
+            %option{:value=>@constants["ACCESS_PRIVATE"], :selected=>@survey_form.access_type==@constants["ACCESS_PRIVATE"]} Private
+        %label.col-sm-2.col-sm-offset-2.control-label{:for=>"input-open-days"} Open days
+        .col-sm-2.form-group
+          %input#input-open-days.form-control{:name=>"open_days",:type=>"number",:value=>@survey_form.open_days}
+      %div.form-group.margin-bottom-20.validation-parent
+        .alert.alert-info{:role=>"alert"}
+          %p Please input the Receivers' emails, using comma ',' or semicolon ';'  to separate them.
+        %label{:for=>"input-receiver-emails"}="Receivers"
+        %textarea#input-receiver-emails.form-control{:name=>"receiver_emails",:type=>"textarea",:rows=>"3",:minlength=>"7",:required=>""}
+          - if @survey_form.receiver_emails.join(";") == ""
+            =""
+          - else
+            =@survey_form.receiver_emails.join(";")
+        %input#input-wait-all{:type=>"checkbox", :checked=>@survey_form.is_wait_all} Wait all receiver submit
+    %div.questions
+      %legend Questionnaire
+      - @survey_form.questions.each_with_index do |cur_question, question_index|
+        %div.well.margin-bottom-20.question
+          .form-group.margin-bottom-0
+            %label.col-sm-2.control-label.text-left
+              Question
+              %span.input-question-no=question_index+1
+            %label.col-sm-1.control-label Type:
+            .col-sm-2.form-group.margin-bottom-0
+              %select.input-question-type.form-control
+                - @constants["QuestionType"].each do |key, cur_type|
+                  %option{:value=>cur_type, :selected=>cur_question["type"]==cur_type}=cur_type.capitalize()
+            .selection-count-area{:class=>("display-none" if cur_question["type"] != @constants["QuestionType"]["SELECTION"])}
+              %label.col-sm-1.control-label Minimum:
+              .col-sm-1.form-group.margin-bottom-0
+                %input.input-question-least-count.form-control{:type=>"number",:value=>(cur_question["least_count"] ? "#{cur_question["least_count"]}" : "1")}
+              %label.col-sm-1.control-label Maximum:
+              .col-sm-1.form-group.margin-bottom-0
+                %input.input-question-most-count.form-control{:type=>"number",:value=>(cur_question["most_count"] ? "#{cur_question["most_count"]}" : "1")}
+            .col-sm-1.col-sm-offset-1
+              %button.btn.btn-danger.btn-sm.button-del-question{:type=>"button",:class=>("display-none" if question_index == 0)}
+                %span.glyphicon.glyphicon-remove-sign
+                Delete current question
+          .question-content.margin-bottom-10.validation-parent{:class=>("display-none" if cur_question["type"] == @constants["QuestionType"]["RATING"])}
+            %label Content:
+            %textarea.input-question-content.form-control.validation-element{:type=>"textarea",:rows=>(cur_question["type"]==@constants["QuestionType"]["SELECTION"] ? "3" : "10"),:value=>"",:minlength=>"3",:required=>""}=cur_question["content"]
+          .rating-div.margin-bottom-10.validation-parent{:class=>("display-none" if cur_question["type"] != @constants["QuestionType"]["RATING"])}
+            %input.input-receiver-is-rate-self{:type=>"checkbox",:checked=>cur_question["is_receiver_rate_self"]} Receiver can rate himself/herself
+            .rating-items
+              %label Items:
+
+          .options{:class=>("display-none" if cur_question["type"] != @constants["QuestionType"]["SELECTION"])}
+            %label Options:
+            - if cur_question["options"] and cur_question["options"].size > 0
+              - cur_options = cur_question["options"]
+            - else
+              - cur_options = @default_quesion_options
+            - cur_options.each_with_index do |cur_option, option_index|
+              .form-group.margin-bottom-10.option
+                %label.col-sm-1.control-label
+                  %span.input-option-no=cur_option["option_no"]
+                .col-sm-10.validation-parent
+                  %input.input-option-content.form-control.validation-element{:type=>"text",:value=>"#{cur_option["option_content"]}",:minlength=>"1",:required=>""}
+                .col-sm-1
+                  %button.btn.btn-danger.btn-sm.button-del-option{:type=>"button",:class=>("display-none" if option_index == 0)}
+                    %span.glyphicon.glyphicon-remove-sign
+          .form-group.margin-bottom-10
+            %label.col-sm-1.control-label
+            %button.btn.btn-info.button-add-option{:type=>"button"} 
+              %span.glyphicon.glyphicon-plus-sign
+              Add one more option
+      %div.margin-bottom-20
+        %button.btn.btn-success.btn-block#button-add-question{:type=>"button",:value=>"add-question"} 
+          %span.glyphicon.glyphicon-plus-sign
+          Add one more question
+    .alert.alert-info.display-none#alert-save{:role=>"alert"}
+      %p Survey saved.
+    .alert.alert-danger.display-none#alert-validation{:role=>"alert"}
+      %p Please input all required fields before submitting.
+    %div.margin-bottom-20
+      %button.btn.btn-success#button-save{:type=>"button",:value=>"Save"} Save
+      %button.btn.btn-primary#button-submit{:type=>"button",:value=>"Submit"} Submit
+
+  .modal.fade#submitting-dialog{:role=>"dialog",:"data-backdrop"=>"static",:"data-keyboard"=>"false"}
+    .modal-dialog
+      -# modal content
+      .modal-content
+        .modal-header
+          #h4 Please wait
+        .modal-body.row
+          .col-lg-2
+            #loader
+          .alert.alert-info.col-lg-8{:role=>"alert"}
+            %p Please wait, it's submitting and sending the email.
+
+%script{:type=>"text/javascript", :src=>"https://code.jquery.com/jquery-1.12.4.js"}
+%script{:type=>"text/javascript", :src=>"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"}
+%script{:type=>"text/javascript", :src=>"/javascripts/jquery.validate.min.js"}
+%script{:type=>"text/javascript", :src=>"/javascripts/helper.js"}
+%script{:type=>"text/javascript", :src=>"/javascripts/valiction_common.js"}
+%script{:type=>"text/javascript", :src=>"/javascripts/survey_form_edit.js"}

@@ -1,0 +1,9 @@
+{
+    "type": "sftp",
+    "host": "colin-d",
+    "username": "colin",
+    "password": "Jcjc151@",
+    "port": 22,
+    "remotePath": "/home/colin/work/small_projects",
+    "uploadOnSave": false
+}

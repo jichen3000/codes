@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <style>
+      .margin_1 {
+        margin-bottom: 20pt;
+      }
+      .margin_2 {
+        margin-bottom: 60pt;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <header class='margin_1'>
+        <h1 class='text-center h1'>{{ title }}</h1>
+        <h3 class='text-center h3'>2018-06-01 11:47:24 -0700</h3>
+        {% for i in v_dict["data"] if i % 2 == 0 -%}
+        <h4> {{ i }} can be divide by 2</h4>
+        {% else -%}
+        <h4> {{ i }} cannot!</h4>
+        {% endfor -%}
+      </header>
+      <div class='secions'>
+      </div>
+    </div>
+  </body>
+  <script>
+    var chart_infos = {{ json.dumps(v_dict) }};
+  </script>
+</html>
