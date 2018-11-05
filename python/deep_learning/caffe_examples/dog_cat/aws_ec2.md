@@ -32,10 +32,7 @@ sudo pip install awscli
 https://console.aws.amazon.com/iam/home?#/security_credential
 
 aws configure
-AWS Access Key ID [None]: AKIAIIOGM57JHIEHGVJA
-AWS Secret Access Key [None]: 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
-Default region name [None]: us-west-1
-Default output format [None]: json
+
 
 json, text, or table
 

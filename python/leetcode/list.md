@@ -1,3 +1,5 @@
+https://shop.getnexar.com
+
 lai code review:
 Sorting & Partitioning
 Recursion I
@@ -10,6 +12,69 @@ Recursion II
 Probability, Sampling & Randomization
 
 String I
+
+abcdefg hijklmn op
+
+### 2018-10-28: (medium: 15mins get the answer)
+#### easy
+lai Majority Number I ##5mins ##probability
+
+#### medium
+lai Majority Number II ##25mins ##probability
+lai Interleave Strings ##dp ##28mins
+lai Longest Palindromic Substring ##dp ##22mins
+lai Implement LRU Cache ##data struct ##45mins
+lai Maximum Values Of Size K Sliding Windows ##20mins ##data struct
+lai Longest Ascending Subsequence ##dp ##8mins ##binary search version is hard
+lai Most Points On A Line ##40mins ##data struct ##in java it's heavy work to create a key object for HashMap. So avoid it.
+lai Largest Set Of Points With Positive Slope ##dp ##just like Longest Ascending Subsequence
+lai Convert Binary Tree To Doubly Linked List I ##25mins ##tree
+lai Search In Shifted Sorted Array I ##32mins ##binary search
+lai Word Circle ##dfs ##20mins ##just like n queens
+lai Min Split Number By Squares ##dp ##17mins
+lai Is Cousin ##tree ##dfs ##bfs ##17mins
+lai All Possible White Space ##dfs ##10mins
+
+#### hard
+lai Kth Smallest In Two Sorted Arrays ##35mins ##binary search
+lai Median Of Two Sorted Arrays ##7mins ##binary search ##using Kth Smallest In Two Sorted Arrays
+lai Median Of Two Arrays ##5mins ##binary search ##using Kth Smallest In Two Sorted Arrays
+lai Generate Random Maze ##45mins ##dfs ##two step once
+lai Cutting Wood I ##dp ##45mins ##from center
+lai Merge Stones ##dp ##30mins ##from center
+lai Search In Shifted Sorted Array II ##32mins ##binary search
+
+
+
+### 2018-10-21: (medium: 15mins get the answer)
+#### easy
+lai 2 Sum ##array ##2mins
+
+#### medium
+lai Combinations ##dfs ##11mins
+lai Common Elements In Three Sorted Array ##array ##10mins
+lai 2 Sum All Pair I ##array ##10mins
+lai 2 Sum All Pair II ##array ##10mins
+lai 3 Sum ##array ##17mins
+lai 4 Sum ##array ##15mins
+lai Diagonal Sum of a Binary Tree ##tree ##15mins
+lai Trim Binary Tree by Path Cost ##tree ##17mins
+lai Longest Common Substring ##dp ##22mins
+lai Longest Common Subsequence ##array ##13mins
+lai Kth Smallest With Only 3, 5, 7 As Factors ##bfs ##heap ##30mins
+lai Kth Closest Point To <0,0,0>  ##bfs ##heap ##30mins
+lai Max Water Trapped I ##two points ##12mins
+
+#### hard
+lai All Subsets II ##dfs ##30mins ##sort ##if not choose, jump to next one
+lai TwoPartsCloest ##dfs ##40mins
+lai All Valid Permutations Of Parentheses II ##dfs ##50mins ##not very hard, but very complex
+lai Largest Product Of Length ##bfs ##heap ##40mins
+lai Place To Put The Chair I ##bfs ##60mins
+lai Max Water Trapped II ##bfs ##heap ##19mins
+lai Largest Rectangle In Histogram ##stack ##need review ##didn't get it
+
+
 
 ### 2018-10-21: (medium: 15mins get the answer)
 #### easy
@@ -24,10 +89,21 @@ lai Closest Number In Binary Search Tree ##tree ##9mins
 lai Largest Number Smaller In Binary Search Tree ##tree ##4mins
 lai Merge K Sorted Array ##array ##10mins
 lai Merge K Sorted Lists ##array ##15mins
+lai Maximum Path Sum Binary Tree III ##tree ##one path ##10mins
+lai Binary Tree Path Sum To Target III ##tree ##one path ##31mins
+lai Reconstruct Binary Search Tree With Postorder Traversal ##tree ##35mins ##reconstruct
+lai Reconstruct Binary Tree With Preorder And Inorder ##tree ##21mins ##reconstruct
+
+
+
 
 #### hard
 lai Cutting Wood I ##dp ##from center ##45mins ##need review
 lai Merge Stones ##dp ##from center ##50mins
+lai Maximum Path Sum Binary Tree II ##tree ##two paths ##10mins
+lai Reconstruct Binary Tree With Levelorder And Inorder ##tree ##20mins
+
+
 
 
 
